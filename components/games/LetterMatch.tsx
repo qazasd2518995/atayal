@@ -9,16 +9,36 @@ interface LetterMatchProps {
   day: number;
 }
 
-// 第一週的字母匹配遊戲數據
+// 字母匹配遊戲數據 - 根據新教材內容更新
 const gameData = {
-  1: { // week 1
-    letters: ['a', 'i', 'u', 'e', 'o'],
+  1: { // week 1 - 字母與發音
+    letters: ['a', 'i', 'u', 'e', 'o', 'g', 'l', 's', 'b', 'y'],
     words: [
       { letter: 'a', word: 'aba', meaning: '爸爸' },
-      { letter: 'i', word: 'ima', meaning: '血' },
-      { letter: 'u', word: 'uzi', meaning: '水' },
-      { letter: 'e', word: 'emaw', meaning: '爺爺' },
-      { letter: 'o', word: 'owa', meaning: '是的' }
+      { letter: 'a', word: 'abaw', meaning: '葉子' },
+      { letter: 'a', word: 'aya', meaning: '媽媽' },
+      { letter: 'i', word: 'cyugal', meaning: '三' },
+      { letter: 'u', word: 'basu', meaning: '車子' },
+      { letter: 'e', word: 'ega', meaning: '電影' },
+      { letter: 'g', word: 'gamil', meaning: '根' },
+      { letter: 'b', word: 'bonaw', meaning: '花生' },
+      { letter: 'c', word: 'cyama', meaning: '商店' },
+      { letter: 'e', word: 'enpic', meaning: '鉛筆' }
+    ]
+  },
+  2: { // week 2 - 生活詞彙
+    letters: ['y', 'm', 'q', 'k', 'h'],
+    words: [
+      { letter: 'y', word: "yaba'", meaning: '爸爸' },
+      { letter: 'y', word: "yaya'", meaning: '媽媽' },
+      { letter: 'm', word: 'mlikuy', meaning: '男孩' },
+      { letter: 'k', word: 'kneril', meaning: '女孩' },
+      { letter: 'h', word: 'huzil', meaning: '狗' },
+      { letter: 'b', word: 'bzyok', meaning: '豬' },
+      { letter: 'q', word: "qba'", meaning: '手' },
+      { letter: 'r', word: 'roziq', meaning: '眼睛' },
+      { letter: 'p', word: 'papak', meaning: '耳朵' },
+      { letter: 'n', word: 'nqwaq', meaning: '嘴巴' }
     ]
   }
 };
@@ -28,8 +48,26 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
   const [draggedLetter, setDraggedLetter] = useState<string | null>(null);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [score, setScore] = useState(0);
+  const [shuffledLetters, setShuffledLetters] = useState<string[]>([]);
+  const [shuffledWords, setShuffledWords] = useState<typeof gameData[1]['words']>([]);
 
   const data = gameData[week as keyof typeof gameData] || gameData[1];
+
+  // 隨機排序函數
+  const shuffleArray = <T,>(array: T[]): T[] => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
+
+  // 初始化時隨機排序
+  useEffect(() => {
+    setShuffledLetters(shuffleArray(data.letters));
+    setShuffledWords(shuffleArray(data.words));
+  }, [week]);
 
   const handleDragStart = (letter: string) => {
     setDraggedLetter(letter);
@@ -65,6 +103,9 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
     setMatches({});
     setScore(0);
     setGameCompleted(false);
+    // 重新隨機排序
+    setShuffledLetters(shuffleArray(data.letters));
+    setShuffledWords(shuffleArray(data.words));
   };
 
   const handleFinish = () => {
@@ -89,7 +130,7 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
         
         {/* 顯示正確答案 */}
         <div className="text-left mb-6 space-y-2">
-          {data.words.map(wordData => {
+          {shuffledWords.map(wordData => {
             const userAnswer = matches[wordData.word];
             const isCorrect = userAnswer === wordData.letter;
             
@@ -146,7 +187,7 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
         <div>
           <h3 className="text-lg font-semibold mb-4">字母</h3>
           <div className="space-y-3">
-            {data.letters.map(letter => (
+            {shuffledLetters.map(letter => (
               <div
                 key={letter}
                 draggable
@@ -163,7 +204,7 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
         <div>
           <h3 className="text-lg font-semibold mb-4">單字</h3>
           <div className="space-y-3">
-            {data.words.map(wordData => (
+            {shuffledWords.map(wordData => (
               <div
                 key={wordData.word}
                 onDragOver={handleDragOver}

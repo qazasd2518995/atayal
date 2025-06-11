@@ -13,17 +13,17 @@ import {
 } from '@heroicons/react/24/solid';
 
 const weekTitles = [
-  '第一週：母音學習',
-  '第二週：子音學習', 
-  '第三週：詞彙學習',
-  '第四週：對話練習'
+  '第一週：字母與發音',
+  '第二週：生活主題單字', 
+  '第三週：神話與歷史文本',
+  '第四週：實用情境對話'
 ];
 
 const weekDescriptions = [
-  '學習泰雅語的五個基本母音：a, i, u, e, o',
-  '掌握泰雅語的子音發音技巧',
-  '學習家族、身體、顏色、數字、動物等詞彙',
-  '練習日常對話和基本句型'
+  '建立聲音基礎：學習母音5個 + 子音19個',
+  '詞彙分類建構：家庭、身份、身體部位、動物、物品、行動',
+  '文化導讀與閱讀任務：洪水與祭神神話故事',
+  '句型導向會話訓練：自我介紹、年齡、家人、對話練習'
 ];
 
 const weekEmojis = ['🅰️', '🅱️', '📚', '💬'];
@@ -115,9 +115,9 @@ export default function HomePage() {
                       </div>
                       <div className="h-4 bg-gray-200 rounded mb-2"></div>
                       <div className="h-2 bg-gray-200 rounded mb-4"></div>
-                      <div className="grid grid-cols-7 gap-1 mb-4">
-                        {[1, 2, 3, 4, 5, 6, 7].map(day => (
-                          <div key={day} className="w-8 h-8 bg-gray-200 rounded-full"></div>
+                      <div className="grid grid-cols-5 gap-2 mb-4">
+                        {[1, 2, 3, 4, 5].map(day => (
+                          <div key={day} className="w-10 h-10 bg-gray-200 rounded-full"></div>
                         ))}
                       </div>
                       <div className="h-10 bg-gray-200 rounded"></div>
@@ -135,13 +135,13 @@ export default function HomePage() {
   const getWeekStatus = (week: number) => {
     if (week < userProgress.currentWeek) return 'completed';
     if (week === userProgress.currentWeek) return 'current';
-    if (week === userProgress.currentWeek + 1 && userProgress.currentDay > 7) return 'unlocked';
+    if (week === userProgress.currentWeek + 1 && userProgress.currentDay > 5) return 'unlocked';
     return 'locked';
   };
 
   const getCompletedDaysInWeek = (week: number) => {
     let count = 0;
-    for (let day = 1; day <= 7; day++) {
+    for (let day = 1; day <= 5; day++) {
       if (userProgress.completedDays[`${week}-${day}`]) {
         count++;
       }
@@ -183,7 +183,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {[1, 2, 3, 4].map(week => {
                 const completedDays = getCompletedDaysInWeek(week);
-                const progress = (completedDays / 7) * 100;
+                const progress = (completedDays / 5) * 100;
                 
                 return (
                   <div key={week} className="text-center">
@@ -195,7 +195,7 @@ export default function HomePage() {
                         style={{ width: `${progress}%` }}
                       ></div>
                     </div>
-                    <p className="text-sm text-gray-600">{completedDays}/7 天</p>
+                    <p className="text-sm text-gray-600">{completedDays}/5 天</p>
                   </div>
                 );
               })}
@@ -255,26 +255,26 @@ export default function HomePage() {
                     <div className="mb-4">
                       <div className="flex justify-between text-sm text-gray-600 mb-1">
                         <span>完成進度</span>
-                        <span>{completedDays}/7 天</span>
+                        <span>{completedDays}/5 天</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div 
                           className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${(completedDays / 7) * 100}%` }}
+                          style={{ width: `${(completedDays / 5) * 100}%` }}
                         ></div>
                       </div>
                     </div>
 
                     {/* 天數列表 */}
-                    <div className="grid grid-cols-7 gap-1 mb-4">
-                      {[1, 2, 3, 4, 5, 6, 7].map(day => {
+                    <div className="grid grid-cols-5 gap-2 mb-4">
+                      {[1, 2, 3, 4, 5].map(day => {
                         const dayCompleted = userProgress.completedDays[`${week}-${day}`];
                         const dayUnlocked = isUnlocked(week, day);
                         
                         return (
                           <div
                             key={day}
-                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${
+                            className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium ${
                               dayCompleted
                                 ? 'bg-green-500 text-white'
                                 : dayUnlocked

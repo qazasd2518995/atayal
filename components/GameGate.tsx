@@ -5,6 +5,9 @@ import { isCompleted } from '@/lib/progress';
 import LetterMatch from './games/LetterMatch';
 import PictureChoice from './games/PictureChoice';
 import SentencePuzzle from './games/SentencePuzzle';
+import ListeningQuiz from './games/ListeningQuiz';
+import PronunciationPractice from './games/PronunciationPractice';
+import VocabularyMemory from './games/VocabularyMemory';
 import { LockClosedIcon, PlayIcon } from '@heroicons/react/24/solid';
 
 interface GameGateProps {
@@ -44,6 +47,33 @@ export default function GameGate({
       case 'LetterMatch':
         return (
           <LetterMatch
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+      
+      case 'ListeningQuiz':
+        return (
+          <ListeningQuiz
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+        
+      case 'PronunciationPractice':
+        return (
+          <PronunciationPractice
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+        
+      case 'VocabularyMemory':
+        return (
+          <VocabularyMemory
             week={week}
             day={day}
             onFinish={handleGameComplete}
@@ -109,6 +139,27 @@ export default function GameGate({
                     <div className="text-sm text-gray-600">
                       <p>🎯 遊戲規則：拖曳字母到正確位置</p>
                       <p>💡 提示：仔細聽發音，找出對應的字母</p>
+                    </div>
+                  );
+                case 'ListeningQuiz':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：聽音檔選擇正確的字母</p>
+                      <p>💡 提示：專心聽發音，選出對應的字母</p>
+                    </div>
+                  );
+                case 'PronunciationPractice':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：跟著音檔練習發音</p>
+                      <p>💡 提示：每個字母需要練習3次才能完成</p>
+                    </div>
+                  );
+                case 'VocabularyMemory':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：翻牌配對泰雅語詞彙和中文意思</p>
+                      <p>💡 提示：記住卡片位置，找出配對</p>
                     </div>
                   );
                 case 'PictureChoice':

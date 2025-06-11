@@ -1,207 +1,199 @@
 import { DayData } from './week1';
 
-// TODO: 之後請手動貼入完整教材與音檔路徑
+// 第4週｜實用情境對話：句型導向會話訓練
 export const week4: DayData[] = [
   {
     day: 1,
-    title: "基本打招呼",
+    title: "基本自我介紹與姓名",
     content: [
-      { type: "text", value: "學習泰雅語的基本打招呼用語。" },
-      { type: "audio", src: "/audio/week4/greetings.mp3" },
-      { type: "text", value: "打招呼：Lokah su? (你好嗎？) / Lokah saku. (我很好)" },
+      { type: "text", value: "🔹 單元一：基本自我介紹與姓名" },
+      { type: "text", value: "📘 主句型：" },
+      { type: "text", value: "ima' qu isu' wah?（請自我介紹）" },
+      { type: "text", value: "ima' lalu' su'?（你叫什麼名字）" },
+      { type: "text", value: "___ lalu' mu.（我叫 ___）" },
+      { type: "audio", src: "/alphabet/i.webm" },
+      { type: "text", value: "💡 使用說明：" },
+      { type: "text", value: "- ima'：什麼（疑問詞）" },
+      { type: "text", value: "- lalu'：名字" },
+      { type: "text", value: "- su'：你的" },
+      { type: "text", value: "- mu：我的" },
+      { type: "text", value: "📝 對話練習：" },
+      { type: "text", value: "A: 「ima' lalu' su'？」（你叫什麼名字？）" },
+      { type: "text", value: "B: 「Yumin lalu' mu」（我叫 Yumin）" },
     ],
     quiz: [
       {
         id: "q1",
-        question: "「你好嗎？」的泰雅語是？",
-        options: ["Lokah su?", "Lokah saku?", "Lokah ta?"],
-        answer: "Lokah su?",
+        question: "「你叫什麼名字？」的泰雅語是？",
+        options: ["ima' lalu' su'?", "ima' kawas mu?", "ima' kinwagiq mu?"],
+        answer: "ima' lalu' su'?",
         type: "single"
       },
       {
         id: "q2",
-        question: "「我很好」的泰雅語是？",
-        options: ["Lokah su.", "Lokah saku.", "Lokah ta."],
-        answer: "Lokah saku.",
+        question: "「我叫 Yumin」的泰雅語是？",
+        options: ["Yumin lalu' mu", "Yumin kawas mu", "Yumin su'"],
+        answer: "Yumin lalu' mu",
         type: "single"
       }
     ],
-    game: "SentencePuzzle",
-    xp: 80,
+    game: "VocabularyMemory",
+    xp: 90,
   },
   {
     day: 2,
-    title: "自我介紹",
+    title: "年齡與族群身分",
     content: [
-      { type: "text", value: "學習泰雅語的自我介紹句型。" },
-      { type: "audio", src: "/audio/week4/introduction.mp3" },
-      { type: "text", value: "自我介紹：Yaki saku ___. (我的名字是___)、Sqani saku. (我是___人)" },
+      { type: "text", value: "🔹 單元二：年齡與族群身分" },
+      { type: "text", value: "📘 主句型：" },
+      { type: "text", value: "mopuw kawas maku' ___（我 ___ 歲）" },
+      { type: "text", value: "'tayal su' inu' wah?（你是哪一族的小孩？）" },
+      { type: "text", value: "'laqi' saku' na 'Tayal（我是泰雅族的小孩）" },
+      { type: "audio", src: "/alphabet/m.webm" },
+      { type: "text", value: "💡 數字詞彙：" },
+      { type: "text", value: "- ten：十" },
+      { type: "text", value: "- spat：四" },
+      { type: "text", value: "- mopuw spat kawas：十四歲" },
+      { type: "text", value: "📝 對話練習：" },
+      { type: "text", value: "A: 「'tayal su' inu' wah？」（你是哪一族的？）" },
+      { type: "text", value: "B: 「'laqi' saku' na 'Tayal」（我是泰雅族的小孩）" },
     ],
     quiz: [
       {
         id: "q1",
-        question: "「我的名字是」的泰雅語開頭是？",
-        options: ["Yaki saku", "Yaki su", "Yaki ta"],
-        answer: "Yaki saku",
+        question: "「我是泰雅族的小孩」的泰雅語是？",
+        options: ["'laqi' saku' na 'Tayal", "'laqi' su' na 'Tayal", "'Tayal saku' na 'laqi'"],
+        answer: "'laqi' saku' na 'Tayal",
+        type: "single"
+      },
+      {
+        id: "q2",
+        question: "「我十八歲」的泰雅語是？",
+        options: ["mopuw spat kawas maku'", "mopuw ten kawas maku'", "spat kawas maku'"],
+        answer: "mopuw spat kawas maku'",
         type: "single"
       }
     ],
-    game: "SentencePuzzle",
-    xp: 80,
+    game: "ListeningQuiz",
+    xp: 90,
   },
   {
     day: 3,
-    title: "詢問與回答",
+    title: "我的家人是...",
     content: [
-      { type: "text", value: "學習泰雅語的疑問句與回答方式。" },
-      { type: "audio", src: "/audio/week4/questions.mp3" },
-      { type: "text", value: "疑問句：Nanu su? (你是什麼？) / Ima su? (你是誰？) / Inu su? (你在哪裡？)" },
+      { type: "text", value: "🔹 單元三：我的家人是..." },
+      { type: "text", value: "📘 主句型：" },
+      { type: "text", value: "'tayal kwara' qu ngasal mamu?（你的家人都是原住民嗎？）" },
+      { type: "text", value: "'Tayal kwara' sami qutux ngasal（我們全家都是泰雅族）" },
+      { type: "text", value: "iyat, yaba' maku' ga 'Tayal, yaya' maku' ga plmukan（不是，我爸是泰雅族，我媽是漢人）" },
+      { type: "audio", src: "/alphabet/t.webm" },
+      { type: "text", value: "💡 重要詞彙：" },
+      { type: "text", value: "- kwara'：都、全部" },
+      { type: "text", value: "- ngasal：家人" },
+      { type: "text", value: "- iyat：不是" },
+      { type: "text", value: "- plmukan：漢人" },
+      { type: "text", value: "📝 練習回答是否題：" },
+      { type: "text", value: "\"iyat\" 表示「不是」✅ 正確" },
     ],
     quiz: [
       {
         id: "q1",
-        question: "「你是誰？」的泰雅語是？",
-        options: ["Ima su?", "Nanu su?", "Inu su?"],
-        answer: "Ima su?",
+        question: "「不是」的泰雅語是？",
+        options: ["iyat", "uwal", "ini"],
+        answer: "iyat",
         type: "single"
       },
       {
         id: "q2",
-        question: "「你在哪裡？」的泰雅語是？",
-        options: ["Ima su?", "Nanu su?", "Inu su?"],
-        answer: "Inu su?",
+        question: "「我們全家都是泰雅族」的泰雅語是？",
+        options: ["'Tayal kwara' sami qutux ngasal", "'Tayal sami kwara'", "sami 'Tayal ngasal"],
+        answer: "'Tayal kwara' sami qutux ngasal",
         type: "single"
       }
     ],
-    game: "SentencePuzzle",
-    xp: 80,
+    game: "PronunciationPractice",
+    xp: 90,
   },
   {
     day: 4,
-    title: "日常對話",
+    title: "誰是我的家人？",
     content: [
-      { type: "text", value: "學習泰雅語的日常對話表達。" },
-      { type: "audio", src: "/audio/week4/daily_talk.mp3" },
-      { type: "text", value: "日常用語：Kmal lokah! (真的很好！) / Ayaw kira! (不要這樣！) / Musa ta! (我們走吧！)" },
+      { type: "text", value: "🔹 單元四：誰是我的家人？" },
+      { type: "text", value: "📘 主句型：" },
+      { type: "text", value: "'laqi' su' ni ima?（你是誰的小孩？）" },
+      { type: "text", value: "'laqi' saku' ni Silan Nawi（我是 Silan Nawi 的小孩）" },
+      { type: "text", value: "qasa ga yaba' su'?（那位是你爸爸嗎？）" },
+      { type: "audio", src: "/alphabet/l.webm" },
+      { type: "text", value: "💡 疑問詞彙：" },
+      { type: "text", value: "- ni ima：誰的" },
+      { type: "text", value: "- qasa：那位、那個" },
+      { type: "text", value: "- yaba'：爸爸" },
+      { type: "text", value: "- yaya'：媽媽" },
+      { type: "text", value: "📝 句型配對練習：" },
+      { type: "text", value: "Q：「你幾歲？」對應：「pira' kawas mu?」" },
     ],
     quiz: [
       {
         id: "q1",
-        question: "「真的很好！」的泰雅語是？",
-        options: ["Kmal lokah!", "Kmal balay!", "Kmal gaga!"],
-        answer: "Kmal lokah!",
+        question: "「你是誰的小孩？」的泰雅語是？",
+        options: ["'laqi' su' ni ima?", "'laqi' ima su'?", "ni ima 'laqi' su'?"],
+        answer: "'laqi' su' ni ima?",
         type: "single"
       },
       {
         id: "q2",
-        question: "「我們走吧！」的泰雅語是？",
-        options: ["Musa ta!", "Musa saku!", "Musa su!"],
-        answer: "Musa ta!",
+        question: "「你幾歲？」的泰雅語是？",
+        options: ["pira' kawas mu?", "ima' kawas mu?", "ktwa' kawas mu?"],
+        answer: "pira' kawas mu?",
         type: "single"
       }
     ],
-    game: "SentencePuzzle",
-    xp: 80,
+    game: "VocabularyMemory",
+    xp: 90,
   },
   {
     day: 5,
-    title: "感謝與道歉",
+    title: "年紀、身高與總複習",
     content: [
-      { type: "text", value: "學習泰雅語的感謝與道歉表達。" },
-      { type: "audio", src: "/audio/week4/thanks_sorry.mp3" },
-      { type: "text", value: "禮貌用語：Sbalay! (謝謝！) / Kinbahan saku. (對不起) / Isu balay. (不客氣)" },
+      { type: "text", value: "🔹 單元五：年紀、身高" },
+      { type: "text", value: "📘 主句型：" },
+      { type: "text", value: "👧 A: Pira' kawas mu?（你幾歲？）" },
+      { type: "text", value: "🧒 B: Mopuw spat kawas maku'.（我十八歲。）" },
+      { type: "text", value: "👧 A: Ktwa' kinwagiq mu?（你多高？）" },
+      { type: "text", value: "🧒 B: Kbhul ru mspatul inci.（我一百四十公分。）" },
+      { type: "audio", src: "/alphabet/k.webm" },
+      { type: "text", value: "💡 身高詞彙：" },
+      { type: "text", value: "- kinwagiq：身高" },
+      { type: "text", value: "- kbhul：一百" },
+      { type: "text", value: "- mspatul：四十" },
+      { type: "text", value: "- inci：公分" },
+      { type: "text", value: "🎯 第四週總複習：自我介紹完整對話訓練" },
+      { type: "text", value: "恭喜完成實用情境對話學習！您已經能夠進行基本的泰雅語自我介紹了。" },
     ],
     quiz: [
       {
         id: "q1",
-        question: "「謝謝！」的泰雅語是？",
-        options: ["Sbalay!", "Sbaway!", "Sbaraw!"],
-        answer: "Sbalay!",
+        question: "「我一百四十公分」的泰雅語是？",
+        options: ["Kbhul ru mspatul inci.", "Mspatul kbhul inci.", "Kbhul mspatul."],
+        answer: "Kbhul ru mspatul inci.",
         type: "single"
       },
       {
         id: "q2",
-        question: "「對不起」的泰雅語是？",
-        options: ["Kinbahan saku.", "Kinbalay saku.", "Kinbaway saku."],
-        answer: "Kinbahan saku.",
-        type: "single"
-      }
-    ],
-    game: "SentencePuzzle",
-    xp: 80,
-  },
-  {
-    day: 6,
-    title: "對話複習",
-    content: [
-      { type: "text", value: "複習本週學習的各種對話表達：打招呼、介紹、詢問、日常、禮貌用語。" },
-      { type: "audio", src: "/audio/week4/conversation_review.mp3" },
-      { type: "text", value: "練習組合這些句型進行完整對話。" },
-    ],
-    quiz: [
-      {
-        id: "q1",
-        question: "「不客氣」的泰雅語是？",
-        options: ["Isu balay.", "Isu lokah.", "Isu gaga."],
-        answer: "Isu balay.",
-        type: "single"
-      },
-      {
-        id: "q2",
-        question: "「不要這樣！」的泰雅語是？",
-        options: ["Ayaw kira!", "Ayaw kiya!", "Ayaw kisa!"],
-        answer: "Ayaw kira!",
+        question: "「你多高？」的泰雅語是？",
+        options: ["Ktwa' kinwagiq mu?", "Pira' kinwagiq mu?", "Ima' kinwagiq mu?"],
+        answer: "Ktwa' kinwagiq mu?",
         type: "single"
       },
       {
         id: "q3",
-        question: "「你是什麼？」的泰雅語是？",
-        options: ["Nanu su?", "Ima su?", "Inu su?"],
-        answer: "Nanu su?",
+        question: "完整自我介紹包含姓名和年齡，正確順序是？",
+        options: ["先說姓名再說年齡", "先說年齡再說姓名", "只說姓名就好"],
+        answer: "先說姓名再說年齡",
         type: "single"
       }
     ],
-    game: "SentencePuzzle",
-    xp: 100,
-  },
-  {
-    day: 7,
-    title: "對話總測驗",
-    content: [
-      { type: "text", value: "第四週總測驗：測試您對泰雅語對話的掌握程度。" },
-      { type: "text", value: "恭喜您即將完成整個學習課程！" },
-    ],
-    quiz: [
-      {
-        id: "q1",
-        question: "完整的打招呼對話，「你好嗎？」「我很好」依序是？",
-        options: ["Lokah su? / Lokah saku.", "Ima su? / Yaki saku.", "Nanu su? / Kmal lokah."],
-        answer: "Lokah su? / Lokah saku.",
-        type: "single"
-      },
-      {
-        id: "q2",
-        question: "自我介紹「我的名字是___」的正確句型是？",
-        options: ["Yaki saku ___.", "Ima saku ___.", "Nanu saku ___."],
-        answer: "Yaki saku ___.",
-        type: "single"
-      },
-      {
-        id: "q3",
-        question: "感謝對方後，對方回應「不客氣」的完整對話是？",
-        options: ["Sbalay! / Isu balay.", "Lokah! / Kmal lokah.", "Musa! / Ayaw kira."],
-        answer: "Sbalay! / Isu balay.",
-        type: "single"
-      },
-      {
-        id: "q4",
-        question: "「對不起」的正確泰雅語表達是？",
-        options: ["Kinbahan saku.", "Kinbalay saku.", "Sbalay saku."],
-        answer: "Kinbahan saku.",
-        type: "single"
-      }
-    ],
-    game: "SentencePuzzle",
-    xp: 160,
+    game: "ListeningQuiz",
+    xp: 110,
   }
 ]; 

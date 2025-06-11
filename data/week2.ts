@@ -1,165 +1,176 @@
 import { DayData } from './week1';
 
-// TODO: 之後請手動貼入完整教材與音檔路徑
+// 第2週｜生活主題單字學習：詞彙分類建構
 export const week2: DayData[] = [
   {
     day: 1,
-    title: "子音 p/b",
+    title: "家庭成員詞彙",
     content: [
-      { type: "text", value: "學習泰雅語子音 p 和 b 的發音差異。" },
-      { type: "audio", src: "/audio/week2/p_b.mp3" },
-      { type: "text", value: "常見單字：pila (幾個)、balay (房子)" },
+      { type: "text", value: "學習泰雅語家庭成員的稱謂" },
+      { type: "text", value: "爸爸 yaba'" },
+      { type: "audio", src: "/alphabet/a.webm" },
+      { type: "text", value: "媽媽 yaya'" },
+      { type: "audio", src: "/alphabet/a.webm" },
+      { type: "text", value: "男性長輩(祖父；外公；岳父) yutas" },
+      { type: "text", value: "女性長輩(祖母；外婆；岳母) yaki'" },
+      { type: "text", value: "兄長 qbsuyan" },
+      { type: "text", value: "姊姊 qbsuyan kneril" },
+      { type: "text", value: "哥哥 qbsuyan mlikuy" },
+      { type: "text", value: "弟弟 sswe' mlikuy" },
+      { type: "text", value: "妹妹 sswe' kneril" },
     ],
     quiz: [
       {
         id: "q1",
-        question: "「房子」的泰雅語是？",
-        options: ["balay", "palay", "baway"],
-        answer: "balay",
+        question: "「爸爸」的泰雅語是？",
+        options: ["yaba'", "yaya'", "yutas"],
+        answer: "yaba'",
+        type: "single"
+      },
+      {
+        id: "q2",
+        question: "「姊姊」的泰雅語是？",
+        options: ["qbsuyan kneril", "qbsuyan mlikuy", "sswe' kneril"],
+        answer: "qbsuyan kneril",
         type: "single"
       }
     ],
-    game: "PictureChoice",
-    xp: 60,
+    game: "VocabularyMemory",
+    xp: 70,
   },
   {
     day: 2,
-    title: "子音 t/d",
+    title: "身份與身體部位詞彙",
     content: [
-      { type: "text", value: "學習泰雅語子音 t 和 d 的發音。" },
-      { type: "audio", src: "/audio/week2/t_d.mp3" },
-      { type: "text", value: "常見單字：tama (父親)、dayal (母親)" },
+      { type: "text", value: "學習身份詞彙" },
+      { type: "text", value: "男孩 mlikuy、女孩 kneril、朋友 rangi'" },
+      { type: "text", value: "孩童 'laqi'、老人家 bnkis、人 'Tayal" },
+      { type: "text", value: "醫生 sinsiy pbetaq'、老師 sinsiy pcbaq biru'" },
+      { type: "text", value: "學生 seto'、警察 kinsat" },
+      { type: "text", value: "身體部位詞彙" },
+      { type: "text", value: "耳朵 papak、眼睛 roziq、嘴巴 nqwaq" },
+      { type: "text", value: "頭 tunux、手 qba'、腳 kakay" },
+      { type: "text", value: "臉 rqyas、鼻子 nguhuw、身體 hi'" },
+      { type: "text", value: "大腿 gaya'、指甲 kamit" },
     ],
     quiz: [
       {
         id: "q1",
-        question: "「父親」的泰雅語是？",
-        options: ["tama", "dama", "taya"],
-        answer: "tama",
+        question: "「醫生」的泰雅語是？",
+        options: ["sinsiy pbetaq'", "sinsiy pcbaq biru'", "kinsat"],
+        answer: "sinsiy pbetaq'",
+        type: "single"
+      },
+      {
+        id: "q2",
+        question: "「眼睛」的泰雅語是？",
+        options: ["papak", "roziq", "nqwaq"],
+        answer: "roziq",
         type: "single"
       }
     ],
-    game: "PictureChoice",
-    xp: 60,
+    game: "ListeningQuiz",
+    xp: 70,
   },
   {
     day: 3,
-    title: "子音 k/g",
+    title: "動物詞彙",
     content: [
-      { type: "text", value: "學習泰雅語子音 k 和 g 的發音。" },
-      { type: "audio", src: "/audio/week2/k_g.mp3" },
-      { type: "text", value: "常見單字：kmal (真的)、gaga (部落)" },
+      { type: "text", value: "學習各種動物的泰雅語名稱" },
+      { type: "text", value: "豬 bzyok、狗 huzil、羊 mit" },
+      { type: "audio", src: "/alphabet/b.webm" },
+      { type: "text", value: "貓 ngyaw、鳥 qbhniq、魚 qulih" },
+      { type: "text", value: "雞 ngta'、猴子 yungay、牛 kacing" },
+      { type: "text", value: "老鼠(統稱) qoli'、青蛙 qpatung" },
+      { type: "text", value: "貓頭鷹 nguzyaq" },
+      { type: "text", value: "練習動物詞彙的發音，記住每種動物的特徵。" },
     ],
     quiz: [
       {
         id: "q1",
-        question: "「部落」的泰雅語是？",
-        options: ["gaga", "kaga", "gaba"],
-        answer: "gaga",
+        question: "「狗」的泰雅語是？",
+        options: ["huzil", "bzyok", "mit"],
+        answer: "huzil",
+        type: "single"
+      },
+      {
+        id: "q2",
+        question: "「貓頭鷹」的泰雅語是？",
+        options: ["nguzyaq", "qbhniq", "yungay"],
+        answer: "nguzyaq",
         type: "single"
       }
     ],
-    game: "PictureChoice",
-    xp: 60,
+    game: "VocabularyMemory",
+    xp: 70,
   },
   {
     day: 4,
-    title: "子音 m/n",
+    title: "物品詞彙",
     content: [
-      { type: "text", value: "學習泰雅語鼻音 m 和 n 的發音。" },
-      { type: "audio", src: "/audio/week2/m_n.mp3" },
-      { type: "text", value: "常見單字：masu (你)、nanu (什麼)" },
+      { type: "text", value: "學習日常用品的泰雅語名稱" },
+      { type: "text", value: "書 biru'、錢 pila'、球 mari'" },
+      { type: "text", value: "桌子 hanray、電話 kkyalan、筆 enpit" },
+      { type: "text", value: "椅子 thekan、藥物 iyu'、電腦 tennaw" },
+      { type: "text", value: "雨傘 ruku、手錶 toke'" },
+      { type: "text", value: "這些都是日常生活中常見的物品，學會它們的泰雅語名稱很實用。" },
     ],
     quiz: [
       {
         id: "q1",
-        question: "「你」的泰雅語是？",
-        options: ["masu", "nasu", "masa"],
-        answer: "masu",
+        question: "「電腦」的泰雅語是？",
+        options: ["tennaw", "kkyalan", "toke'"],
+        answer: "tennaw",
+        type: "single"
+      },
+      {
+        id: "q2",
+        question: "「桌子」的泰雅語是？",
+        options: ["hanray", "thekan", "ruku"],
+        answer: "hanray",
         type: "single"
       }
     ],
-    game: "PictureChoice",
-    xp: 60,
+    game: "PronunciationPractice",
+    xp: 70,
   },
   {
     day: 5,
-    title: "子音 s/z",
+    title: "行動詞彙與總複習",
     content: [
-      { type: "text", value: "學習泰雅語子音 s 和 z 的發音。" },
-      { type: "audio", src: "/audio/week2/s_z.mp3" },
-      { type: "text", value: "常見單字：saku (我)、zimu (你們)" },
+      { type: "text", value: "學習動作相關的詞彙" },
+      { type: "text", value: "關上 ql'i、打開 gmyah、去 mosa" },
+      { type: "text", value: "賣 tbaziy、買 mbaziy、給 miq" },
+      { type: "text", value: "(叫人)過來 uwah、來 muwah、借 ksyuw" },
+      { type: "text", value: "走路 mhkani'、走(離開) shriq、飛 mlaka'" },
+      { type: "text", value: "跑(祈使) qinah、抵達 mtta'" },
+      { type: "text", value: "第二週總複習：家庭、身份、身體部位、動物、物品、行動" },
+      { type: "text", value: "恭喜完成生活主題單字學習！" },
     ],
     quiz: [
       {
         id: "q1",
-        question: "「我」的泰雅語是？",
-        options: ["saku", "zaku", "sasu"],
-        answer: "saku",
-        type: "single"
-      }
-    ],
-    game: "PictureChoice",
-    xp: 60,
-  },
-  {
-    day: 6,
-    title: "複習子音",
-    content: [
-      { type: "text", value: "複習本週學習的子音：p/b, t/d, k/g, m/n, s/z" },
-      { type: "audio", src: "/audio/week2/consonants_review.mp3" },
-      { type: "text", value: "練習辨認子音的發音差異。" },
-    ],
-    quiz: [
-      {
-        id: "q1",
-        question: "「真的」的泰雅語是？",
-        options: ["kmal", "gmal", "kbal"],
-        answer: "kmal",
+        question: "「買」的泰雅語是？",
+        options: ["mbaziy", "tbaziy", "ksyuw"],
+        answer: "mbaziy",
         type: "single"
       },
       {
         id: "q2",
-        question: "「什麼」的泰雅語是？",
-        options: ["manu", "nanu", "sanu"],
-        answer: "nanu",
-        type: "single"
-      }
-    ],
-    game: "PictureChoice",
-    xp: 80,
-  },
-  {
-    day: 7,
-    title: "子音總測驗",
-    content: [
-      { type: "text", value: "第二週總測驗：測試您對泰雅語子音的掌握程度。" },
-      { type: "text", value: "完成測驗後即可解鎖第三週課程！" },
-    ],
-    quiz: [
-      {
-        id: "q1",
-        question: "「父親」的正確泰雅語是？",
-        options: ["tama", "dama", "kama"],
-        answer: "tama",
-        type: "single"
-      },
-      {
-        id: "q2",
-        question: "「部落」的泰雅語是？",
-        options: ["gaga", "kaga", "baga"],
-        answer: "gaga",
+        question: "「走路」的泰雅語是？",
+        options: ["mhkani'", "shriq", "qinah"],
+        answer: "mhkani'",
         type: "single"
       },
       {
         id: "q3",
-        question: "「你們」的泰雅語是？",
-        options: ["simu", "zimu", "timu"],
-        answer: "zimu",
+        question: "「手」的泰雅語是？",
+        options: ["qba'", "kakay", "papak"],
+        answer: "qba'",
         type: "single"
       }
     ],
-    game: "PictureChoice",
-    xp: 120,
+    game: "VocabularyMemory",
+    xp: 90,
   }
 ]; 
