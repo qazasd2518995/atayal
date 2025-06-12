@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // Hugging Face Whisper API 配置
+// 移除所有不被支援的 URL 參數，只保留模型的基本路徑
 const API_URL = "https://api-inference.huggingface.co/models/openai/whisper-large-v3";
 const HF_TOKEN = process.env.HF_TOKEN;
 
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "沒有收到音檔" }, { status: 400 });
     }
 
-    // 3. 呼叫 Hugging Face API
+    // 3. 呼叫 Hugging Face API (改回使用 fetch)
     const response = await fetch(API_URL, {
       method: "POST",
       headers: {

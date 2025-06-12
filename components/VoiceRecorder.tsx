@@ -134,7 +134,10 @@ export default function VoiceRecorder({ referenceAudioPath, letterName, onScoreU
 
       if (!response.ok) throw new Error(result.error || '辨識失敗');
 
-      const transcription = result.text.trim().toLowerCase();
+      const rawTranscription = result.text.trim().toLowerCase();
+      // 在評分前，過濾掉所有非拉丁字母和非單引號的字元
+      const transcription = rawTranscription.replace(/[^a-z']/g, '');
+
       setTranscribedText(transcription);
       
       const newScore = calculateScore(transcription, targetLetter);
