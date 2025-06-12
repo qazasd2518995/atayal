@@ -48,6 +48,12 @@ export default function DayLessonPage() {
   const [quizFailed, setQuizFailed] = useState(false);
   const [failedScore, setFailedScore] = useState({ correct: 0, total: 0 });
   const [gameFailed, setGameFailed] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // 確保在客戶端渲染完成後才顯示內容，避免 hydration 錯誤
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // 檢查參數有效性
   if (!week || !day || week < 1 || week > 4 || day < 1 || day > 7) {
@@ -73,6 +79,18 @@ export default function DayLessonPage() {
           <Link href="/" className="text-blue-500 hover:text-blue-600">
             返回首頁
           </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // 在客戶端渲染完成前顯示加載狀態，避免 hydration 錯誤
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg shadow-lg p-8 text-center max-w-md">
+          <div className="animate-spin h-10 w-10 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-gray-600">載入課程中...</p>
         </div>
       </div>
     );
