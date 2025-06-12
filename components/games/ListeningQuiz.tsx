@@ -8,28 +8,58 @@ import AudioButton from '../AudioButton';
 interface ListeningQuizProps {
   onFinish: (success: boolean) => void;
   week: number;
+  day: number;
 }
 
-const gameData = {
-  1: { // week 1 - 字母聽力測驗
-    letters: ['a', 'i', 'u', 'e', 'o', 'g', 'l', 's', 'b', 'h', 'm', 'p', 't', 'y', 'c', 'n', 'q', 'z', 'k', 'ng', 'r', 'w', 'x'],
-    title: '字母聽力測驗',
-  },
-  2: { // week 2 - 生活詞彙聽力測驗
-    letters: ['y', 'm', 'q', 'k', 'h', 'b', 'r', 'p', 'n', 't'],
-    title: '生活詞彙聽力測驗',
-  },
-  3: { // week 3 - 神話詞彙聽力測驗
-    letters: ['s', 'u', 'r', 'k', 'l', 'h', 'q'],
-    title: '神話詞彙聽力測驗',
-  },
-  4: { // week 4 - 對話聽力測驗
-    letters: ['i', 'l', 'k', 'n', 't', 'm'],
-    title: '對話聽力測驗',
-  },
+// 提取當天教材中的字母
+const extractLettersFromDay = (week: number, day: number) => {
+  // 動態導入對應週的數據
+  let weekData;
+  try {
+    switch (week) {
+      case 1:
+        weekData = require('@/data/week1').week1;
+        break;
+      case 2:
+        weekData = require('@/data/week2').week2;
+        break;
+      case 3:
+        weekData = require('@/data/week3').week3;
+        break;
+      case 4:
+        weekData = require('@/data/week4').week4;
+        break;
+      default:
+        weekData = require('@/data/week1').week1;
+    }
+  } catch (error) {
+    weekData = require('@/data/week1').week1;
+  }
+
+  const dayData = weekData[day - 1];
+  if (!dayData) return { letters: [], title: '聽力測驗' };
+
+  // 提取教材內容中的字母（從音檔路徑）
+  const letters: string[] = [];
+
+  dayData.content.forEach((content: any) => {
+    if (content.type === 'audio' && content.src) {
+      const fileName = content.src.split('/').pop()?.replace('.wav', '') || '';
+      if (/^[a-z]$/.test(fileName) || fileName === 'ng' || fileName === "'") {
+        if (!letters.includes(fileName)) {
+          letters.push(fileName);
+        }
+      }
+    }
+  });
+
+  return { 
+    letters, 
+    title: `第${week}週第${day}天聽力測驗` 
+  };
 };
 
-export default function ListeningQuiz({ onFinish, week }: ListeningQuizProps) {
+export default function ListeningQuiz({ onFinish, week, day }: ListeningQuizProps) {
   const [round, setRound] = useState(0);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState<string>('');
@@ -37,8 +67,8 @@ export default function ListeningQuiz({ onFinish, week }: ListeningQuizProps) {
   const [done, setDone] = useState(false);
   const [questions, setQuestions] = useState<Array<{ correct: string; options: string[] }>>([]);
   const [currentPlayingIndex, setCurrentPlayingIndex] = useState<number | null>(null);
+  const [gameData, setGameData] = useState<{ letters: string[], title: string }>({ letters: [], title: '' });
 
-  const data = gameData[week as keyof typeof gameData] ?? gameData[1];
   const total = 5;
 
   const shuffle = <T,>(arr: T[]) => {
@@ -51,17 +81,23 @@ export default function ListeningQuiz({ onFinish, week }: ListeningQuizProps) {
   };
 
   useEffect(() => {
-    // generate 5 distinct questions
-    const pool = [...data.letters];
-    const qs: typeof questions = [];
-    for (let i = 0; i < total && pool.length; i++) {
-      const idx = Math.floor(Math.random() * pool.length);
-      const correct = pool.splice(idx, 1)[0];
-      const wrong = shuffle(data.letters.filter(l => l !== correct)).slice(0, 3);
-      qs.push({ correct, options: shuffle([correct, ...wrong]) });
+    // 獲取當天教材的字母數據
+    const data = extractLettersFromDay(week, day);
+    setGameData(data);
+    
+    if (data.letters.length > 0) {
+      // generate 5 distinct questions
+      const pool = [...data.letters];
+      const qs: typeof questions = [];
+      for (let i = 0; i < total && pool.length; i++) {
+        const idx = Math.floor(Math.random() * pool.length);
+        const correct = pool.splice(idx, 1)[0];
+        const wrong = shuffle(data.letters.filter((l: string) => l !== correct)).slice(0, 3);
+        qs.push({ correct, options: shuffle([correct, ...wrong]) });
+      }
+      setQuestions(qs);
     }
-    setQuestions(qs);
-  }, [week]);
+  }, [week, day]);
 
   const submit = () => {
     if (!selected) return;
@@ -85,15 +121,17 @@ export default function ListeningQuiz({ onFinish, week }: ListeningQuizProps) {
     setDone(false);
     setCurrentPlayingIndex(null);
     // regenerate
-    const pool = [...data.letters];
-    const qs: typeof questions = [];
-    for (let i = 0; i < total && pool.length; i++) {
-      const idx = Math.floor(Math.random() * pool.length);
-      const correct = pool.splice(idx, 1)[0];
-      const wrong = shuffle(data.letters.filter(l => l !== correct)).slice(0, 3);
-      qs.push({ correct, options: shuffle([correct, ...wrong]) });
+    if (gameData.letters.length > 0) {
+      const pool = [...gameData.letters];
+      const qs: typeof questions = [];
+      for (let i = 0; i < total && pool.length; i++) {
+        const idx = Math.floor(Math.random() * pool.length);
+        const correct = pool.splice(idx, 1)[0];
+        const wrong = shuffle(gameData.letters.filter((l: string) => l !== correct)).slice(0, 3);
+        qs.push({ correct, options: shuffle([correct, ...wrong]) });
+      }
+      setQuestions(qs);
     }
-    setQuestions(qs);
   };
 
   // 音檔播放控制函數
@@ -107,7 +145,7 @@ export default function ListeningQuiz({ onFinish, week }: ListeningQuizProps) {
     setCurrentPlayingIndex(index);
     
     // 創建新的 Audio 對象來播放
-    const audio = new Audio(`/alphabet/${questions[index].correct}.webm`);
+    const audio = new Audio(`/alphabet/${questions[index].correct}.wav`);
     audio.play().catch(console.error);
     
     // 音檔結束時重置狀態
@@ -124,6 +162,25 @@ export default function ListeningQuiz({ onFinish, week }: ListeningQuizProps) {
   const finish = () => {
     onFinish(score === total);
   };
+
+  // 如果沒有可用的字母數據
+  if (gameData.letters.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
+        <div className="text-6xl mb-4">👂</div>
+        <h3 className="text-2xl font-bold mb-4">聽力測驗</h3>
+        <p className="text-lg mb-6 text-gray-600">
+          此課程沒有可練習的字母內容，請繼續學習其他課程。
+        </p>
+        <button
+          onClick={() => onFinish(true)}
+          className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+        >
+          完成
+        </button>
+      </div>
+    );
+  }
 
   if (!questions.length) {
     return (
@@ -203,7 +260,7 @@ export default function ListeningQuiz({ onFinish, week }: ListeningQuizProps) {
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">{data.title}</h2>
+        <h2 className="text-2xl font-bold mb-2">{gameData.title}</h2>
         <div className="text-sm text-gray-600">
           第 {round + 1} / {total} 題，得分 {score}
         </div>
@@ -219,7 +276,7 @@ export default function ListeningQuiz({ onFinish, week }: ListeningQuizProps) {
         <p className="mb-4">請聽音檔，選擇正確的字母：</p>
         <div className="bg-blue-50 p-6 rounded mb-4 inline-block">
           <AudioButton
-            src={`/alphabet/${q.correct}.webm`}
+            src={`/alphabet/${q.correct}.wav`}
             className="w-16 h-16 mx-auto"
             showDownload={false}
           />

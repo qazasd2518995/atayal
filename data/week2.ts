@@ -8,9 +8,7 @@ export const week2: DayData[] = [
     content: [
       { type: "text", value: "學習泰雅語家庭成員的稱謂" },
       { type: "text", value: "爸爸 yaba'" },
-      { type: "audio", src: "/alphabet/a.webm" },
       { type: "text", value: "媽媽 yaya'" },
-      { type: "audio", src: "/alphabet/a.webm" },
       { type: "text", value: "男性長輩(祖父；外公；岳父) yutas" },
       { type: "text", value: "女性長輩(祖母；外婆；岳母) yaki'" },
       { type: "text", value: "兄長 qbsuyan" },
@@ -78,7 +76,6 @@ export const week2: DayData[] = [
     content: [
       { type: "text", value: "學習各種動物的泰雅語名稱" },
       { type: "text", value: "豬 bzyok、狗 huzil、羊 mit" },
-      { type: "audio", src: "/alphabet/b.webm" },
       { type: "text", value: "貓 ngyaw、鳥 qbhniq、魚 qulih" },
       { type: "text", value: "雞 ngta'、猴子 yungay、牛 kacing" },
       { type: "text", value: "老鼠(統稱) qoli'、青蛙 qpatung" },

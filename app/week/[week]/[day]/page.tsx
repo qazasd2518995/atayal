@@ -13,12 +13,14 @@ import {
   addXP, 
   markCompleted, 
   isUnlocked,
-  isCompleted 
+  isCompleted,
+  isDeveloperMode 
 } from '@/lib/progress';
 import AudioButton from '@/components/AudioButton';
 import Quiz from '@/components/Quiz';
 import GameGate from '@/components/GameGate';
 import XPBar from '@/components/XPBar';
+import DeveloperMode from '@/components/DeveloperMode';
 import { 
   HomeIcon, 
   ArrowLeftIcon, 
@@ -49,14 +51,26 @@ export default function DayLessonPage() {
   const [failedScore, setFailedScore] = useState({ correct: 0, total: 0 });
   const [gameFailed, setGameFailed] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isDevMode, setIsDevMode] = useState(false);
 
   // 確保在客戶端渲染完成後才顯示內容，避免 hydration 錯誤
   useEffect(() => {
     setMounted(true);
+    setIsDevMode(isDeveloperMode());
+    
+    // 監聽開發者模式變化
+    const checkDevMode = () => {
+      setIsDevMode(isDeveloperMode());
+    };
+    
+    // 定期檢查開發者模式狀態（每秒檢查一次）
+    const interval = setInterval(checkDevMode, 1000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   // 檢查參數有效性
-  if (!week || !day || week < 1 || week > 4 || day < 1 || day > 7) {
+  if (!week || !day || week < 1 || week > 4 || day < 1 || day > 5) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -171,13 +185,22 @@ export default function DayLessonPage() {
         );
       
       case 'audio':
-        // 更新音檔路徑以使用 alphabet 資料夾
-        const audioSrc = content.src?.replace('/audio/', '/alphabet/').replace('.mp3', '.webm') || '';
-        return (
-          <div key={index} className="mb-6 flex justify-center">
-            <AudioButton src={audioSrc} />
-          </div>
-        );
+        // 只顯示字母的音檔，單字不顯示音檔
+        const audioSrc = content.src?.replace('/audio/', '/alphabet/').replace('.webm', '.wav') || '';
+        // 檢查是否為字母音檔（單個字母、ng 或 '）
+        const fileName = audioSrc.split('/').pop()?.replace('.wav', '') || '';
+        const isLetterAudio = /^[a-z]$/.test(fileName) || fileName === 'ng' || fileName === "'";
+        
+        if (isLetterAudio) {
+          return (
+            <div key={index} className="mb-6 flex justify-center">
+              <AudioButton src={audioSrc} />
+            </div>
+          );
+        } else {
+          // 如果不是字母音檔，就不顯示
+          return null;
+        }
       
       case 'image':
         return (
@@ -196,7 +219,7 @@ export default function DayLessonPage() {
   };
 
   const getNextDayInfo = () => {
-    if (day < 7) {
+    if (day < 5) {
       return { week, day: day + 1, exists: true };
     } else if (week < 4) {
       return { week: week + 1, day: 1, exists: true };
@@ -295,31 +318,33 @@ export default function DayLessonPage() {
             </button>
             <button
               onClick={() => setCurrentSection('quiz')}
-              disabled={currentSection === 'content'}
+              disabled={currentSection === 'content' && !isDevMode}
               className={`flex-1 py-4 px-6 font-medium transition-colors ${
                 currentSection === 'quiz'
                   ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
                   : quizCompleted
                   ? 'text-green-600'
+                  : isDevMode || currentSection !== 'content'
+                  ? 'text-gray-600 hover:text-gray-800'
                   : 'text-gray-400'
-              } ${currentSection === 'content' ? 'cursor-not-allowed' : 'hover:text-gray-800'}`}
+              } ${currentSection === 'content' && !isDevMode ? 'cursor-not-allowed' : 'hover:text-gray-800'}`}
             >
-              ✏️ 課後測驗 {quizCompleted && '✓'}
+              ✏️ 課後測驗 {quizCompleted && '✓'} {isDevMode && '🔓'}
             </button>
             <button
               onClick={() => setCurrentSection('game')}
-              disabled={!quizCompleted}
+              disabled={!quizCompleted && !isDevMode}
               className={`flex-1 py-4 px-6 font-medium transition-colors ${
                 currentSection === 'game'
                   ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
                   : gameCompleted
                   ? 'text-green-600'
-                  : !quizCompleted
+                  : !quizCompleted && !isDevMode
                   ? 'text-gray-400 cursor-not-allowed'
                   : 'text-gray-600 hover:text-gray-800'
               }`}
             >
-              🎮 遊戲關卡 {gameCompleted && '✓'}
+              🎮 遊戲關卡 {gameCompleted && '✓'} {isDevMode && !quizCompleted && '🔓'}
             </button>
           </div>
         </div>
@@ -332,12 +357,22 @@ export default function DayLessonPage() {
               {dayData.content.map((item, index) => renderContent(item, index))}
               
               <div className="text-center mt-8">
-                <button
-                  onClick={() => setCurrentSection('quiz')}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200"
-                >
-                  開始測驗
-                </button>
+                <div className="flex gap-4 justify-center">
+                  <button
+                    onClick={() => setCurrentSection('quiz')}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200"
+                  >
+                    開始測驗
+                  </button>
+                  {isDevMode && (
+                    <button
+                      onClick={() => setCurrentSection('game')}
+                      className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                    >
+                      🔓 直接進入遊戲
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -488,6 +523,9 @@ export default function DayLessonPage() {
           </div>
         )}
       </div>
+      
+      {/* 開發者模式組件 */}
+      <DeveloperMode />
     </div>
   );
 } 

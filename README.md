@@ -143,9 +143,9 @@ tayal-platform/
 │   └── progress.ts          # 進度管理工具
 ├── public/                  # 靜態資源
 │   └── alphabet/            # 泰雅語字母音檔
-│       ├── a.webm          # 母音 a 音檔
-│       ├── i.webm          # 母音 i 音檔
-│       └── ...             # 其他 21 個字母音檔
+│       ├── a.wav           # 母音 a 音檔
+│       ├── i.wav           # 母音 i 音檔
+│       └── ...             # 其他 22 個字母音檔
 ├── .env.local              # 環境變數 (需自行創建)
 ├── .gitignore             # Git 忽略檔案
 ├── package.json           # 專案配置

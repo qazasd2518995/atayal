@@ -52,7 +52,7 @@ const gameData = {
   }
 };
 
-export default function SentencePuzzle({ onFinish, week }: SentencePuzzleProps) {
+export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzleProps) {
   const [currentPuzzle, setCurrentPuzzle] = useState(0);
   const [userSentences, setUserSentences] = useState<{ [key: number]: string[] }>({});
   const [gameCompleted, setGameCompleted] = useState(false);

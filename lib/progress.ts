@@ -93,7 +93,7 @@ export function markCompleted(week: number, day: number): UserProgress {
   progress.completedDays[key] = true;
   
   // 自動推進到下一天
-  if (day < 7) {
+  if (day < 5) {
     progress.currentDay = day + 1;
   } else if (week < 4) {
     progress.currentWeek = week + 1;
@@ -111,8 +111,17 @@ export function isCompleted(week: number, day: number): boolean {
   return progress.completedDays[key] || false;
 }
 
+// 檢查開發者模式
+export function isDeveloperMode(): boolean {
+  if (typeof window === 'undefined') return false;
+  return localStorage.getItem('tayal-developer-mode') === 'true';
+}
+
 // 檢查課程是否已解鎖
 export function isUnlocked(week: number, day: number): boolean {
+  // 開發者模式下所有課程都解鎖
+  if (isDeveloperMode()) return true;
+  
   const progress = getUserProgress();
   
   // 第一週第一天總是解鎖

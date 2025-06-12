@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
-import AudioButton from '../AudioButton';
 
 interface VocabularyMemoryProps {
   onFinish: (success: boolean) => void;
@@ -10,44 +9,44 @@ interface VocabularyMemoryProps {
   day: number;
 }
 
-// 詞彙記憶遊戲數據 - 根據新教材內容更新
+// 詞彙記憶遊戲數據 - 根據新教材內容更新（移除音檔）
 const gameData = {
   2: { // week 2 - 生活主題詞彙
     vocabulary: [
-      { tayal: "yaba'", meaning: '爸爸', audio: 'a.webm' },
-      { tayal: "yaya'", meaning: '媽媽', audio: 'a.webm' },
-      { tayal: 'qbsuyan', meaning: '兄長', audio: 'a.webm' },
-      { tayal: 'mlikuy', meaning: '男孩', audio: 'm.webm' },
-      { tayal: 'kneril', meaning: '女孩', audio: 'k.webm' },
-      { tayal: 'huzil', meaning: '狗', audio: 'h.webm' },
-      { tayal: 'bzyok', meaning: '豬', audio: 'b.webm' },
-      { tayal: 'biru', meaning: '書', audio: 'b.webm' }
+      { tayal: "yaba'", meaning: '爸爸' },
+      { tayal: "yaya'", meaning: '媽媽' },
+      { tayal: 'qbsuyan', meaning: '兄長' },
+      { tayal: 'mlikuy', meaning: '男孩' },
+      { tayal: 'kneril', meaning: '女孩' },
+      { tayal: 'huzil', meaning: '狗' },
+      { tayal: 'bzyok', meaning: '豬' },
+      { tayal: 'biru', meaning: '書' }
     ],
     title: '生活詞彙記憶遊戲'
   },
   3: { // week 3 - 神話故事詞彙
     vocabulary: [
-      { tayal: 'squliq', meaning: '雨', audio: 's.webm' },
-      { tayal: 'Utux', meaning: '神', audio: 'u.webm' },
-      { tayal: 'rgyax', meaning: '山', audio: 'r.webm' },
-      { tayal: 'klahang', meaning: '祭壇', audio: 'k.webm' },
-      { tayal: 'laqi', meaning: '女孩', audio: 'l.webm' },
-      { tayal: 'hngiyang', meaning: '聲音', audio: 'h.webm' },
-      { tayal: 'Kmayal', meaning: '很久以前', audio: 'k.webm' },
-      { tayal: 'qzitun', meaning: '退去', audio: 'q.webm' }
+      { tayal: 'squliq', meaning: '雨' },
+      { tayal: 'Utux', meaning: '神' },
+      { tayal: 'rgyax', meaning: '山' },
+      { tayal: 'klahang', meaning: '祭壇' },
+      { tayal: 'laqi', meaning: '女孩' },
+      { tayal: 'hngiyang', meaning: '聲音' },
+      { tayal: 'Kmayal', meaning: '很久以前' },
+      { tayal: 'qzitun', meaning: '退去' }
     ],
     title: '神話故事詞彙記憶遊戲'
   },
   4: { // week 4 - 對話詞彙
     vocabulary: [
-      { tayal: "lalu'", meaning: '名字', audio: 'l.webm' },
-      { tayal: 'kawas', meaning: '歲', audio: 'k.webm' },
-      { tayal: "'Tayal", meaning: '泰雅族', audio: 't.webm' },
-      { tayal: 'ngasal', meaning: '家人', audio: 'n.webm' },
-      { tayal: 'kinwagiq', meaning: '身高', audio: 'k.webm' },
-      { tayal: 'mspatul', meaning: '四十', audio: 'm.webm' },
-      { tayal: 'kbhul', meaning: '一百', audio: 'k.webm' },
-      { tayal: 'inci', meaning: '公分', audio: 'i.webm' }
+      { tayal: "lalu'", meaning: '名字' },
+      { tayal: 'kawas', meaning: '歲' },
+      { tayal: "'Tayal", meaning: '泰雅族' },
+      { tayal: 'ngasal', meaning: '家人' },
+      { tayal: 'kinwagiq', meaning: '身高' },
+      { tayal: 'mspatul', meaning: '四十' },
+      { tayal: 'kbhul', meaning: '一百' },
+      { tayal: 'inci', meaning: '公分' }
     ],
     title: '對話詞彙記憶遊戲'
   }
@@ -62,14 +61,14 @@ interface Card {
   isMatched: boolean;
 }
 
-export default function VocabularyMemory({ onFinish, week }: VocabularyMemoryProps) {
+export default function VocabularyMemory({ onFinish, week, day }: VocabularyMemoryProps) {
   const [cards, setCards] = useState<Card[]>([]);
   const [flippedCards, setFlippedCards] = useState<string[]>([]);
   const [matches, setMatches] = useState(0);
   const [attempts, setAttempts] = useState(0);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [showMismatch, setShowMismatch] = useState(false);
-  const [currentPlayingIndex, setCurrentPlayingIndex] = useState<number | null>(null);
+
 
   const data = gameData[week as keyof typeof gameData] || gameData[2];
 
@@ -174,34 +173,10 @@ export default function VocabularyMemory({ onFinish, week }: VocabularyMemoryPro
     setAttempts(0);
     setGameCompleted(false);
     setShowMismatch(false);
-    setCurrentPlayingIndex(null);
     initializeCards();
   };
 
-  // 音檔播放控制函數
-  const handleAudioPlay = (index: number) => {
-    // 如果點擊的是正在播放的音檔，什麼都不做
-    if (currentPlayingIndex === index) {
-      return;
-    }
-    
-    // 設置當前播放的索引
-    setCurrentPlayingIndex(index);
-    
-    // 創建新的 Audio 對象來播放
-    const audio = new Audio(`/alphabet/${data.vocabulary[index].audio}`);
-    audio.play().catch(console.error);
-    
-    // 音檔結束時重置狀態
-    audio.onended = () => {
-      setCurrentPlayingIndex(null);
-    };
-    
-    // 音檔出錯時重置狀態
-    audio.onerror = () => {
-      setCurrentPlayingIndex(null);
-    };
-  };
+
 
   const handleFinish = () => {
     const success = matches === data.vocabulary.length;
@@ -227,31 +202,9 @@ export default function VocabularyMemory({ onFinish, week }: VocabularyMemoryPro
           <div className="space-y-3">
             {data.vocabulary.map((item, index) => (
               <div key={index} className="flex items-center justify-between p-2 bg-white rounded border">
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => handleAudioPlay(index)}
-                    disabled={currentPlayingIndex !== null && currentPlayingIndex !== index}
-                    className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-                      currentPlayingIndex === index
-                        ? 'bg-blue-500 text-white animate-pulse'
-                        : currentPlayingIndex !== null
-                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                        : 'bg-blue-100 text-blue-600 hover:bg-blue-200'
-                    }`}
-                    title={currentPlayingIndex === index ? '播放中...' : currentPlayingIndex !== null ? '請等待其他音檔播放完畢' : '播放音檔'}
-                  >
-                    {currentPlayingIndex === index ? (
-                      <div className="w-2 h-2 bg-white rounded-full"></div>
-                    ) : (
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                      </svg>
-                    )}
-                  </button>
-                  <span className="font-semibold text-blue-600">
-                    {item.tayal}
-                  </span>
-                </div>
+                <span className="font-semibold text-blue-600">
+                  {item.tayal}
+                </span>
                 <span className="text-gray-700">
                   {item.meaning}
                 </span>
@@ -328,14 +281,7 @@ export default function VocabularyMemory({ onFinish, week }: VocabularyMemoryPro
                   }`}>
                     {card.content}
                   </span>
-                  {card.type === 'tayal' && (
-                    <div className="mt-1">
-                      <AudioButton 
-                        src={`/alphabet/a.webm`} // 這裡應該對應實際的音檔
-                        className="w-4 h-4"
-                      />
-                    </div>
-                  )}
+
                 </div>
               ) : (
                 <div className="p-3 h-full flex items-center justify-center">

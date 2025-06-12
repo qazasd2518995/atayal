@@ -36,10 +36,8 @@ export default function GameGate({
   }, [completed]);
 
   const handleGameComplete = (success: boolean) => {
-    if (success) {
-      setGameCompleted(true);
-      onGameComplete?.(true);
-    }
+    setGameCompleted(true);
+    onGameComplete?.(success);
   };
 
   const renderGame = () => {

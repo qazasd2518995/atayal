@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getUserProgress, isUnlocked } from '@/lib/progress';
 import XPBar from '@/components/XPBar';
+import DeveloperMode from '@/components/DeveloperMode';
 import { 
   LockClosedIcon, 
   CheckCircleIcon, 
@@ -65,6 +66,12 @@ export default function HomePage() {
               >
                 <SpeakerWaveIcon className="w-5 h-5" />
                 發音教室
+              </Link>
+              <Link 
+                href="/voice-training"
+                className="flex items-center gap-2 bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+              >
+                🎙️ 語音訓練中心
               </Link>
             </div>
           </div>
@@ -167,6 +174,12 @@ export default function HomePage() {
             >
               <SpeakerWaveIcon className="w-5 h-5" />
               發音教室
+            </Link>
+            <Link 
+              href="/voice-training"
+              className="flex items-center gap-2 bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+            >
+              🎙️ 語音訓練中心
             </Link>
           </div>
         </div>
@@ -318,6 +331,9 @@ export default function HomePage() {
           </p>
         </div>
       </div>
+      
+      {/* 開發者模式組件 */}
+      <DeveloperMode />
     </div>
   );
 }

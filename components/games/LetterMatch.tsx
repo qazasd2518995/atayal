@@ -9,49 +9,79 @@ interface LetterMatchProps {
   day: number;
 }
 
-// 字母匹配遊戲數據 - 根據新教材內容更新
-const gameData = {
-  1: { // week 1 - 字母與發音
-    letters: ['a', 'i', 'u', 'e', 'o', 'g', 'l', 's', 'b', 'y'],
-    words: [
-      { letter: 'a', word: 'aba', meaning: '爸爸' },
-      { letter: 'a', word: 'abaw', meaning: '葉子' },
-      { letter: 'a', word: 'aya', meaning: '媽媽' },
-      { letter: 'i', word: 'cyugal', meaning: '三' },
-      { letter: 'u', word: 'basu', meaning: '車子' },
-      { letter: 'e', word: 'ega', meaning: '電影' },
-      { letter: 'g', word: 'gamil', meaning: '根' },
-      { letter: 'b', word: 'bonaw', meaning: '花生' },
-      { letter: 'c', word: 'cyama', meaning: '商店' },
-      { letter: 'e', word: 'enpic', meaning: '鉛筆' }
-    ]
-  },
-  2: { // week 2 - 生活詞彙
-    letters: ['y', 'm', 'q', 'k', 'h'],
-    words: [
-      { letter: 'y', word: "yaba'", meaning: '爸爸' },
-      { letter: 'y', word: "yaya'", meaning: '媽媽' },
-      { letter: 'm', word: 'mlikuy', meaning: '男孩' },
-      { letter: 'k', word: 'kneril', meaning: '女孩' },
-      { letter: 'h', word: 'huzil', meaning: '狗' },
-      { letter: 'b', word: 'bzyok', meaning: '豬' },
-      { letter: 'q', word: "qba'", meaning: '手' },
-      { letter: 'r', word: 'roziq', meaning: '眼睛' },
-      { letter: 'p', word: 'papak', meaning: '耳朵' },
-      { letter: 'n', word: 'nqwaq', meaning: '嘴巴' }
-    ]
+// 提取當天教材中的字母和詞彙
+const extractGameDataFromDay = (week: number, day: number) => {
+  // 動態導入對應週的數據
+  let weekData;
+  try {
+    switch (week) {
+      case 1:
+        weekData = require('@/data/week1').week1;
+        break;
+      case 2:
+        weekData = require('@/data/week2').week2;
+        break;
+      case 3:
+        weekData = require('@/data/week3').week3;
+        break;
+      case 4:
+        weekData = require('@/data/week4').week4;
+        break;
+      default:
+        weekData = require('@/data/week1').week1;
+    }
+  } catch (error) {
+    weekData = require('@/data/week1').week1;
   }
+
+  const dayData = weekData[day - 1];
+  if (!dayData) return { letters: [], words: [] };
+
+  // 提取教材內容中的字母（從音檔路徑）
+  const letters: string[] = [];
+  const words: Array<{ letter: string; word: string; meaning: string }> = [];
+
+  dayData.content.forEach((content: any) => {
+    if (content.type === 'audio' && content.src) {
+      const fileName = content.src.split('/').pop()?.replace('.wav', '') || '';
+      if (/^[a-z]$/.test(fileName) || fileName === 'ng' || fileName === "'") {
+        if (!letters.includes(fileName)) {
+          letters.push(fileName);
+        }
+      }
+    }
+    
+    // 提取文本中的詞彙（格式：詞彙 (意思) 或 單字：詞彙 (意思)）
+    if (content.type === 'text' && content.value) {
+      const matches = content.value.match(/(?:單字：)?([a-zA-Z']+)\s*\(([^)]+)\)/g);
+      if (matches) {
+        matches.forEach((match: string) => {
+          const parts = match.match(/(?:單字：)?([a-zA-Z']+)\s*\(([^)]+)\)/);
+          if (parts) {
+            const word = parts[1];
+            const meaning = parts[2];
+            const firstLetter = word.toLowerCase().charAt(0);
+            
+            if (letters.includes(firstLetter)) {
+              words.push({ letter: firstLetter, word, meaning });
+            }
+          }
+        });
+      }
+    }
+  });
+
+  return { letters, words };
 };
 
-export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
+export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
   const [matches, setMatches] = useState<{ [key: string]: string }>({});
   const [draggedLetter, setDraggedLetter] = useState<string | null>(null);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [score, setScore] = useState(0);
   const [shuffledLetters, setShuffledLetters] = useState<string[]>([]);
-  const [shuffledWords, setShuffledWords] = useState<typeof gameData[1]['words']>([]);
-
-  const data = gameData[week as keyof typeof gameData] || gameData[1];
+  const [shuffledWords, setShuffledWords] = useState<Array<{ letter: string; word: string; meaning: string }>>([]);
+  const [gameData, setGameData] = useState<{ letters: string[], words: Array<{ letter: string; word: string; meaning: string }> }>({ letters: [], words: [] });
 
   // 隨機排序函數
   const shuffleArray = <T,>(array: T[]): T[] => {
@@ -63,11 +93,16 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
     return newArray;
   };
 
-  // 初始化時隨機排序
+  // 初始化遊戲數據
   useEffect(() => {
-    setShuffledLetters(shuffleArray(data.letters));
-    setShuffledWords(shuffleArray(data.words));
-  }, [week]);
+    const data = extractGameDataFromDay(week, day);
+    setGameData(data);
+    
+    if (data.letters.length > 0 && data.words.length > 0) {
+      setShuffledLetters(shuffleArray(data.letters));
+      setShuffledWords(shuffleArray(data.words));
+    }
+  }, [week, day]);
 
   const handleDragStart = (letter: string) => {
     setDraggedLetter(letter);
@@ -90,7 +125,7 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
 
   const checkAnswers = () => {
     let correctCount = 0;
-    data.words.forEach(wordData => {
+    gameData.words.forEach(wordData => {
       if (matches[wordData.word] === wordData.letter) {
         correctCount++;
       }
@@ -104,17 +139,36 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
     setScore(0);
     setGameCompleted(false);
     // 重新隨機排序
-    setShuffledLetters(shuffleArray(data.letters));
-    setShuffledWords(shuffleArray(data.words));
+    setShuffledLetters(shuffleArray(gameData.letters));
+    setShuffledWords(shuffleArray(gameData.words));
   };
 
   const handleFinish = () => {
-    const success = score === data.words.length;
+    const success = score >= Math.ceil(gameData.words.length * 0.6); // 60%通過率
     onFinish(success);
   };
 
+  // 如果沒有可用的遊戲數據，顯示替代內容
+  if (gameData.letters.length === 0 || gameData.words.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
+        <div className="text-6xl mb-4">📚</div>
+        <h3 className="text-2xl font-bold mb-4">字母配對遊戲</h3>
+        <p className="text-lg mb-6 text-gray-600">
+          此課程沒有可配對的字母和詞彙內容，請繼續學習其他課程。
+        </p>
+        <button
+          onClick={() => onFinish(true)}
+          className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+        >
+          完成
+        </button>
+      </div>
+    );
+  }
+
   if (gameCompleted) {
-    const success = score === data.words.length;
+    const success = score === gameData.words.length;
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">
@@ -125,7 +179,7 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
         </h3>
         <p className="text-lg mb-6">
           您答對了 <span className="font-bold text-green-600">{score}</span> 題，
-          共 <span className="font-bold">{data.words.length}</span> 題
+          共 <span className="font-bold">{gameData.words.length}</span> 題
         </p>
         
         {/* 顯示正確答案 */}
@@ -179,7 +233,7 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold text-center mb-6">字母配對遊戲</h2>
       <p className="text-center text-gray-600 mb-8">
-        將左側的字母拖拽到正確的單字上
+        將左側的字母拖拽到正確的單字上（第{week}週第{day}天教材內容）
       </p>
 
       <div className="grid md:grid-cols-2 gap-8">
@@ -209,19 +263,21 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
                 key={wordData.word}
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, wordData.word)}
-                className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-gray-400 transition-colors min-h-[60px] flex items-center justify-between"
+                className={`border-2 border-dashed rounded-lg p-4 min-h-[60px] flex items-center justify-between transition-colors ${
+                  matches[wordData.word] 
+                    ? 'border-green-300 bg-green-50' 
+                    : 'border-gray-300 hover:border-gray-400'
+                }`}
               >
                 <div>
-                  <span className="font-medium text-lg">{wordData.word}</span>
-                  <span className="text-gray-600 ml-2">({wordData.meaning})</span>
+                  <span className="font-medium">{wordData.word}</span>
+                  <span className="text-sm text-gray-600 ml-2">({wordData.meaning})</span>
                 </div>
-                <div className="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center bg-white">
-                  {matches[wordData.word] && (
-                    <span className="font-bold text-xl text-blue-700">
-                      {matches[wordData.word].toUpperCase()}
-                    </span>
-                  )}
-                </div>
+                {matches[wordData.word] && (
+                  <span className="bg-blue-500 text-white px-3 py-1 rounded font-bold">
+                    {matches[wordData.word].toUpperCase()}
+                  </span>
+                )}
               </div>
             ))}
           </div>
@@ -231,8 +287,8 @@ export default function LetterMatch({ onFinish, week }: LetterMatchProps) {
       <div className="text-center mt-8">
         <button
           onClick={checkAnswers}
-          disabled={Object.keys(matches).length !== data.words.length}
-          className="px-8 py-3 bg-green-500 hover:bg-green-600 disabled:bg-gray-300 text-white rounded-lg font-semibold transition-colors"
+          disabled={Object.keys(matches).length !== gameData.words.length}
+          className="px-8 py-3 bg-green-500 hover:bg-green-600 disabled:bg-gray-300 text-white rounded-lg font-medium transition-colors"
         >
           檢查答案
         </button>

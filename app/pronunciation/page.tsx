@@ -58,7 +58,7 @@ export default function PronunciationPage() {
           發音: {letterData.sound}
         </div>
         <AudioButton 
-          src={`/alphabet/${letterData.letter}.webm`}
+          src={`/alphabet/${letterData.letter}.wav`}
           showDownload={true}
           className="justify-center"
         />

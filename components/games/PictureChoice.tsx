@@ -77,7 +77,7 @@ const gameData = {
   }
 };
 
-export default function PictureChoice({ onFinish, week }: PictureChoiceProps) {
+export default function PictureChoice({ onFinish, week, day }: PictureChoiceProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [gameCompleted, setGameCompleted] = useState(false);

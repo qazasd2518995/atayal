@@ -1,167 +1,174 @@
 {
-  "lastUpdated": "2025-06-10T08:10:18.635Z",
-  "totalFiles": 23,
+  "lastUpdated": "2025-06-12T16:30:00.000Z",
+  "totalFiles": 24,
   "audioFiles": [
     {
       "letter": "a",
-      "filename": "a.webm",
+      "filename": "a.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 a 的發音"
     },
     {
       "letter": "e",
-      "filename": "e.webm",
+      "filename": "e.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 e 的發音"
     },
     {
       "letter": "i",
-      "filename": "i.webm",
+      "filename": "i.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 i 的發音"
     },
     {
       "letter": "o",
-      "filename": "o.webm",
+      "filename": "o.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 o 的發音"
     },
     {
       "letter": "u",
-      "filename": "u.webm",
+      "filename": "u.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 u 的發音"
     },
     {
       "letter": "b",
-      "filename": "b.webm",
+      "filename": "b.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 b 的發音"
     },
     {
       "letter": "c",
-      "filename": "c.webm",
+      "filename": "c.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 c 的發音"
     },
     {
       "letter": "g",
-      "filename": "g.webm",
+      "filename": "g.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 g 的發音"
     },
     {
       "letter": "h",
-      "filename": "h.webm",
+      "filename": "h.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 h 的發音"
     },
     {
       "letter": "k",
-      "filename": "k.webm",
+      "filename": "k.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 k 的發音"
     },
     {
       "letter": "l",
-      "filename": "l.webm",
+      "filename": "l.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 l 的發音"
     },
     {
       "letter": "m",
-      "filename": "m.webm",
+      "filename": "m.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 m 的發音"
     },
     {
       "letter": "n",
-      "filename": "n.webm",
+      "filename": "n.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 n 的發音"
     },
     {
       "letter": "ng",
-      "filename": "ng.webm",
+      "filename": "ng.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 ng 的發音"
     },
     {
       "letter": "p",
-      "filename": "p.webm",
+      "filename": "p.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 p 的發音"
     },
     {
       "letter": "q",
-      "filename": "q.webm",
+      "filename": "q.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 q 的發音"
     },
     {
       "letter": "r",
-      "filename": "r.webm",
+      "filename": "r.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 r 的發音"
     },
     {
       "letter": "s",
-      "filename": "s.webm",
+      "filename": "s.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 s 的發音"
     },
     {
       "letter": "t",
-      "filename": "t.webm",
+      "filename": "t.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 t 的發音"
     },
     {
       "letter": "w",
-      "filename": "w.webm",
+      "filename": "w.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 w 的發音"
     },
     {
       "letter": "x",
-      "filename": "x.webm",
+      "filename": "x.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 x 的發音"
     },
     {
       "letter": "y",
-      "filename": "y.webm",
+      "filename": "y.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 y 的發音"
     },
     {
       "letter": "z",
-      "filename": "z.webm",
+      "filename": "z.wav",
       "status": "available",
-      "format": "webm",
+      "format": "wav",
       "description": "泰雅族字母 z 的發音"
+    },
+    {
+      "letter": "'",
+      "filename": "'.wav",
+      "status": "available",
+      "format": "wav",
+      "description": "泰雅族字母 ' (聲門塞音) 的發音"
     }
   ]
 }
