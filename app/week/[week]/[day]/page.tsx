@@ -45,6 +45,9 @@ export default function DayLessonPage() {
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [quizFailed, setQuizFailed] = useState(false);
+  const [failedScore, setFailedScore] = useState({ correct: 0, total: 0 });
+  const [gameFailed, setGameFailed] = useState(false);
 
   // 檢查參數有效性
   if (!week || !day || week < 1 || week > 4 || day < 1 || day > 7) {
@@ -84,12 +87,25 @@ export default function DayLessonPage() {
       // 全對才給經驗值
       addXP(dayData.xp);
       setQuizCompleted(true);
+      setQuizFailed(false);
       setCurrentSection('game');
       setRefreshKey(prev => prev + 1); // 觸發重新渲染
     } else {
-      // 答錯了，可以重新測驗
-      alert('請再試一次！完全答對才能繼續到遊戲關卡。');
+      // 答錯了，顯示失敗提示
+      setQuizFailed(true);
+      setFailedScore({ correct: score, total: totalQuestions });
     }
+  };
+
+  const handleRetryQuiz = () => {
+    setQuizFailed(false);
+    setFailedScore({ correct: 0, total: 0 });
+    setRefreshKey(prev => prev + 1); // 觸發測驗重新渲染
+  };
+
+  const handleReturnToContent = () => {
+    setQuizFailed(false);
+    setCurrentSection('content');
   };
 
   const handleGameComplete = (success: boolean) => {
@@ -98,19 +114,33 @@ export default function DayLessonPage() {
       markCompleted(week, day);
       addXP(dayData.xp);
       setGameCompleted(true);
+      setGameFailed(false);
       setRefreshKey(prev => prev + 1);
       
-      // 自動導向下一天或首頁
-      setTimeout(() => {
-        if (day < 7) {
-          router.push(`/week/${week}/${day + 1}`);
-        } else if (week < 4) {
-          router.push(`/week/${week + 1}/1`);
-        } else {
-          router.push('/');
-        }
-      }, 2000);
+              // 自動導向下一天或首頁
+        setTimeout(() => {
+          if (day < 5) {
+            router.push(`/week/${week}/${day + 1}`);
+          } else if (week < 4) {
+            router.push(`/week/${week + 1}/1`);
+          } else {
+            router.push('/');
+          }
+        }, 2000);
+    } else {
+      // 遊戲失敗，顯示失敗提示
+      setGameFailed(true);
     }
+  };
+
+  const handleRetryGame = () => {
+    setGameFailed(false);
+    setRefreshKey(prev => prev + 1); // 觸發遊戲重新渲染
+  };
+
+  const handleGameReturnToContent = () => {
+    setGameFailed(false);
+    setCurrentSection('content');
   };
 
   const renderContent = (content: ContentItem, index: number) => {
@@ -297,23 +327,105 @@ export default function DayLessonPage() {
           {currentSection === 'quiz' && (
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-6">課後測驗</h2>
-              <Quiz 
-                questions={dayData.quiz} 
-                onComplete={handleQuizComplete}
-              />
+              
+              {/* 測驗失敗提示 */}
+              {quizFailed && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="text-3xl">😔</div>
+                    <div>
+                      <h3 className="text-lg font-bold text-red-800">測驗未通過</h3>
+                      <p className="text-red-600">
+                        您答對了 {failedScore.correct} / {failedScore.total} 題，需要全對才能進入下一關卡
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                    <p className="text-yellow-800 text-sm">
+                      💡 <strong>建議：</strong>複習課程教材可以幫助您更好地掌握知識點，然後再重新挑戰測驗！
+                    </p>
+                  </div>
+                  
+                  <div className="flex gap-3 justify-center">
+                    <button
+                      onClick={handleReturnToContent}
+                      className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                    >
+                      📖 返回課程教材
+                    </button>
+                    <button
+                      onClick={handleRetryQuiz}
+                      className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                    >
+                      🔄 重新測驗
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {/* 測驗組件 */}
+              {!quizFailed && (
+                <Quiz 
+                  key={refreshKey}
+                  questions={dayData.quiz} 
+                  onComplete={handleQuizComplete}
+                />
+              )}
             </div>
           )}
 
           {currentSection === 'game' && (
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-6">遊戲關卡</h2>
-              <GameGate
-                week={week}
-                day={day}
-                gameType={dayData.game}
-                xp={dayData.xp}
-                onGameComplete={handleGameComplete}
-              />
+              
+              {/* 遊戲失敗提示 */}
+              {gameFailed && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="text-3xl">😔</div>
+                    <div>
+                      <h3 className="text-lg font-bold text-red-800">遊戲挑戰失敗</h3>
+                      <p className="text-red-600">
+                        您需要達到完美成績才能完成課程並進入下一天的學習
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                    <p className="text-yellow-800 text-sm">
+                      💡 <strong>建議：</strong>重新複習課程教材中的重點內容，熟悉詞彙和發音後再次挑戰遊戲！
+                    </p>
+                  </div>
+                  
+                  <div className="flex gap-3 justify-center">
+                    <button
+                      onClick={handleGameReturnToContent}
+                      className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                    >
+                      📖 返回課程教材
+                    </button>
+                    <button
+                      onClick={handleRetryGame}
+                      className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                    >
+                      🎮 重新挑戰遊戲
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {/* 遊戲組件 */}
+              {!gameFailed && (
+                <GameGate
+                  key={refreshKey}
+                  week={week}
+                  day={day}
+                  gameType={dayData.game}
+                  xp={dayData.xp}
+                  onGameComplete={handleGameComplete}
+                />
+              )}
             </div>
           )}
         </div>

@@ -122,7 +122,7 @@ export default function ListeningQuiz({ onFinish, week }: ListeningQuizProps) {
   };
 
   const finish = () => {
-    onFinish(score >= Math.ceil(total * 0.6));
+    onFinish(score === total);
   };
 
   if (!questions.length) {
@@ -135,7 +135,7 @@ export default function ListeningQuiz({ onFinish, week }: ListeningQuizProps) {
   }
 
   if (done) {
-    const passed = score >= Math.ceil(total * 0.6);
+    const passed = score === total;
     const pct = Math.round((score / total) * 100);
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
@@ -145,6 +145,7 @@ export default function ListeningQuiz({ onFinish, week }: ListeningQuizProps) {
         </h3>
         <p className="mb-6">
           答對 <strong>{score}</strong> / {total} 題，正確率 <strong>{pct}%</strong>
+          {!passed && <br />}<strong className="text-red-600">{!passed && '需要全對才能完成課程'}</strong>
         </p>
 
         <div className="bg-gray-50 p-4 rounded mb-6 text-left">
