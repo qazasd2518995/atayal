@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { trackGameResult, ActivityTimer } from '@/lib/analytics';
 
 interface VocabularyMemoryProps {
-  onFinish: (success: boolean) => void;
+  onFinish: (success: boolean, score?: number) => void;
   week: number;
   day: number;
 }
@@ -24,31 +25,22 @@ const gameData = {
     ],
     title: '生活詞彙記憶遊戲'
   },
-  3: { // week 3 - 神話故事詞彙
+  3: { // week 3 - 神話故事 + 對話詞彙
     vocabulary: [
       { tayal: 'squliq', meaning: '雨' },
       { tayal: 'Utux', meaning: '神' },
       { tayal: 'rgyax', meaning: '山' },
       { tayal: 'klahang', meaning: '祭壇' },
-      { tayal: 'laqi', meaning: '女孩' },
-      { tayal: 'hngiyang', meaning: '聲音' },
-      { tayal: 'Kmayal', meaning: '很久以前' },
-      { tayal: 'qzitun', meaning: '退去' }
-    ],
-    title: '神話故事詞彙記憶遊戲'
-  },
-  4: { // week 4 - 對話詞彙
-    vocabulary: [
       { tayal: "lalu'", meaning: '名字' },
       { tayal: 'kawas', meaning: '歲' },
-      { tayal: "'Tayal", meaning: '泰雅族' },
       { tayal: 'ngasal', meaning: '家人' },
+      { tayal: 'iyat', meaning: '不是' },
       { tayal: 'kinwagiq', meaning: '身高' },
-      { tayal: 'mspatul', meaning: '四十' },
       { tayal: 'kbhul', meaning: '一百' },
+      { tayal: 'mspatul', meaning: '四十' },
       { tayal: 'inci', meaning: '公分' }
     ],
-    title: '對話詞彙記憶遊戲'
+    title: '神話故事與對話詞彙記憶遊戲'
   }
 };
 
@@ -68,7 +60,8 @@ export default function VocabularyMemory({ onFinish, week, day }: VocabularyMemo
   const [attempts, setAttempts] = useState(0);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [showMismatch, setShowMismatch] = useState(false);
-
+  const [gameTimer, setGameTimer] = useState<ActivityTimer | null>(null);
+  const [startTime, setStartTime] = useState<number>(Date.now());
 
   const data = gameData[week as keyof typeof gameData] || gameData[2];
 
@@ -113,7 +106,19 @@ export default function VocabularyMemory({ onFinish, week, day }: VocabularyMemo
 
   useEffect(() => {
     initializeCards();
-  }, [week]);
+
+    // 開始遊戲計時
+    const timer = new ActivityTimer('game');
+    setGameTimer(timer);
+    setStartTime(Date.now());
+
+    return () => {
+      // 如果用戶中途離開，停止計時器
+      if (timer) {
+        timer.stop({ week, day, gameType: 'VocabularyMemory', completed: false });
+      }
+    };
+  }, [week, day]);
 
   // 處理卡片點擊
   const handleCardClick = (cardId: string) => {
@@ -150,6 +155,24 @@ export default function VocabularyMemory({ onFinish, week, day }: VocabularyMemo
           // 檢查是否完成遊戲
           if (matches + 1 === data.vocabulary.length) {
             setGameCompleted(true);
+
+            // 追蹤遊戲成績
+            const timeSpent = Math.round((Date.now() - startTime) / 1000); // 秒
+            const finalScore = Math.max(0, 100 - (attempts + 1 - data.vocabulary.length) * 5);
+
+            trackGameResult({
+              week,
+              day,
+              gameType: 'VocabularyMemory',
+              score: finalScore,
+              attempts: attempts + 1,
+              timeSpent,
+            });
+
+            // 停止遊戲計時器
+            if (gameTimer) {
+              gameTimer.stop({ week, day, gameType: 'VocabularyMemory', completed: true, score: finalScore });
+            }
           }
         }, 1000);
       } else {
@@ -180,7 +203,8 @@ export default function VocabularyMemory({ onFinish, week, day }: VocabularyMemo
 
   const handleFinish = () => {
     const success = matches === data.vocabulary.length;
-    onFinish(success);
+    const finalScore = Math.max(0, 100 - (attempts - data.vocabulary.length) * 5);
+    onFinish(success, finalScore);
   };
 
   if (gameCompleted) {

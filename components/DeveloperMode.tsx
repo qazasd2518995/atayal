@@ -132,8 +132,8 @@ export default function DeveloperMode() {
 
              <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
                <h4 className="font-medium text-gray-800 mb-2">快速跳轉課程</h4>
-               <div className="grid grid-cols-4 gap-2">
-                 {[1, 2, 3, 4].map(week => (
+               <div className="grid grid-cols-3 gap-2">
+                 {[1, 2, 3].map(week => (
                    <div key={week} className="space-y-1">
                      <p className="text-xs font-medium text-gray-600">週{week}</p>
                      {[1, 2, 3, 4, 5].map(day => (

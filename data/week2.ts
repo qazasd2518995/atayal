@@ -33,7 +33,7 @@ export const week2: DayData[] = [
         type: "single"
       }
     ],
-    game: "VocabularyMemory",
+    game: "WordImageMatch",
     xp: 70,
   },
   {
@@ -67,7 +67,7 @@ export const week2: DayData[] = [
         type: "single"
       }
     ],
-    game: "ListeningQuiz",
+    game: "BodyPartQuiz",
     xp: 70,
   },
   {
@@ -98,7 +98,7 @@ export const week2: DayData[] = [
         type: "single"
       }
     ],
-    game: "VocabularyMemory",
+    game: "AnimalSoundMatch",
     xp: 70,
   },
   {
@@ -128,12 +128,12 @@ export const week2: DayData[] = [
         type: "single"
       }
     ],
-    game: "PronunciationPractice",
+    game: "ObjectHunt",
     xp: 70,
   },
   {
     day: 5,
-    title: "行動詞彙與總複習",
+    title: "行動詞彙與基本自我介紹",
     content: [
       { type: "text", value: "學習動作相關的詞彙" },
       { type: "text", value: "關上 ql'i、打開 gmyah、去 mosa" },
@@ -141,7 +141,20 @@ export const week2: DayData[] = [
       { type: "text", value: "(叫人)過來 uwah、來 muwah、借 ksyuw" },
       { type: "text", value: "走路 mhkani'、走(離開) shriq、飛 mlaka'" },
       { type: "text", value: "跑(祈使) qinah、抵達 mtta'" },
-      { type: "text", value: "第二週總複習：家庭、身份、身體部位、動物、物品、行動" },
+      { type: "text", value: "🔹 基本自我介紹與姓名" },
+      { type: "text", value: "📘 主句型：" },
+      { type: "text", value: "ima' qu isu' wah?（請自我介紹）" },
+      { type: "text", value: "ima' lalu' su'?（你叫什麼名字）" },
+      { type: "text", value: "___ lalu' mu.（我叫 ___）" },
+      { type: "text", value: "💡 使用說明：" },
+      { type: "text", value: "- ima'：什麼（疑問詞）" },
+      { type: "text", value: "- lalu'：名字" },
+      { type: "text", value: "- su'：你的" },
+      { type: "text", value: "- mu：我的" },
+      { type: "text", value: "📝 對話練習：" },
+      { type: "text", value: "A: 「ima' lalu' su'？」（你叫什麼名字？）" },
+      { type: "text", value: "B: 「Yumin lalu' mu」（我叫 Yumin）" },
+      { type: "text", value: "第二週總複習：家庭、身份、身體部位、動物、物品、行動、自我介紹" },
       { type: "text", value: "恭喜完成生活主題單字學習！" },
     ],
     quiz: [
@@ -154,20 +167,20 @@ export const week2: DayData[] = [
       },
       {
         id: "q2",
-        question: "「走路」的泰雅語是？",
-        options: ["mhkani'", "shriq", "qinah"],
-        answer: "mhkani'",
+        question: "「你叫什麼名字？」的泰雅語是？",
+        options: ["ima' lalu' su'?", "ima' kawas mu?", "ima' kinwagiq mu?"],
+        answer: "ima' lalu' su'?",
         type: "single"
       },
       {
         id: "q3",
-        question: "「手」的泰雅語是？",
-        options: ["qba'", "kakay", "papak"],
-        answer: "qba'",
+        question: "「我叫 Yumin」的泰雅語是？",
+        options: ["Yumin lalu' mu", "Yumin kawas mu", "Yumin su'"],
+        answer: "Yumin lalu' mu",
         type: "single"
       }
     ],
-    game: "VocabularyMemory",
+    game: "ActionSimon",
     xp: 90,
   }
 ]; 

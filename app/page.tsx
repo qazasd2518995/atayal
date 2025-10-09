@@ -2,32 +2,33 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getUserProgress, isUnlocked } from '@/lib/progress';
+import { getUserProgress, isUnlocked, saveUserProgress, loadProgressFromCloud } from '@/lib/progress';
 import XPBar from '@/components/XPBar';
 import DeveloperMode from '@/components/DeveloperMode';
-import { 
-  LockClosedIcon, 
-  CheckCircleIcon, 
+import NameEntryModal from '@/components/NameEntryModal';
+import Leaderboard from '@/components/Leaderboard';
+import { trackLogin, trackLogout, incrementLoginCount } from '@/lib/analytics';
+import {
+  LockClosedIcon,
+  CheckCircleIcon,
   PlayCircleIcon,
   BookOpenIcon,
-  SpeakerWaveIcon 
+  SpeakerWaveIcon
 } from '@heroicons/react/24/solid';
 
 const weekTitles = [
   '第一週：字母與發音',
-  '第二週：生活主題單字', 
-  '第三週：神話與歷史文本',
-  '第四週：實用情境對話'
+  '第二週：生活主題單字',
+  '第三週：神話與歷史文本'
 ];
 
 const weekDescriptions = [
   '建立聲音基礎：學習母音5個 + 子音19個',
   '詞彙分類建構：家庭、身份、身體部位、動物、物品、行動',
-  '文化導讀與閱讀任務：洪水與祭神神話故事',
-  '句型導向會話訓練：自我介紹、年齡、家人、對話練習'
+  '文化導讀與閱讀任務：洪水與祭神神話故事'
 ];
 
-const weekEmojis = ['🅰️', '🅱️', '📚', '💬'];
+const weekEmojis = ['🔤', '🏡', '📚'];
 
 export default function HomePage() {
   const [userProgress, setUserProgress] = useState({
@@ -37,14 +38,95 @@ export default function HomePage() {
     totalXP: 0,
     level: 1
   });
-  
+
   const [mounted, setMounted] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [isLoadingProgress, setIsLoadingProgress] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    const progress = getUserProgress();
-    setUserProgress(progress);
+    const initializeUser = async () => {
+      setMounted(true);
+      const progress = getUserProgress();
+      setUserProgress(progress);
+
+      // 檢查是否已有用戶名稱
+      const savedName = localStorage.getItem('userName');
+      if (savedName) {
+        setUserName(savedName);
+        setIsLoadingProgress(true);
+
+        // 嘗試從雲端載入進度
+        try {
+          const cloudProgress = await loadProgressFromCloud(savedName);
+          if (cloudProgress) {
+            // 找到雲端進度，載入它
+            saveUserProgress(cloudProgress);
+            setUserProgress(cloudProgress);
+          }
+        } catch (error) {
+          console.error('載入雲端進度失敗:', error);
+        } finally {
+          setIsLoadingProgress(false);
+        }
+
+        // 追蹤登入
+        trackLogin(savedName);
+        incrementLoginCount();
+      } else {
+        setShowNameModal(true);
+      }
+
+      // 追蹤登出（當用戶離開頁面時）
+      const handleBeforeUnload = () => {
+        trackLogout();
+      };
+
+      window.addEventListener('beforeunload', handleBeforeUnload);
+
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    };
+
+    initializeUser();
   }, []);
+
+  const handleNameSubmit = async (name: string) => {
+    localStorage.setItem('userName', name);
+    setUserName(name);
+    setIsLoadingProgress(true);
+
+    try {
+      // 嘗試從雲端載入進度
+      const cloudProgress = await loadProgressFromCloud(name);
+
+      if (cloudProgress) {
+        // 舊用戶 - 載入雲端進度
+        saveUserProgress(cloudProgress);
+        setUserProgress(cloudProgress);
+        console.log('歡迎回來！已載入您的進度。');
+      } else {
+        // 新用戶 - 使用預設進度並保存到雲端
+        const freshProgress = getUserProgress();
+        saveUserProgress(freshProgress);
+        setUserProgress(freshProgress);
+        console.log('歡迎新同學！開始您的學習之旅。');
+      }
+    } catch (error) {
+      console.error('載入進度時發生錯誤:', error);
+      // 出錯時使用本地進度
+      const localProgress = getUserProgress();
+      setUserProgress(localProgress);
+    } finally {
+      setIsLoadingProgress(false);
+      setShowNameModal(false);
+    }
+
+    // 追蹤登入
+    trackLogin(name);
+    incrementLoginCount();
+  };
 
   // 在客戶端渲染完成前顯示加載狀態，避免 hydration 錯誤
   if (!mounted) {
@@ -91,8 +173,8 @@ export default function HomePage() {
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="animate-pulse">
                 <div className="h-6 bg-gray-200 rounded mb-4"></div>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  {[1, 2, 3, 4].map(week => (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[1, 2, 3].map(week => (
                     <div key={week} className="text-center">
                       <div className="w-12 h-12 bg-gray-200 rounded-full mx-auto mb-2"></div>
                       <div className="h-4 bg-gray-200 rounded mb-2"></div>
@@ -108,7 +190,7 @@ export default function HomePage() {
           {/* 週課程卡片 - 骨架屏 */}
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[1, 2, 3, 4].map(week => (
+              {[1, 2, 3].map(week => (
                 <div key={week} className="bg-white rounded-lg shadow-md overflow-hidden">
                   <div className="h-2 bg-gray-200"></div>
                   <div className="p-6">
@@ -164,8 +246,13 @@ export default function HomePage() {
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
             🏔️ 泰雅語線上學習平台
           </h1>
+          {userName && (
+            <p className="text-xl text-blue-600 font-semibold mb-2">
+              歡迎回來，{userName}！
+            </p>
+          )}
           <p className="text-lg text-gray-600 mb-6">
-            透過4週系統化課程，輕鬆學會泰雅語基礎
+            透過3週系統化課程，輕鬆學會泰雅語基礎
           </p>
           <div className="flex justify-center gap-4 mb-6">
             <Link 
@@ -193,17 +280,17 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto mb-8">
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">學習進度</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map(week => {
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[1, 2, 3].map(week => {
                 const completedDays = getCompletedDaysInWeek(week);
                 const progress = (completedDays / 5) * 100;
-                
+
                 return (
                   <div key={week} className="text-center">
                     <div className="text-2xl mb-2">{weekEmojis[week - 1]}</div>
                     <h3 className="font-semibold text-gray-700 mb-2">第{week}週</h3>
                     <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                      <div 
+                      <div
                         className="bg-blue-500 h-2 rounded-full transition-all duration-300"
                         style={{ width: `${progress}%` }}
                       ></div>
@@ -216,20 +303,25 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* 排行榜 */}
+        <div className="max-w-4xl mx-auto mb-8">
+          <Leaderboard currentUserName={userName} />
+        </div>
+
         {/* 週課程卡片 */}
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[1, 2, 3, 4].map(week => {
+            {[1, 2, 3].map(week => {
               const status = getWeekStatus(week);
               const completedDays = getCompletedDaysInWeek(week);
               const isAccessible = status !== 'locked';
-              
+
               return (
                 <div
                   key={week}
                   className={`bg-white rounded-lg shadow-md overflow-hidden transition-all duration-200 ${
                     isAccessible ? 'hover:shadow-lg' : 'opacity-60'
-                  }`}
+                  } ${week === 3 ? 'md:col-span-2' : ''}`}
                 >
                   <div className={`h-2 ${
                     status === 'completed' ? 'bg-green-500' :
@@ -331,7 +423,10 @@ export default function HomePage() {
           </p>
         </div>
       </div>
-      
+
+      {/* 名字輸入模態框 */}
+      <NameEntryModal isOpen={showNameModal} onNameSubmit={handleNameSubmit} />
+
       {/* 開發者模式組件 */}
       <DeveloperMode />
     </div>

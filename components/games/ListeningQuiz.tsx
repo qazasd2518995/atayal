@@ -6,7 +6,7 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import AudioButton from '../AudioButton';
 
 interface ListeningQuizProps {
-  onFinish: (success: boolean) => void;
+  onFinish: (success: boolean, score?: number) => void;
   week: number;
   day: number;
 }
@@ -25,9 +25,6 @@ const extractLettersFromDay = (week: number, day: number) => {
         break;
       case 3:
         weekData = require('@/data/week3').week3;
-        break;
-      case 4:
-        weekData = require('@/data/week4').week4;
         break;
       default:
         weekData = require('@/data/week1').week1;
@@ -160,7 +157,8 @@ export default function ListeningQuiz({ onFinish, week, day }: ListeningQuizProp
   };
 
   const finish = () => {
-    onFinish(score === total);
+    const scorePercentage = Math.round((score / total) * 100);
+    onFinish(score === total, scorePercentage);
   };
 
   // 如果沒有可用的字母數據
@@ -173,7 +171,7 @@ export default function ListeningQuiz({ onFinish, week, day }: ListeningQuizProp
           此課程沒有可練習的字母內容，請繼續學習其他課程。
         </p>
         <button
-          onClick={() => onFinish(true)}
+          onClick={() => onFinish(true, 100)}
           className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
         >
           完成

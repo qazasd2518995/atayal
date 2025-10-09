@@ -1,20 +1,39 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { QuizQuestion } from '@/data/week1';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { trackQuizResult, ActivityTimer } from '@/lib/analytics';
 import clsx from 'clsx';
 
 interface QuizProps {
   questions: QuizQuestion[];
   onComplete: (score: number, totalQuestions: number) => void;
+  week: number;
+  day: number;
 }
 
-export default function Quiz({ questions, onComplete }: QuizProps) {
+export default function Quiz({ questions, onComplete, week, day }: QuizProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [showResults, setShowResults] = useState(false);
   const [score, setScore] = useState(0);
+  const [quizTimer, setQuizTimer] = useState<ActivityTimer | null>(null);
+  const [startTime, setStartTime] = useState<number>(Date.now());
+
+  useEffect(() => {
+    // 開始計時
+    const timer = new ActivityTimer('quiz');
+    setQuizTimer(timer);
+    setStartTime(Date.now());
+
+    return () => {
+      // 清理計時器（如果用戶中途離開）
+      if (timer) {
+        timer.stop({ week, day, completed: false });
+      }
+    };
+  }, [week, day]);
 
   const handleAnswer = (answer: string) => {
     setAnswers(prev => ({
@@ -36,6 +55,24 @@ export default function Quiz({ questions, onComplete }: QuizProps) {
       });
       setScore(correctCount);
       setShowResults(true);
+
+      // 追蹤測驗成績
+      const timeSpent = Math.round((Date.now() - startTime) / 1000); // 秒
+      const finalScore = Math.round((correctCount / questions.length) * 100);
+
+      trackQuizResult({
+        week,
+        day,
+        score: finalScore,
+        totalQuestions: questions.length,
+        correctAnswers: correctCount,
+        timeSpent,
+      });
+
+      // 停止計時器
+      if (quizTimer) {
+        quizTimer.stop({ week, day, completed: true, score: finalScore });
+      }
     }
   };
 

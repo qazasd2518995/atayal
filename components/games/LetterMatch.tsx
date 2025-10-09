@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 interface LetterMatchProps {
-  onFinish: (success: boolean) => void;
+  onFinish: (success: boolean, score?: number) => void;
   week: number;
   day: number;
 }
@@ -23,9 +23,6 @@ const extractGameDataFromDay = (week: number, day: number) => {
         break;
       case 3:
         weekData = require('@/data/week3').week3;
-        break;
-      case 4:
-        weekData = require('@/data/week4').week4;
         break;
       default:
         weekData = require('@/data/week1').week1;
@@ -145,7 +142,8 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
 
   const handleFinish = () => {
     const success = score >= Math.ceil(gameData.words.length * 0.6); // 60%通過率
-    onFinish(success);
+    const scorePercentage = Math.round((score / gameData.words.length) * 100);
+    onFinish(success, scorePercentage);
   };
 
   // 如果沒有可用的遊戲數據，顯示替代內容
@@ -158,7 +156,7 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
           此課程沒有可配對的字母和詞彙內容，請繼續學習其他課程。
         </p>
         <button
-          onClick={() => onFinish(true)}
+          onClick={() => onFinish(true, 100)}
           className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
         >
           完成

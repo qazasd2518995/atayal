@@ -34,10 +34,46 @@ export function getUserProgress(): UserProgress {
   };
 }
 
-// 保存用戶進度
+// 保存用戶進度到 localStorage 和 DynamoDB
 export function saveUserProgress(progress: UserProgress): void {
   if (typeof window !== 'undefined') {
+    // 保存到 localStorage 作為本地緩存
     localStorage.setItem('tayal-progress', JSON.stringify(progress));
+
+    // 同步到 DynamoDB
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+      syncProgressToCloud(userName, progress);
+    }
+  }
+}
+
+// 同步進度到雲端 (DynamoDB)
+async function syncProgressToCloud(userName: string, progress: UserProgress): Promise<void> {
+  try {
+    await fetch('/api/user/progress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userName, progress }),
+    });
+  } catch (error) {
+    console.error('同步進度到雲端失敗:', error);
+  }
+}
+
+// 從雲端載入進度
+export async function loadProgressFromCloud(userName: string): Promise<UserProgress | null> {
+  try {
+    const response = await fetch(`/api/user/progress?userName=${encodeURIComponent(userName)}`);
+    const data = await response.json();
+
+    if (data.exists && data.progress) {
+      return data.progress;
+    }
+    return null;
+  } catch (error) {
+    console.error('從雲端載入進度失敗:', error);
+    return null;
   }
 }
 

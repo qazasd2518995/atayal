@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { CheckIcon, XMarkIcon, ArrowsUpDownIcon } from '@heroicons/react/24/solid';
 
 interface SentencePuzzleProps {
-  onFinish: (success: boolean) => void;
+  onFinish: (success: boolean, score?: number) => void;
   week: number;
   day: number;
 }
@@ -117,7 +117,8 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
 
   const handleFinish = () => {
     const success = score === data.puzzles.length;
-    onFinish(success);
+    const scorePercentage = Math.round((score / data.puzzles.length) * 100);
+    onFinish(success, scorePercentage);
   };
 
   if (gameCompleted) {

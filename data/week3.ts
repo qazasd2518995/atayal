@@ -4,7 +4,7 @@ import { DayData } from './week1';
 export const week3: DayData[] = [
   {
     day: 1,
-    title: "洪水神話故事（上）",
+    title: "洪水神話故事（上）與年齡表達",
     content: [
       { type: "text", value: "📘 洪水與祭神 - 故事開始" },
       { type: "text", value: "📖 故事片段 1" },
@@ -15,6 +15,15 @@ export const week3: DayData[] = [
       { type: "text", value: "Ktan mga, siy p'ubuy mqwalax kbhu ryax. ps'unan qsya kwara qu babaw hiyal. msunu laru, cingay balay squliq mhuqil." },
       { type: "text", value: "據說大雨下了一百天後，洪水泛濫，大地水滿漲山高。" },
       { type: "text", value: "📌 重要詞彙：mqwalax → 「下雨」、mhuqil → 「滿了」" },
+      { type: "text", value: "🔹 年齡與族群身分" },
+      { type: "text", value: "📘 主句型：" },
+      { type: "text", value: "mopuw kawas maku' ___（我 ___ 歲）" },
+      { type: "text", value: "'tayal su' inu' wah?（你是哪一族的小孩？）" },
+      { type: "text", value: "'laqi' saku' na 'Tayal（我是泰雅族的小孩）" },
+      { type: "text", value: "💡 數字詞彙：" },
+      { type: "text", value: "- ten：十" },
+      { type: "text", value: "- spat：四" },
+      { type: "text", value: "- mopuw spat kawas：十四歲" },
     ],
     quiz: [
       {
@@ -26,13 +35,13 @@ export const week3: DayData[] = [
       },
       {
         id: "q2",
-        question: "\"mqwalax\" 是什麼意思？",
-        options: ["下雪", "下雨", "奔跑"],
-        answer: "下雨",
+        question: "「我是泰雅族的小孩」的泰雅語是？",
+        options: ["'laqi' saku' na 'Tayal", "'laqi' su' na 'Tayal", "'Tayal saku' na 'laqi'"],
+        answer: "'laqi' saku' na 'Tayal",
         type: "single"
       }
     ],
-    game: "ListeningQuiz",
+    game: "StorySequence",
     xp: 90,
   },
   {
@@ -64,12 +73,12 @@ export const week3: DayData[] = [
         type: "single"
       }
     ],
-    game: "VocabularyMemory",
+    game: "StoryChoice",
     xp: 90,
   },
   {
     day: 3,
-    title: "洪水神話故事（下）",
+    title: "洪水神話故事（下）與家人對話",
     content: [
       { type: "text", value: "📖 故事片段 5" },
       { type: "text", value: "Ana ga hnyal pbnahu tora na qsya' lojiy qu squliq qasa. Mkayal qu phgu ki bnkis ru." },
@@ -79,29 +88,39 @@ export const week3: DayData[] = [
       { type: "text", value: "Gmwaya qutux betunu ru blaq na mkraki laqi na mrhuw na Tayal. sgabil n'ha Utux lga." },
       { type: "text", value: "最後，他們選了一位最美麗的女孩（族長的女兒）獻祭給神。" },
       { type: "text", value: "📌 重要詞彙：mkraki → 「漂亮的」、laqi → 「女孩」" },
+      { type: "text", value: "🔹 我的家人是..." },
+      { type: "text", value: "📘 主句型：" },
+      { type: "text", value: "'tayal kwara' qu ngasal mamu?（你的家人都是原住民嗎？）" },
+      { type: "text", value: "'Tayal kwara' sami qutux ngasal（我們全家都是泰雅族）" },
+      { type: "text", value: "iyat, yaba' maku' ga 'Tayal, yaya' maku' ga plmukan（不是，我爸是泰雅族，我媽是漢人）" },
+      { type: "text", value: "💡 重要詞彙：" },
+      { type: "text", value: "- kwara'：都、全部" },
+      { type: "text", value: "- ngasal：家人" },
+      { type: "text", value: "- iyat：不是" },
+      { type: "text", value: "- plmukan：漢人" },
     ],
     quiz: [
       {
         id: "q1",
-        question: "第二位祭品是誰？",
-        options: ["女孩", "男孩", "勇士"],
-        answer: "勇士",
-        type: "single"
-      },
-      {
-        id: "q2",
         question: "神最後接受了誰的祭品？",
         options: ["男孩", "女孩", "公牛"],
         answer: "女孩",
         type: "single"
+      },
+      {
+        id: "q2",
+        question: "「不是」的泰雅語是？",
+        options: ["iyat", "uwal", "ini"],
+        answer: "iyat",
+        type: "single"
       }
     ],
-    game: "PronunciationPractice",
+    game: "SentenceBuilder",
     xp: 90,
   },
   {
     day: 4,
-    title: "洪水神話故事（結局）",
+    title: "洪水神話故事（結局）與家人疑問句",
     content: [
       { type: "text", value: "📖 故事片段 7" },
       { type: "text", value: "Si ktay \"syuw\" mha hngiyang. wal qzitun qsya qu mkrakis qasa lga." },
@@ -109,6 +128,16 @@ export const week3: DayData[] = [
       { type: "text", value: "📌 重要詞彙：hngiyang → 「聲音」、qzitun → 「退去」" },
       { type: "text", value: "這個神話故事告訴我們泰雅族對自然災害的理解和對神靈的敬畏。" },
       { type: "text", value: "故事中展現了族人團結互助、犧牲奉獻的精神。" },
+      { type: "text", value: "🔹 誰是我的家人？" },
+      { type: "text", value: "📘 主句型：" },
+      { type: "text", value: "'laqi' su' ni ima?（你是誰的小孩？）" },
+      { type: "text", value: "'laqi' saku' ni Silan Nawi（我是 Silan Nawi 的小孩）" },
+      { type: "text", value: "qasa ga yaba' su'?（那位是你爸爸嗎？）" },
+      { type: "text", value: "💡 疑問詞彙：" },
+      { type: "text", value: "- ni ima：誰的" },
+      { type: "text", value: "- qasa：那位、那個" },
+      { type: "text", value: "- yaba'：爸爸" },
+      { type: "text", value: "- yaya'：媽媽" },
     ],
     quiz: [
       {
@@ -120,18 +149,18 @@ export const week3: DayData[] = [
       },
       {
         id: "q2",
-        question: "\"hngiyang\" 是什麼意思？",
-        options: ["聲音", "光線", "風"],
-        answer: "聲音",
+        question: "「你是誰的小孩？」的泰雅語是？",
+        options: ["'laqi' su' ni ima?", "'laqi' ima su'?", "ni ima 'laqi' su'?"],
+        answer: "'laqi' su' ni ima?",
         type: "single"
       }
     ],
-    game: "ListeningQuiz",
+    game: "ConversationMatch",
     xp: 90,
   },
   {
     day: 5,
-    title: "神話故事總複習與文化理解",
+    title: "神話故事總複習與自我介紹完整對話",
     content: [
       { type: "text", value: "第三週總複習：洪水與祭神神話故事" },
       { type: "text", value: "📚 故事大綱回顧：" },
@@ -142,7 +171,18 @@ export const week3: DayData[] = [
       { type: "text", value: "5. 最後祭獻美麗女孩，洪水退去" },
       { type: "text", value: "🔤 重要詞彙複習：" },
       { type: "text", value: "Kmayal(很久以前)、squliq(雨)、Utux(神)、rgyax(山)、klahang(祭壇)、laqi(女孩)" },
-      { type: "text", value: "💭 文化意義：體現泰雅族對自然的敬畏與族群團結精神" },
+      { type: "text", value: "🔹 年紀、身高與自我介紹總複習" },
+      { type: "text", value: "📘 主句型：" },
+      { type: "text", value: "👧 A: Pira' kawas mu?（你幾歲？）" },
+      { type: "text", value: "🧒 B: Mopuw spat kawas maku'.（我十八歲。）" },
+      { type: "text", value: "👧 A: Ktwa' kinwagiq mu?（你多高？）" },
+      { type: "text", value: "🧒 B: Kbhul ru mspatul inci.（我一百四十公分。）" },
+      { type: "text", value: "💡 身高詞彙：" },
+      { type: "text", value: "- kinwagiq：身高" },
+      { type: "text", value: "- kbhul：一百" },
+      { type: "text", value: "- mspatul：四十" },
+      { type: "text", value: "- inci：公分" },
+      { type: "text", value: "🎯 總複習：從神話故事到實用對話，恭喜完成三週學習！您已經能夠進行基本的泰雅語自我介紹了。" },
     ],
     quiz: [
       {
@@ -154,20 +194,20 @@ export const week3: DayData[] = [
       },
       {
         id: "q2",
-        question: "故事中大雨下了多少天？",
-        options: ["五十天", "一百天", "兩百天"],
-        answer: "一百天",
+        question: "「我一百四十公分」的泰雅語是？",
+        options: ["Kbhul ru mspatul inci.", "Mspatul kbhul inci.", "Kbhul mspatul."],
+        answer: "Kbhul ru mspatul inci.",
         type: "single"
       },
       {
         id: "q3",
-        question: "\"rgyax\" 是什麼意思？",
-        options: ["河", "山", "海"],
-        answer: "山",
+        question: "「你多高？」的泰雅語是？",
+        options: ["Ktwa' kinwagiq mu?", "Pira' kinwagiq mu?", "Ima' kinwagiq mu?"],
+        answer: "Ktwa' kinwagiq mu?",
         type: "single"
       }
     ],
-    game: "VocabularyMemory",
+    game: "CulturalTrivia",
     xp: 110,
   }
 ]; 

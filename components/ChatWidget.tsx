@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 // 移除對 hfClient 的依賴，改用 API 路由
 import { ChatBubbleLeftRightIcon, XMarkIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
+import { trackChat } from '@/lib/analytics';
 
 interface Message {
   id: string;
@@ -36,9 +37,10 @@ export default function ChatWidget() {
   const handleSendMessage = async () => {
     if (!inputText.trim() || isLoading) return;
 
+    const userInput = inputText.trim();
     const userMessage: Message = {
       id: Date.now().toString(),
-      text: inputText,
+      text: userInput,
       isUser: true,
       timestamp: new Date()
     };
@@ -53,7 +55,7 @@ export default function ChatWidget() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt: inputText }),
+        body: JSON.stringify({ prompt: userInput }),
       });
 
       if (!response.ok) {
@@ -68,6 +70,13 @@ export default function ChatWidget() {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, botMessage]);
+
+      // 追蹤聊天對話
+      await trackChat({
+        userInput: userInput,
+        llmOutput: data.response,
+        llmSource: data.source || 'groq',
+      });
     } catch (error) {
       console.error('聊天機器人錯誤:', error);
       const fallbackMessage: Message = {
@@ -77,6 +86,13 @@ export default function ChatWidget() {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, fallbackMessage]);
+
+      // 追蹤錯誤情況下的聊天
+      await trackChat({
+        userInput: userInput,
+        llmOutput: fallbackMessage.text,
+        llmSource: 'fallback',
+      });
     } finally {
       setIsLoading(false);
     }

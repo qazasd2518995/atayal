@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 interface PictureChoiceProps {
-  onFinish: (success: boolean) => void;
+  onFinish: (success: boolean, score?: number) => void;
   week: number;
   day: number;
 }
@@ -118,7 +118,8 @@ export default function PictureChoice({ onFinish, week, day }: PictureChoiceProp
 
   const handleFinish = () => {
     const success = score === data.questions.length;
-    onFinish(success);
+    const scorePercentage = Math.round((score / data.questions.length) * 100);
+    onFinish(success, scorePercentage);
   };
 
   if (gameCompleted) {

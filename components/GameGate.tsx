@@ -8,6 +8,16 @@ import SentencePuzzle from './games/SentencePuzzle';
 import ListeningQuiz from './games/ListeningQuiz';
 import PronunciationPractice from './games/PronunciationPractice';
 import VocabularyMemory from './games/VocabularyMemory';
+import WordImageMatch from './games/WordImageMatch';
+import BodyPartQuiz from './games/BodyPartQuiz';
+import AnimalSoundMatch from './games/AnimalSoundMatch';
+import ObjectHunt from './games/ObjectHunt';
+import ActionSimon from './games/ActionSimon';
+import StorySequence from './games/StorySequence';
+import StoryChoice from './games/StoryChoice';
+import SentenceBuilder from './games/SentenceBuilder';
+import ConversationMatch from './games/ConversationMatch';
+import CulturalTrivia from './games/CulturalTrivia';
 import { LockClosedIcon, PlayIcon } from '@heroicons/react/24/solid';
 
 interface GameGateProps {
@@ -15,7 +25,7 @@ interface GameGateProps {
   day: number;
   gameType: string;
   xp: number;
-  onGameComplete?: (success: boolean) => void;
+  onGameComplete?: (success: boolean, score?: number) => void;
 }
 
 export default function GameGate({ 
@@ -35,9 +45,9 @@ export default function GameGate({
     setGameCompleted(completed);
   }, [completed]);
 
-  const handleGameComplete = (success: boolean) => {
+  const handleGameComplete = (success: boolean, score?: number) => {
     setGameCompleted(true);
-    onGameComplete?.(success);
+    onGameComplete?.(success, score);
   };
 
   const renderGame = () => {
@@ -95,7 +105,97 @@ export default function GameGate({
             onFinish={handleGameComplete}
           />
         );
-      
+
+      case 'WordImageMatch':
+        return (
+          <WordImageMatch
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+
+      case 'BodyPartQuiz':
+        return (
+          <BodyPartQuiz
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+
+      case 'AnimalSoundMatch':
+        return (
+          <AnimalSoundMatch
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+
+      case 'ObjectHunt':
+        return (
+          <ObjectHunt
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+
+      case 'ActionSimon':
+        return (
+          <ActionSimon
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+
+      case 'StorySequence':
+        return (
+          <StorySequence
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+
+      case 'StoryChoice':
+        return (
+          <StoryChoice
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+
+      case 'SentenceBuilder':
+        return (
+          <SentenceBuilder
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+
+      case 'ConversationMatch':
+        return (
+          <ConversationMatch
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+
+      case 'CulturalTrivia':
+        return (
+          <CulturalTrivia
+            week={week}
+            day={day}
+            onFinish={handleGameComplete}
+          />
+        );
+
       default:
         return (
           <div className="text-center py-8">
@@ -172,6 +272,76 @@ export default function GameGate({
                     <div className="text-sm text-gray-600">
                       <p>🎯 遊戲規則：點擊詞語組成完整句子</p>
                       <p>💡 提示：注意泰雅語的語序結構</p>
+                    </div>
+                  );
+                case 'WordImageMatch':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：點擊正確的圖片配對家庭成員詞彙</p>
+                      <p>💡 提示：仔細看圖片，選擇對應的詞彙</p>
+                    </div>
+                  );
+                case 'BodyPartQuiz':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：點擊人體圖上的正確部位</p>
+                      <p>💡 提示：根據泰雅語詞彙點擊對應的身體部位</p>
+                    </div>
+                  );
+                case 'AnimalSoundMatch':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：配對動物的泰雅語和中文意思</p>
+                      <p>💡 提示：先點擊左側動物，再點擊右側對應的中文</p>
+                    </div>
+                  );
+                case 'ObjectHunt':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：在畫面中找出指定的物品</p>
+                      <p>💡 提示：根據泰雅語詞彙找到對應的物品圖示</p>
+                    </div>
+                  );
+                case 'ActionSimon':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：記住動作順序並依序點擊</p>
+                      <p>💡 提示：專心記住閃爍的動作順序</p>
+                    </div>
+                  );
+                case 'StorySequence':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：將故事片段排列成正確順序</p>
+                      <p>💡 提示：理解故事情節，按照時間順序排列</p>
+                    </div>
+                  );
+                case 'StoryChoice':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：回答關於洪水神話的問題</p>
+                      <p>💡 提示：回想故事內容，選擇正確答案</p>
+                    </div>
+                  );
+                case 'SentenceBuilder':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：用詞彙組成完整的泰雅語句子</p>
+                      <p>💡 提示：注意泰雅語的語序和用法</p>
+                    </div>
+                  );
+                case 'ConversationMatch':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：配對正確的問題和回答</p>
+                      <p>💡 提示：理解對話情境，找出對應的問答</p>
+                    </div>
+                  );
+                case 'CulturalTrivia':
+                  return (
+                    <div className="text-sm text-gray-600">
+                      <p>🎯 遊戲規則：回答泰雅文化和語言知識問題</p>
+                      <p>💡 提示：綜合運用三週學到的知識</p>
                     </div>
                   );
                 default:

@@ -6,35 +6,35 @@ import Link from 'next/link';
 import { week1 } from '@/data/week1';
 import { week2 } from '@/data/week2';
 import { week3 } from '@/data/week3';
-import { week4 } from '@/data/week4';
 import { DayData, ContentItem } from '@/data/week1';
-import { 
-  getUserProgress, 
-  addXP, 
-  markCompleted, 
+import {
+  getUserProgress,
+  addXP,
+  markCompleted,
   isUnlocked,
   isCompleted,
-  isDeveloperMode 
+  isDeveloperMode
 } from '@/lib/progress';
+import { trackCourseCompletion, ActivityTimer } from '@/lib/analytics';
 import AudioButton from '@/components/AudioButton';
 import Quiz from '@/components/Quiz';
 import GameGate from '@/components/GameGate';
 import XPBar from '@/components/XPBar';
 import DeveloperMode from '@/components/DeveloperMode';
-import { 
-  HomeIcon, 
-  ArrowLeftIcon, 
-  ArrowRightIcon, 
+import DailySurvey from '@/components/DailySurvey';
+import {
+  HomeIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
   CheckCircleIcon,
-  LockClosedIcon 
+  LockClosedIcon
 } from '@heroicons/react/24/solid';
 
 // 週數據映射
 const weekData: { [key: number]: DayData[] } = {
   1: week1,
   2: week2,
-  3: week3,
-  4: week4
+  3: week3
 };
 
 export default function DayLessonPage() {
@@ -52,25 +52,37 @@ export default function DayLessonPage() {
   const [gameFailed, setGameFailed] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isDevMode, setIsDevMode] = useState(false);
+  const [learningTimer, setLearningTimer] = useState<ActivityTimer | null>(null);
+  const [showSurvey, setShowSurvey] = useState(false);
 
   // 確保在客戶端渲染完成後才顯示內容，避免 hydration 錯誤
   useEffect(() => {
     setMounted(true);
     setIsDevMode(isDeveloperMode());
-    
+
+    // 開始追蹤學習時間
+    const timer = new ActivityTimer('learning');
+    setLearningTimer(timer);
+
     // 監聽開發者模式變化
     const checkDevMode = () => {
       setIsDevMode(isDeveloperMode());
     };
-    
+
     // 定期檢查開發者模式狀態（每秒檢查一次）
     const interval = setInterval(checkDevMode, 1000);
-    
-    return () => clearInterval(interval);
-  }, []);
+
+    return () => {
+      clearInterval(interval);
+      // 停止學習計時器
+      if (timer) {
+        timer.stop({ week, day });
+      }
+    };
+  }, [week, day]);
 
   // 檢查參數有效性
-  if (!week || !day || week < 1 || week > 4 || day < 1 || day > 5) {
+  if (!week || !day || week < 1 || week > 3 || day < 1 || day > 5) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -116,8 +128,7 @@ export default function DayLessonPage() {
 
   const handleQuizComplete = (score: number, totalQuestions: number) => {
     if (score === totalQuestions) {
-      // 全對才給經驗值
-      addXP(dayData.xp);
+      // 全對，進入遊戲關卡（經驗值在遊戲完成時給予）
       setQuizCompleted(true);
       setQuizFailed(false);
       setCurrentSection('game');
@@ -140,27 +151,34 @@ export default function DayLessonPage() {
     setCurrentSection('content');
   };
 
-  const handleGameComplete = (success: boolean) => {
-    if (success) {
-      // 遊戲成功，標記課程完成
+  const handleGameComplete = (success: boolean, score?: number) => {
+    if (success && score !== undefined && score > 50) {
+      // 遊戲成功且分數 > 50%，標記課程完成並給經驗值
       markCompleted(week, day);
+
+      // 每次完成都給經驗值（允許重複遊玩獲得經驗）
       addXP(dayData.xp);
+
+      // 追蹤課程完成
+      trackCourseCompletion({
+        week,
+        day,
+        xpEarned: dayData.xp,
+      });
+
       setGameCompleted(true);
       setGameFailed(false);
       setRefreshKey(prev => prev + 1);
-      
-              // 自動導向下一天或首頁
-        setTimeout(() => {
-          if (day < 5) {
-            router.push(`/week/${week}/${day + 1}`);
-          } else if (week < 4) {
-            router.push(`/week/${week + 1}/1`);
-          } else {
-            router.push('/');
-          }
-        }, 2000);
+
+      // 停止學習計時器
+      if (learningTimer) {
+        learningTimer.stop({ week, day, completed: true });
+      }
+
+      // 顯示問卷而不是直接導航
+      setShowSurvey(true);
     } else {
-      // 遊戲失敗，顯示失敗提示
+      // 遊戲失敗或分數 <= 50%，顯示失敗提示
       setGameFailed(true);
     }
   };
@@ -173,6 +191,21 @@ export default function DayLessonPage() {
   const handleGameReturnToContent = () => {
     setGameFailed(false);
     setCurrentSection('content');
+  };
+
+  const handleSurveyComplete = () => {
+    setShowSurvey(false);
+
+    // 問卷完成後，自動導向下一天或首頁
+    setTimeout(() => {
+      if (day < 5) {
+        router.push(`/week/${week}/${day + 1}`);
+      } else if (week < 3) {
+        router.push(`/week/${week + 1}/1`);
+      } else {
+        router.push('/');
+      }
+    }, 500);
   };
 
   const renderContent = (content: ContentItem, index: number) => {
@@ -221,7 +254,7 @@ export default function DayLessonPage() {
   const getNextDayInfo = () => {
     if (day < 5) {
       return { week, day: day + 1, exists: true };
-    } else if (week < 4) {
+    } else if (week < 3) {
       return { week: week + 1, day: 1, exists: true };
     }
     return { week: 0, day: 0, exists: false };
@@ -419,10 +452,12 @@ export default function DayLessonPage() {
               
               {/* 測驗組件 */}
               {!quizFailed && (
-                <Quiz 
+                <Quiz
                   key={refreshKey}
-                  questions={dayData.quiz} 
+                  questions={dayData.quiz}
                   onComplete={handleQuizComplete}
+                  week={week}
+                  day={day}
                 />
               )}
             </div>
@@ -508,22 +543,17 @@ export default function DayLessonPage() {
           )}
         </div>
 
-        {gameCompleted && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-8 text-center max-w-md">
-              <div className="text-6xl mb-4">🎉</div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">課程完成！</h3>
-              <p className="text-gray-600 mb-4">
-                恭喜您完成第{week}週第{day}天的學習！
-              </p>
-              <p className="text-sm text-gray-500">
-                即將自動跳轉到下一課程...
-              </p>
-            </div>
-          </div>
-        )}
       </div>
-      
+
+      {/* 問卷調查 */}
+      {showSurvey && (
+        <DailySurvey
+          week={week}
+          day={day}
+          onComplete={handleSurveyComplete}
+        />
+      )}
+
       {/* 開發者模式組件 */}
       <DeveloperMode />
     </div>
