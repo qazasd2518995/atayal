@@ -119,7 +119,7 @@ export async function trackLogout() {
   const session = getCurrentSession();
   if (!session) return;
 
-  const loginTime = sessionStorage.getItem('loginTime');
+  const loginTime = sessionStorage.getItem('loginTime') || new Date().toISOString();
   const logoutTime = new Date().toISOString();
 
   let totalDuration = 0;
@@ -130,6 +130,7 @@ export async function trackLogout() {
 
   const sessionData: SessionData = {
     ...session,
+    loginTime,
     logoutTime,
     totalDuration,
   };
