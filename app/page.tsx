@@ -13,7 +13,8 @@ import {
   CheckCircleIcon,
   PlayCircleIcon,
   BookOpenIcon,
-  SpeakerWaveIcon
+  SpeakerWaveIcon,
+  ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/solid';
 
 const weekTitles = [
@@ -126,6 +127,19 @@ export default function HomePage() {
     // 追蹤登入
     trackLogin(name);
     incrementLoginCount();
+  };
+
+  const handleLogout = async () => {
+    if (confirm('確定要登出嗎？您的進度已自動保存到雲端。')) {
+      // 追蹤登出
+      await trackLogout();
+
+      // 清除本地用戶資訊
+      localStorage.removeItem('userName');
+
+      // 重新載入頁面
+      window.location.reload();
+    }
   };
 
   // 在客戶端渲染完成前顯示加載狀態，避免 hydration 錯誤
@@ -242,7 +256,19 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-8">
         {/* 標題區域 */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 relative">
+          {/* 登出按鈕 - 右上角 */}
+          {userName && (
+            <button
+              onClick={handleLogout}
+              className="absolute top-0 right-0 flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 text-sm"
+              title="登出"
+            >
+              <ArrowRightOnRectangleIcon className="w-4 h-4" />
+              登出
+            </button>
+          )}
+
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
             🏔️ 泰雅語線上學習平台
           </h1>
@@ -255,14 +281,14 @@ export default function HomePage() {
             透過3週系統化課程，輕鬆學會泰雅語基礎
           </p>
           <div className="flex justify-center gap-4 mb-6">
-            <Link 
+            <Link
               href="/pronunciation"
               className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-200"
             >
               <SpeakerWaveIcon className="w-5 h-5" />
               發音教室
             </Link>
-            <Link 
+            <Link
               href="/voice-training"
               className="flex items-center gap-2 bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg transition-colors duration-200"
             >
