@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { isCompleted } from '@/lib/progress';
+import { useState } from 'react';
 import LetterMatch from './games/LetterMatch';
 import PictureChoice from './games/PictureChoice';
 import SentencePuzzle from './games/SentencePuzzle';
@@ -28,26 +27,24 @@ interface GameGateProps {
   onGameComplete?: (success: boolean, score?: number) => void;
 }
 
-export default function GameGate({ 
-  week, 
-  day, 
-  gameType, 
-  xp, 
-  onGameComplete 
+export default function GameGate({
+  week,
+  day,
+  gameType,
+  xp,
+  onGameComplete
 }: GameGateProps) {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
 
-  // 檢查課程是否已完成
-  const completed = isCompleted(week, day);
-
-  useEffect(() => {
-    setGameCompleted(completed);
-  }, [completed]);
-
   const handleGameComplete = (success: boolean, score?: number) => {
     setGameCompleted(true);
     onGameComplete?.(success, score);
+  };
+
+  const handleRestart = () => {
+    setGameStarted(false);
+    setGameCompleted(false);
   };
 
   const renderGame = () => {
@@ -211,9 +208,15 @@ export default function GameGate({
         <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-4">
           <div className="text-4xl mb-2">✅</div>
           <h3 className="text-xl font-bold text-green-800 mb-2">遊戲完成！</h3>
-          <p className="text-green-700">
+          <p className="text-green-700 mb-4">
             您已經成功完成了 {gameType} 遊戲，獲得了 {xp} XP！
           </p>
+          <button
+            onClick={handleRestart}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 inline-flex items-center gap-2"
+          >
+            🔄 再玩一次
+          </button>
         </div>
       </div>
     );
