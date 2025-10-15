@@ -63,7 +63,7 @@ export default function HomePage() {
           const cloudProgress = await loadProgressFromCloud(savedName);
           if (cloudProgress) {
             // 找到雲端進度，載入它
-            saveUserProgress(cloudProgress);
+            await saveUserProgress(cloudProgress);
             setUserProgress(cloudProgress);
           } else {
             // 雲端沒有進度，使用預設進度
@@ -74,7 +74,7 @@ export default function HomePage() {
               totalXP: 0,
               level: 1,
             };
-            saveUserProgress(defaultProgress);
+            await saveUserProgress(defaultProgress);
             setUserProgress(defaultProgress);
           }
         } catch (error) {
@@ -130,7 +130,7 @@ export default function HomePage() {
 
       if (cloudProgress) {
         // 舊用戶 - 載入雲端進度
-        saveUserProgress(cloudProgress);
+        await saveUserProgress(cloudProgress);
         setUserProgress(cloudProgress);
         console.log('歡迎回來！已載入您的進度。');
       } else {
@@ -142,7 +142,7 @@ export default function HomePage() {
           totalXP: 0,
           level: 1,
         };
-        saveUserProgress(freshProgress);
+        await saveUserProgress(freshProgress);
         setUserProgress(freshProgress);
         console.log('歡迎新同學！開始您的學習之旅。');
       }

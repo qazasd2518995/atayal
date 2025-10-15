@@ -35,7 +35,7 @@ export function getUserProgress(): UserProgress {
 }
 
 // 保存用戶進度到 localStorage 和 DynamoDB
-export function saveUserProgress(progress: UserProgress): void {
+export async function saveUserProgress(progress: UserProgress): Promise<void> {
   if (typeof window !== 'undefined') {
     // 保存到 localStorage 作為本地緩存
     localStorage.setItem('tayal-progress', JSON.stringify(progress));
@@ -43,7 +43,7 @@ export function saveUserProgress(progress: UserProgress): void {
     // 同步到 DynamoDB
     const userName = localStorage.getItem('userName');
     if (userName) {
-      syncProgressToCloud(userName, progress);
+      await syncProgressToCloud(userName, progress);
     }
   }
 }
