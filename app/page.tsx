@@ -48,14 +48,15 @@ export default function HomePage() {
   useEffect(() => {
     const initializeUser = async () => {
       setMounted(true);
-      const progress = getUserProgress();
-      setUserProgress(progress);
 
       // 檢查是否已有用戶名稱
       const savedName = localStorage.getItem('userName');
       if (savedName) {
         setUserName(savedName);
         setIsLoadingProgress(true);
+
+        // 先清除本地進度，避免顯示舊用戶的進度
+        localStorage.removeItem('tayal-progress');
 
         // 嘗試從雲端載入進度
         try {
@@ -64,9 +65,29 @@ export default function HomePage() {
             // 找到雲端進度，載入它
             saveUserProgress(cloudProgress);
             setUserProgress(cloudProgress);
+          } else {
+            // 雲端沒有進度，使用預設進度
+            const defaultProgress = {
+              currentWeek: 1,
+              currentDay: 1,
+              completedDays: {},
+              totalXP: 0,
+              level: 1,
+            };
+            saveUserProgress(defaultProgress);
+            setUserProgress(defaultProgress);
           }
         } catch (error) {
           console.error('載入雲端進度失敗:', error);
+          // 出錯時使用預設進度
+          const defaultProgress = {
+            currentWeek: 1,
+            currentDay: 1,
+            completedDays: {},
+            totalXP: 0,
+            level: 1,
+          };
+          setUserProgress(defaultProgress);
         } finally {
           setIsLoadingProgress(false);
         }
@@ -75,6 +96,8 @@ export default function HomePage() {
         trackLogin(savedName);
         incrementLoginCount();
       } else {
+        // 沒有用戶名稱，清除所有本地資料
+        localStorage.removeItem('tayal-progress');
         setShowNameModal(true);
       }
 
@@ -98,6 +121,9 @@ export default function HomePage() {
     setUserName(name);
     setIsLoadingProgress(true);
 
+    // 先清除本地進度，避免使用舊用戶的進度
+    localStorage.removeItem('tayal-progress');
+
     try {
       // 嘗試從雲端載入進度
       const cloudProgress = await loadProgressFromCloud(name);
@@ -109,16 +135,28 @@ export default function HomePage() {
         console.log('歡迎回來！已載入您的進度。');
       } else {
         // 新用戶 - 使用預設進度並保存到雲端
-        const freshProgress = getUserProgress();
+        const freshProgress = {
+          currentWeek: 1,
+          currentDay: 1,
+          completedDays: {},
+          totalXP: 0,
+          level: 1,
+        };
         saveUserProgress(freshProgress);
         setUserProgress(freshProgress);
         console.log('歡迎新同學！開始您的學習之旅。');
       }
     } catch (error) {
       console.error('載入進度時發生錯誤:', error);
-      // 出錯時使用本地進度
-      const localProgress = getUserProgress();
-      setUserProgress(localProgress);
+      // 出錯時使用預設進度
+      const defaultProgress = {
+        currentWeek: 1,
+        currentDay: 1,
+        completedDays: {},
+        totalXP: 0,
+        level: 1,
+      };
+      setUserProgress(defaultProgress);
     } finally {
       setIsLoadingProgress(false);
       setShowNameModal(false);
@@ -134,8 +172,9 @@ export default function HomePage() {
       // 追蹤登出
       await trackLogout();
 
-      // 清除本地用戶資訊
+      // 清除本地用戶資訊和進度
       localStorage.removeItem('userName');
+      localStorage.removeItem('tayal-progress');
 
       // 重新載入頁面
       window.location.reload();
