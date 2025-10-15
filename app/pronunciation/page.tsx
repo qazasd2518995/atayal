@@ -7,7 +7,7 @@ import { HomeIcon, SpeakerWaveIcon } from '@heroicons/react/24/solid';
 
 // 泰雅語字母數據
 const vowels = [
-  { letter: 'a', sound: 'ㄚ', example: 'yaba (爸爸)', description: '開口音，如中文「啊」' },
+  { letter: 'a', sound: 'ㄚ', example: 'abaw (葉子)', description: '開口音，如中文「啊」' },
   { letter: 'i', sound: 'ㄧ', example: 'ima (血)', description: '閉口音，如中文「衣」' },
   { letter: 'u', sound: 'ㄨ', example: 'uzi (水)', description: '圓唇音，如中文「烏」' },
   { letter: 'e', sound: 'ㄝ', example: 'emaw (爺爺)', description: '中開音，如中文「耶」' },

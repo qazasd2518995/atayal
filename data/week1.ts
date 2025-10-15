@@ -31,7 +31,7 @@ export const week1: DayData[] = [
       { type: "text", value: "第一天學習三個重要母音：a、i、u" },
       { type: "text", value: "母音 a：發音如同中文「啊」" },
       { type: "audio", src: "/alphabet/a.wav" },
-      { type: "text", value: "單字：yaba (爸爸)、abaw (葉子)" },
+      { type: "text", value: "單字：abaw (葉子)" },
       { type: "text", value: "母音 i：發音如同中文「衣」" },
       { type: "audio", src: "/alphabet/i.wav" },
       { type: "text", value: "單字：cyugal (三)、enpic (鉛筆)" },
@@ -42,9 +42,9 @@ export const week1: DayData[] = [
     quiz: [
       {
         id: "q1",
-        question: "「爸爸」的泰雅語是？",
-        options: ["yaba", "yaya", "abaw"],
-        answer: "yaba",
+        question: "「葉子」的泰雅語是？",
+        options: ["abaw", "abay", "alaw"],
+        answer: "abaw",
         type: "single"
       },
       {
