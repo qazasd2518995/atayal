@@ -401,17 +401,29 @@ export default function HomePage() {
                       {[1, 2, 3, 4, 5].map(day => {
                         const dayCompleted = userProgress.completedDays[`${week}-${day}`];
                         const dayUnlocked = isUnlocked(week, day);
-                        
-                        return (
+                        const isClickable = dayCompleted || dayUnlocked;
+
+                        const dayCircleClasses = `w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium ${
+                          dayCompleted
+                            ? 'bg-green-500 text-white'
+                            : dayUnlocked
+                            ? 'bg-blue-100 text-blue-600 border-2 border-blue-300'
+                            : 'bg-gray-200 text-gray-400'
+                        } ${isClickable ? 'cursor-pointer hover:scale-110 transition-transform duration-200' : ''}`;
+
+                        return isClickable ? (
+                          <Link
+                            key={day}
+                            href={`/week/${week}/${day}`}
+                            className={dayCircleClasses}
+                            title={dayCompleted ? `回到第 ${day} 天` : `前往第 ${day} 天`}
+                          >
+                            {day}
+                          </Link>
+                        ) : (
                           <div
                             key={day}
-                            className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium ${
-                              dayCompleted
-                                ? 'bg-green-500 text-white'
-                                : dayUnlocked
-                                ? 'bg-blue-100 text-blue-600 border-2 border-blue-300'
-                                : 'bg-gray-200 text-gray-400'
-                            }`}
+                            className={dayCircleClasses}
                           >
                             {day}
                           </div>
