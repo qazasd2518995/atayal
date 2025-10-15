@@ -31,7 +31,7 @@ export const week1: DayData[] = [
       { type: "text", value: "第一天學習三個重要母音：a、i、u" },
       { type: "text", value: "母音 a：發音如同中文「啊」" },
       { type: "audio", src: "/alphabet/a.wav" },
-      { type: "text", value: "單字：aba (爸爸)、abaw (葉子)" },
+      { type: "text", value: "單字：yaba (爸爸)、abaw (葉子)" },
       { type: "text", value: "母音 i：發音如同中文「衣」" },
       { type: "audio", src: "/alphabet/i.wav" },
       { type: "text", value: "單字：cyugal (三)、enpic (鉛筆)" },
@@ -43,8 +43,8 @@ export const week1: DayData[] = [
       {
         id: "q1",
         question: "「爸爸」的泰雅語是？",
-        options: ["aba", "aya", "abaw"],
-        answer: "aba",
+        options: ["yaba", "yaya", "abaw"],
+        answer: "yaba",
         type: "single"
       },
       {
@@ -136,7 +136,7 @@ export const week1: DayData[] = [
       { type: "audio", src: "/alphabet/q.wav" },
       { type: "audio", src: "/alphabet/z.wav" },
       { type: "text", value: "單字練習：cyama (商店)" },
-      { type: "text", value: "複習之前學過的詞彙：aya (媽媽)" },
+      { type: "text", value: "複習之前學過的詞彙：yaya (媽媽)" },
       { type: "text", value: "練習拼讀含有這些子音的單字。" },
     ],
     quiz: [
@@ -150,8 +150,8 @@ export const week1: DayData[] = [
       {
         id: "q2",
         question: "「媽媽」的泰雅語是？",
-        options: ["aya", "aba", "ana"],
-        answer: "aya",
+        options: ["yaya", "yaba", "ana"],
+        answer: "yaya",
         type: "single"
       }
     ],
@@ -171,7 +171,7 @@ export const week1: DayData[] = [
       { type: "text", value: "聲門塞音 '：這是泰雅語的特殊子音，發音時聲門突然閉合再打開" },
       { type: "audio", src: "/alphabet/'.wav" },
       { type: "text", value: "第一週總複習：母音5個 + 子音19個" },
-      { type: "text", value: "複習所有學過的詞彙：aba、aya、abaw、gamil、basu、bonaw、cyugal、cyama、ega、enpic" },
+      { type: "text", value: "複習所有學過的詞彙：yaba、yaya、abaw、gamil、basu、bonaw、cyugal、cyama、ega、enpic" },
       { type: "text", value: "恭喜完成第一週的字母與發音學習！" },
     ],
     quiz: [
