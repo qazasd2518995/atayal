@@ -153,6 +153,9 @@ export default function DayLessonPage() {
 
   const handleGameComplete = (success: boolean, score?: number) => {
     if (success && score !== undefined && score > 50) {
+      // 檢查這是否是第一次完成
+      const wasAlreadyCompleted = completed;
+
       // 遊戲成功且分數 > 50%，標記課程完成並給經驗值
       markCompleted(week, day);
 
@@ -175,8 +178,10 @@ export default function DayLessonPage() {
         learningTimer.stop({ week, day, completed: true });
       }
 
-      // 顯示問卷而不是直接導航
-      setShowSurvey(true);
+      // 只有第一次完成才顯示問卷
+      if (!wasAlreadyCompleted) {
+        setShowSurvey(true);
+      }
     } else {
       // 遊戲失敗或分數 <= 50%，顯示失敗提示
       setGameFailed(true);
@@ -351,28 +356,28 @@ export default function DayLessonPage() {
             </button>
             <button
               onClick={() => setCurrentSection('quiz')}
-              disabled={currentSection === 'content' && !isDevMode}
+              disabled={currentSection === 'content' && !isDevMode && !completed}
               className={`flex-1 py-4 px-6 font-medium transition-colors ${
                 currentSection === 'quiz'
                   ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
                   : quizCompleted
                   ? 'text-green-600'
-                  : isDevMode || currentSection !== 'content'
+                  : isDevMode || currentSection !== 'content' || completed
                   ? 'text-gray-600 hover:text-gray-800'
                   : 'text-gray-400'
-              } ${currentSection === 'content' && !isDevMode ? 'cursor-not-allowed' : 'hover:text-gray-800'}`}
+              } ${currentSection === 'content' && !isDevMode && !completed ? 'cursor-not-allowed' : 'hover:text-gray-800'}`}
             >
               ✏️ 課後測驗 {quizCompleted && '✓'} {isDevMode && '🔓'}
             </button>
             <button
               onClick={() => setCurrentSection('game')}
-              disabled={!quizCompleted && !isDevMode}
+              disabled={!quizCompleted && !isDevMode && !completed}
               className={`flex-1 py-4 px-6 font-medium transition-colors ${
                 currentSection === 'game'
                   ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
                   : gameCompleted
                   ? 'text-green-600'
-                  : !quizCompleted && !isDevMode
+                  : !quizCompleted && !isDevMode && !completed
                   ? 'text-gray-400 cursor-not-allowed'
                   : 'text-gray-600 hover:text-gray-800'
               }`}
