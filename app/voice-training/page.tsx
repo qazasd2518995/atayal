@@ -171,10 +171,10 @@ export default function VoiceTrainingPage() {
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
-                      <div className="text-lg font-bold text-center">
+                      <div className="text-lg font-bold text-center text-gray-900">
                         {letterData.letter}
                       </div>
-                      <div className="text-xs text-gray-500 text-center mt-1">
+                      <div className="text-xs text-gray-900 text-center mt-1">
                         {letterData.category}
                       </div>
                       

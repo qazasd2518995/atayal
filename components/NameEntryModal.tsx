@@ -93,7 +93,7 @@ export default function NameEntryModal({ isOpen, onNameSubmit }: NameEntryModalP
                         setName(e.target.value);
                         setError('');
                       }}
-                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+                      className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors text-gray-900 placeholder:text-gray-400 ${
                         error
                           ? 'border-red-300 focus:ring-red-500'
                           : 'border-gray-300 focus:ring-blue-500'
