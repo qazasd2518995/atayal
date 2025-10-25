@@ -128,38 +128,37 @@ export default function HomePage() {
     localStorage.removeItem('tayal-progress');
 
     try {
-      // 嘗試從雲端載入進度
-      const cloudProgress = await loadProgressFromCloud(name);
+      // 首先檢查課前測驗記錄（更可靠的舊用戶判斷方式）
+      const assessmentResponse = await fetch(`/api/assessment?userName=${encodeURIComponent(name)}&assessmentType=pre`);
+      const assessmentData = await assessmentResponse.json();
 
-      if (cloudProgress) {
-        // 舊用戶 - 載入雲端進度
-        await saveUserProgress(cloudProgress);
-        setUserProgress(cloudProgress);
-        console.log('歡迎回來！已載入您的進度。');
-        setShowNameModal(false);
-      } else {
-        // 新用戶 - 檢查是否已完成課前測驗
-        const assessmentResponse = await fetch(`/api/assessment?userName=${encodeURIComponent(name)}&assessmentType=pre`);
-        const assessmentData = await assessmentResponse.json();
+      if (assessmentData.exists) {
+        // 已完成課前測驗 = 舊用戶，載入雲端進度
+        const cloudProgress = await loadProgressFromCloud(name);
 
-        if (!assessmentData.exists) {
-          // 新用戶且未完成課前測驗 - 顯示課前測驗
-          setShowNameModal(false);
-          setShowPreAssessment(true);
+        if (cloudProgress) {
+          await saveUserProgress(cloudProgress);
+          setUserProgress(cloudProgress);
+          console.log('歡迎回來！已載入您的進度。');
         } else {
-          // 新用戶但已完成課前測驗（不太可能，但處理此情況）
-          const freshProgress = {
+          // 有課前測驗記錄但沒有進度記錄（異常情況）
+          const defaultProgress = {
             currentWeek: 1,
             currentDay: 1,
             completedDays: {},
             totalXP: 0,
             level: 1,
           };
-          await saveUserProgress(freshProgress);
-          setUserProgress(freshProgress);
-          setShowNameModal(false);
+          await saveUserProgress(defaultProgress);
+          setUserProgress(defaultProgress);
+          console.log('歡迎回來！');
         }
+        setShowNameModal(false);
+      } else {
+        // 未完成課前測驗 = 新用戶，顯示課前測驗
         console.log('歡迎新同學！請先完成課前測驗。');
+        setShowNameModal(false);
+        setShowPreAssessment(true);
       }
     } catch (error) {
       console.error('載入進度時發生錯誤:', error);
