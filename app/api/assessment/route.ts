@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
     const item = {
       atayal: assessmentId,
-      type: 'assessment',
+      type: assessmentType === 'pre' ? 'pre-assessment' : 'post-assessment', // 明確區分課前/課後測驗
       userName: userName,
       assessmentType: assessmentType, // 'pre' 或 'post'
       score: score,
