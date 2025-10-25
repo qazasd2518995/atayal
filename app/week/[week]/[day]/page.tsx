@@ -22,6 +22,8 @@ import GameGate from '@/components/GameGate';
 import XPBar from '@/components/XPBar';
 import DeveloperMode from '@/components/DeveloperMode';
 import DailySurvey from '@/components/DailySurvey';
+import AssessmentModal from '@/components/AssessmentModal';
+import { AssessmentResult } from '@/data/assessment';
 import {
   HomeIcon,
   ArrowLeftIcon,
@@ -54,11 +56,19 @@ export default function DayLessonPage() {
   const [isDevMode, setIsDevMode] = useState(false);
   const [learningTimer, setLearningTimer] = useState<ActivityTimer | null>(null);
   const [showSurvey, setShowSurvey] = useState(false);
+  const [showPostAssessment, setShowPostAssessment] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
 
   // 確保在客戶端渲染完成後才顯示內容，避免 hydration 錯誤
   useEffect(() => {
     setMounted(true);
     setIsDevMode(isDeveloperMode());
+
+    // 獲取用戶名稱
+    if (typeof window !== 'undefined') {
+      const savedName = localStorage.getItem('userName');
+      setUserName(savedName);
+    }
 
     // 開始追蹤學習時間
     const timer = new ActivityTimer('learning');
@@ -198,8 +208,25 @@ export default function DayLessonPage() {
     setCurrentSection('content');
   };
 
-  const handleSurveyComplete = () => {
+  const handleSurveyComplete = async () => {
     setShowSurvey(false);
+
+    // 檢查是否為最後一週最後一天（第3週第5天）
+    if (week === 3 && day === 5 && userName) {
+      // 檢查是否已完成課後測驗
+      try {
+        const response = await fetch(`/api/assessment?userName=${encodeURIComponent(userName)}&assessmentType=post`);
+        const data = await response.json();
+
+        if (!data.exists) {
+          // 尚未完成課後測驗，顯示測驗
+          setShowPostAssessment(true);
+          return;
+        }
+      } catch (error) {
+        console.error('檢查課後測驗狀態失敗:', error);
+      }
+    }
 
     // 問卷完成後，自動導向下一天或首頁
     setTimeout(() => {
@@ -211,6 +238,26 @@ export default function DayLessonPage() {
         router.push('/');
       }
     }, 500);
+  };
+
+  const handlePostAssessmentComplete = async (result: AssessmentResult) => {
+    try {
+      // 儲存測驗結果到 DynamoDB
+      await fetch('/api/assessment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(result),
+      });
+
+      setShowPostAssessment(false);
+
+      // 課後測驗完成後返回首頁
+      setTimeout(() => {
+        router.push('/');
+      }, 500);
+    } catch (error) {
+      console.error('儲存課後測驗結果失敗:', error);
+    }
   };
 
   const renderContent = (content: ContentItem, index: number) => {
@@ -556,6 +603,16 @@ export default function DayLessonPage() {
           week={week}
           day={day}
           onComplete={handleSurveyComplete}
+        />
+      )}
+
+      {/* 課後測驗（僅第3週第5天） */}
+      {userName && (
+        <AssessmentModal
+          isOpen={showPostAssessment}
+          assessmentType="post"
+          userName={userName}
+          onComplete={handlePostAssessmentComplete}
         />
       )}
 
