@@ -74,6 +74,7 @@ const extractGameDataFromDay = (week: number, day: number) => {
 export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
   const [matches, setMatches] = useState<{ [key: string]: string }>({});
   const [draggedLetter, setDraggedLetter] = useState<string | null>(null);
+  const [selectedLetter, setSelectedLetter] = useState<string | null>(null); // 用於點擊選擇模式
   const [gameCompleted, setGameCompleted] = useState(false);
   const [score, setScore] = useState(0);
   const [shuffledLetters, setShuffledLetters] = useState<string[]>([]);
@@ -120,6 +121,22 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
     }
   };
 
+  // 點擊選擇字母（行動裝置友善）
+  const handleLetterClick = (letter: string) => {
+    setSelectedLetter(letter);
+  };
+
+  // 點擊單字進行配對（行動裝置友善）
+  const handleWordClick = (targetWord: string) => {
+    if (selectedLetter) {
+      setMatches(prev => ({
+        ...prev,
+        [targetWord]: selectedLetter
+      }));
+      setSelectedLetter(null);
+    }
+  };
+
   const checkAnswers = () => {
     let correctCount = 0;
     gameData.words.forEach(wordData => {
@@ -135,6 +152,7 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
     setMatches({});
     setScore(0);
     setGameCompleted(false);
+    setSelectedLetter(null);
     // 重新隨機排序
     setShuffledLetters(shuffleArray(gameData.letters));
     setShuffledWords(shuffleArray(gameData.words));
@@ -230,8 +248,11 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold text-center mb-6">字母配對遊戲</h2>
-      <p className="text-center text-gray-600 mb-8">
+      <p className="text-center text-gray-600 mb-4">
         將左側的字母拖拽到正確的單字上（第{week}週第{day}天教材內容）
+      </p>
+      <p className="text-center text-sm text-blue-600 mb-8">
+        💡 提示：電腦可拖拽，手機/平板請點擊字母後再點擊單字
       </p>
 
       <div className="grid md:grid-cols-2 gap-8">
@@ -244,7 +265,12 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
                 key={letter}
                 draggable
                 onDragStart={() => handleDragStart(letter)}
-                className="bg-blue-100 border-2 border-blue-300 rounded-lg p-4 cursor-move hover:bg-blue-200 transition-colors text-center font-bold text-xl text-blue-700"
+                onClick={() => handleLetterClick(letter)}
+                className={`border-2 rounded-lg p-4 cursor-pointer transition-all text-center font-bold text-xl ${
+                  selectedLetter === letter
+                    ? 'bg-blue-500 border-blue-600 text-white scale-105 shadow-lg'
+                    : 'bg-blue-100 border-blue-300 text-blue-700 hover:bg-blue-200 active:scale-95'
+                }`}
               >
                 {letter.toUpperCase()}
               </div>
@@ -261,9 +287,12 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
                 key={wordData.word}
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, wordData.word)}
-                className={`border-2 border-dashed rounded-lg p-4 min-h-[60px] flex items-center justify-between transition-colors ${
-                  matches[wordData.word] 
-                    ? 'border-green-300 bg-green-50' 
+                onClick={() => handleWordClick(wordData.word)}
+                className={`border-2 border-dashed rounded-lg p-4 min-h-[60px] flex items-center justify-between transition-all ${
+                  matches[wordData.word]
+                    ? 'border-green-300 bg-green-50'
+                    : selectedLetter
+                    ? 'border-blue-400 hover:border-blue-500 hover:bg-blue-50 cursor-pointer active:scale-95'
                     : 'border-gray-300 hover:border-gray-400'
                 }`}
               >
