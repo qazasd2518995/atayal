@@ -75,6 +75,8 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
   const [matches, setMatches] = useState<{ [key: string]: string }>({});
   const [draggedLetter, setDraggedLetter] = useState<string | null>(null);
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null); // 用於點擊選擇模式
+  const [touchDragLetter, setTouchDragLetter] = useState<string | null>(null); // 觸控拖移中的字母
+  const [dragPosition, setDragPosition] = useState<{ x: number; y: number } | null>(null); // 拖移位置
   const [gameCompleted, setGameCompleted] = useState(false);
   const [score, setScore] = useState(0);
   const [shuffledLetters, setShuffledLetters] = useState<string[]>([]);
@@ -137,6 +139,52 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
     }
   };
 
+  // 觸控開始拖移
+  const handleTouchStart = (e: React.TouchEvent, letter: string) => {
+    e.preventDefault();
+    setTouchDragLetter(letter);
+    const touch = e.touches[0];
+    setDragPosition({ x: touch.clientX, y: touch.clientY });
+  };
+
+  // 觸控拖移中
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchDragLetter) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    setDragPosition({ x: touch.clientX, y: touch.clientY });
+  };
+
+  // 觸控結束拖移
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchDragLetter) return;
+    e.preventDefault();
+
+    const touch = e.changedTouches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+
+    // 尋找最接近的單字元素
+    let wordElement = element;
+    let attempts = 0;
+    while (wordElement && attempts < 5) {
+      if (wordElement.hasAttribute('data-word')) {
+        const targetWord = wordElement.getAttribute('data-word');
+        if (targetWord) {
+          setMatches(prev => ({
+            ...prev,
+            [targetWord]: touchDragLetter
+          }));
+        }
+        break;
+      }
+      wordElement = wordElement.parentElement;
+      attempts++;
+    }
+
+    setTouchDragLetter(null);
+    setDragPosition(null);
+  };
+
   const checkAnswers = () => {
     let correctCount = 0;
     gameData.words.forEach(wordData => {
@@ -153,6 +201,8 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
     setScore(0);
     setGameCompleted(false);
     setSelectedLetter(null);
+    setTouchDragLetter(null);
+    setDragPosition(null);
     // 重新隨機排序
     setShuffledLetters(shuffleArray(gameData.letters));
     setShuffledWords(shuffleArray(gameData.words));
@@ -246,13 +296,17 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div
+      className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg relative"
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <h2 className="text-2xl font-bold text-center mb-6">字母配對遊戲</h2>
       <p className="text-center text-gray-600 mb-4">
         將左側的字母拖拽到正確的單字上（第{week}週第{day}天教材內容）
       </p>
       <p className="text-center text-sm text-blue-600 mb-8">
-        💡 提示：電腦可拖拽，手機/平板請點擊字母後再點擊單字
+        💡 提示：用手指按住字母並拖動到單字上
       </p>
 
       <div className="grid md:grid-cols-2 gap-8">
@@ -265,9 +319,12 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
                 key={letter}
                 draggable
                 onDragStart={() => handleDragStart(letter)}
+                onTouchStart={(e) => handleTouchStart(e, letter)}
                 onClick={() => handleLetterClick(letter)}
-                className={`border-2 rounded-lg p-4 cursor-pointer transition-all text-center font-bold text-xl ${
-                  selectedLetter === letter
+                className={`border-2 rounded-lg p-4 cursor-pointer transition-all text-center font-bold text-xl select-none ${
+                  touchDragLetter === letter
+                    ? 'opacity-50'
+                    : selectedLetter === letter
                     ? 'bg-blue-500 border-blue-600 text-white scale-105 shadow-lg'
                     : 'bg-blue-100 border-blue-300 text-blue-700 hover:bg-blue-200 active:scale-95'
                 }`}
@@ -285,6 +342,7 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
             {shuffledWords.map(wordData => (
               <div
                 key={wordData.word}
+                data-word={wordData.word}
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, wordData.word)}
                 onClick={() => handleWordClick(wordData.word)}
@@ -320,6 +378,25 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
           檢查答案
         </button>
       </div>
+
+      {/* 拖移中的浮動字母 */}
+      {touchDragLetter && dragPosition && (
+        <div
+          className="fixed pointer-events-none z-50 bg-blue-500 border-2 border-blue-600 text-white rounded-lg p-4 font-bold text-xl shadow-2xl"
+          style={{
+            left: `${dragPosition.x - 30}px`,
+            top: `${dragPosition.y - 30}px`,
+            width: '60px',
+            height: '60px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transform: 'scale(1.1)',
+          }}
+        >
+          {touchDragLetter.toUpperCase()}
+        </div>
+      )}
     </div>
   );
 } 
