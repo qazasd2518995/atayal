@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { trackGameResult } from '@/lib/analytics';
 
 interface PictureChoiceProps {
   onFinish: (success: boolean, score?: number) => void;
@@ -82,6 +83,7 @@ export default function PictureChoice({ onFinish, week, day }: PictureChoiceProp
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [gameCompleted, setGameCompleted] = useState(false);
   const [score, setScore] = useState(0);
+  const [startTime, setStartTime] = useState<number>(Date.now());
 
   const data = gameData[week as keyof typeof gameData] || gameData[2];
   const currentQ = data.questions[currentQuestion];
@@ -106,6 +108,19 @@ export default function PictureChoice({ onFinish, week, day }: PictureChoiceProp
       });
       setScore(correctCount);
       setGameCompleted(true);
+
+      // 追蹤遊戲成績
+      const timeSpent = Math.round((Date.now() - startTime) / 1000);
+      const scorePercentage = Math.round((correctCount / data.questions.length) * 100);
+
+      trackGameResult({
+        week,
+        day,
+        gameType: 'PictureChoice',
+        score: scorePercentage,
+        attempts: data.questions.length,
+        timeSpent,
+      });
     }
   };
 
@@ -114,6 +129,7 @@ export default function PictureChoice({ onFinish, week, day }: PictureChoiceProp
     setAnswers({});
     setScore(0);
     setGameCompleted(false);
+    setStartTime(Date.now()); // 重置計時器
   };
 
   const handleFinish = () => {

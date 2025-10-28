@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { CheckIcon, XMarkIcon, ArrowsUpDownIcon } from '@heroicons/react/24/solid';
+import { trackGameResult } from '@/lib/analytics';
 
 interface SentencePuzzleProps {
   onFinish: (success: boolean, score?: number) => void;
@@ -57,6 +58,7 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
   const [userSentences, setUserSentences] = useState<{ [key: number]: string[] }>({});
   const [gameCompleted, setGameCompleted] = useState(false);
   const [score, setScore] = useState(0);
+  const [startTime, setStartTime] = useState<number>(Date.now());
 
   const data = gameData[week as keyof typeof gameData] || gameData[4];
   const currentP = data.puzzles[currentPuzzle];
@@ -105,6 +107,19 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
       });
       setScore(correctCount);
       setGameCompleted(true);
+
+      // 追蹤遊戲成績
+      const timeSpent = Math.round((Date.now() - startTime) / 1000);
+      const scorePercentage = Math.round((correctCount / data.puzzles.length) * 100);
+
+      trackGameResult({
+        week,
+        day,
+        gameType: 'SentencePuzzle',
+        score: scorePercentage,
+        attempts: data.puzzles.length,
+        timeSpent,
+      });
     }
   };
 
@@ -113,6 +128,7 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
     setUserSentences({});
     setScore(0);
     setGameCompleted(false);
+    setStartTime(Date.now()); // 重置計時器
   };
 
   const handleFinish = () => {

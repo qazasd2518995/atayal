@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { trackGameResult } from '@/lib/analytics';
 
 interface LetterMatchProps {
   onFinish: (success: boolean, score?: number) => void;
@@ -82,6 +83,7 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
   const [shuffledLetters, setShuffledLetters] = useState<string[]>([]);
   const [shuffledWords, setShuffledWords] = useState<Array<{ letter: string; word: string; meaning: string }>>([]);
   const [gameData, setGameData] = useState<{ letters: string[], words: Array<{ letter: string; word: string; meaning: string }> }>({ letters: [], words: [] });
+  const [startTime, setStartTime] = useState<number>(Date.now());
 
   // 隨機排序函數
   const shuffleArray = <T,>(array: T[]): T[] => {
@@ -194,6 +196,19 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
     });
     setScore(correctCount);
     setGameCompleted(true);
+
+    // 追蹤遊戲成績
+    const timeSpent = Math.round((Date.now() - startTime) / 1000); // 秒
+    const scorePercentage = Math.round((correctCount / gameData.words.length) * 100);
+
+    trackGameResult({
+      week,
+      day,
+      gameType: 'LetterMatch',
+      score: scorePercentage,
+      attempts: gameData.words.length, // 總題數
+      timeSpent,
+    });
   };
 
   const resetGame = () => {
@@ -203,6 +218,7 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
     setSelectedLetter(null);
     setTouchDragLetter(null);
     setDragPosition(null);
+    setStartTime(Date.now()); // 重置計時器
     // 重新隨機排序
     setShuffledLetters(shuffleArray(gameData.letters));
     setShuffledWords(shuffleArray(gameData.words));

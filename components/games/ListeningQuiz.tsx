@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import AudioButton from '../AudioButton';
+import { trackGameResult } from '@/lib/analytics';
 
 interface ListeningQuizProps {
   onFinish: (success: boolean, score?: number) => void;
@@ -65,6 +66,7 @@ export default function ListeningQuiz({ onFinish, week, day }: ListeningQuizProp
   const [questions, setQuestions] = useState<Array<{ correct: string; options: string[] }>>([]);
   const [currentPlayingIndex, setCurrentPlayingIndex] = useState<number | null>(null);
   const [gameData, setGameData] = useState<{ letters: string[], title: string }>({ letters: [], title: '' });
+  const [startTime, setStartTime] = useState<number>(Date.now());
 
   const total = 5;
 
@@ -101,7 +103,23 @@ export default function ListeningQuiz({ onFinish, week, day }: ListeningQuizProp
     if (selected === questions[round].correct) setScore(s => s + 1);
     setShowResult(true);
     setTimeout(() => {
-      if (round + 1 >= total) setDone(true);
+      if (round + 1 >= total) {
+        setDone(true);
+
+        // 追蹤遊戲成績
+        const finalScore = selected === questions[round].correct ? score + 1 : score;
+        const timeSpent = Math.round((Date.now() - startTime) / 1000);
+        const scorePercentage = Math.round((finalScore / total) * 100);
+
+        trackGameResult({
+          week,
+          day,
+          gameType: 'ListeningQuiz',
+          score: scorePercentage,
+          attempts: total,
+          timeSpent,
+        });
+      }
       else {
         setRound(r => r + 1);
         setSelected('');
@@ -117,6 +135,7 @@ export default function ListeningQuiz({ onFinish, week, day }: ListeningQuizProp
     setShowResult(false);
     setDone(false);
     setCurrentPlayingIndex(null);
+    setStartTime(Date.now()); // 重置計時器
     // regenerate
     if (gameData.letters.length > 0) {
       const pool = [...gameData.letters];

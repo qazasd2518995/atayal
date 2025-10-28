@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { CheckIcon, SpeakerWaveIcon } from '@heroicons/react/24/solid';
 import AudioButton from '../AudioButton';
+import { trackGameResult } from '@/lib/analytics';
 
 interface PronunciationPracticeProps {
   onFinish: (success: boolean, score?: number) => void;
@@ -90,6 +91,7 @@ export default function PronunciationPractice({ onFinish, week, day }: Pronuncia
   const [completedLetters, setCompletedLetters] = useState<Set<string>>(new Set());
   const [gameCompleted, setGameCompleted] = useState(false);
   const [gameData, setGameData] = useState<{ letters: Array<{ letter: string; tips: string }>, title: string }>({ letters: [], title: '' });
+  const [startTime, setStartTime] = useState<number>(Date.now());
 
   const currentLetter = gameData.letters[currentIndex];
   const requiredPractices = 3; // 每個字母需要練習 3 次
@@ -121,6 +123,20 @@ export default function PronunciationPractice({ onFinish, week, day }: Pronuncia
       // 檢查是否所有字母都完成了
       if (completedLetters.size === gameData.letters.length) {
         setGameCompleted(true);
+
+        // 追蹤遊戲成績
+        const timeSpent = Math.round((Date.now() - startTime) / 1000);
+        const totalPractices = Object.values(practiceCount).reduce((sum, count) => sum + count, 0);
+        const scorePercentage = 100; // 完成所有字母即為100%
+
+        trackGameResult({
+          week,
+          day,
+          gameType: 'PronunciationPractice',
+          score: scorePercentage,
+          attempts: totalPractices,
+          timeSpent,
+        });
       } else {
         // 回到第一個未完成的字母
         const firstIncomplete = gameData.letters.findIndex((l: { letter: string; tips: string }) => !completedLetters.has(l.letter));
@@ -142,6 +158,7 @@ export default function PronunciationPractice({ onFinish, week, day }: Pronuncia
     setPracticeCount({});
     setCompletedLetters(new Set());
     setGameCompleted(false);
+    setStartTime(Date.now()); // 重置計時器
   };
 
   const handleFinish = () => {
