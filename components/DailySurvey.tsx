@@ -151,7 +151,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
               onChange={(e) =>
                 setSurveyData({ ...surveyData, q1_interesting: e.target.value })
               }
-              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none min-h-[120px]"
+              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none min-h-[120px] text-gray-900 placeholder:text-gray-400"
               placeholder="請輸入您的想法..."
             />
           </div>
@@ -456,7 +456,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
               onChange={(e) =>
                 setSurveyData({ ...surveyData, q7_suggestion: e.target.value })
               }
-              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none min-h-[120px]"
+              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none min-h-[120px] text-gray-900 placeholder:text-gray-400"
               placeholder="請輸入您的建議..."
             />
           </div>
