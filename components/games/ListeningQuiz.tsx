@@ -277,8 +277,8 @@ export default function ListeningQuiz({ onFinish, week, day }: ListeningQuizProp
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">{gameData.title}</h2>
-        <div className="text-sm text-gray-600">
+        <h2 className="text-2xl font-bold mb-2 text-gray-900">{gameData.title}</h2>
+        <div className="text-sm text-gray-800 font-medium">
           第 {round + 1} / {total} 題，得分 {score}
         </div>
         <div className="relative mt-3 h-2 bg-gray-200 rounded-full">
@@ -290,7 +290,7 @@ export default function ListeningQuiz({ onFinish, week, day }: ListeningQuizProp
       </div>
 
       <div className="text-center mb-8">
-        <p className="mb-4">請聽音檔，選擇正確的字母：</p>
+        <p className="mb-4 text-gray-800 font-medium">請聽音檔，選擇正確的字母：</p>
         <div className="bg-blue-50 p-6 rounded mb-4 inline-block">
           <AudioButton
             src={`/alphabet/${q.correct}.wav`}
@@ -333,10 +333,10 @@ export default function ListeningQuiz({ onFinish, week, day }: ListeningQuizProp
               selected === opt
                 ? showResult
                   ? opt === q.correct
-                    ? 'border-green-500 bg-green-50'
-                    : 'border-red-500 bg-red-50'
-                  : 'border-blue-500 bg-blue-50'
-                : 'border-gray-300 hover:bg-gray-50'
+                    ? 'border-green-500 bg-green-50 text-green-900'
+                    : 'border-red-500 bg-red-50 text-red-900'
+                  : 'border-blue-500 bg-blue-50 text-blue-900'
+                : 'border-gray-300 hover:bg-gray-50 text-gray-900'
             } ${showResult ? 'cursor-not-allowed' : ''}`}
           >
             <span className="text-2xl font-mono font-bold">{opt.toUpperCase()}</span>
@@ -348,7 +348,7 @@ export default function ListeningQuiz({ onFinish, week, day }: ListeningQuizProp
         <button
           onClick={submit}
           disabled={!selected || showResult}
-          className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300"
+          className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-300 disabled:text-gray-600 font-medium"
         >
           確認答案
         </button>
