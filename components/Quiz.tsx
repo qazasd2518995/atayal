@@ -88,15 +88,15 @@ export default function Quiz({ questions, onComplete, week, day }: QuizProps) {
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
         <div className="text-center">
-          <h3 className="text-2xl font-bold mb-4">測驗結果</h3>
+          <h3 className="text-2xl font-bold mb-4 text-gray-900">測驗結果</h3>
           <div className="text-6xl mb-4">
             {score === questions.length ? '🎉' : score >= questions.length * 0.7 ? '👏' : '💪'}
           </div>
-          <p className="text-xl mb-2">
+          <p className="text-xl mb-2 text-gray-900">
             您答對了 <span className="font-bold text-green-600">{score}</span> 題，
             共 <span className="font-bold">{questions.length}</span> 題
           </p>
-          <p className="text-lg mb-6 text-gray-600">
+          <p className="text-lg mb-6 text-gray-800 font-medium">
             正確率：{Math.round((score / questions.length) * 100)}%
           </p>
           
@@ -115,12 +115,12 @@ export default function Quiz({ questions, onComplete, week, day }: QuizProps) {
                       <XMarkIcon className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
                     )}
                     <div className="flex-1">
-                      <p className="font-medium">{question.question}</p>
-                      <p className="text-sm text-gray-600 mt-1">
-                        您的答案：<span className={isCorrect ? 'text-green-600' : 'text-red-600'}>{userAns}</span>
+                      <p className="font-medium text-gray-900">{question.question}</p>
+                      <p className="text-sm text-gray-800 mt-1">
+                        您的答案：<span className={isCorrect ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>{userAns}</span>
                       </p>
                       {!isCorrect && (
-                        <p className="text-sm text-green-600 mt-1">
+                        <p className="text-sm text-green-600 mt-1 font-medium">
                           正確答案：{question.answer}
                         </p>
                       )}
@@ -146,12 +146,12 @@ export default function Quiz({ questions, onComplete, week, day }: QuizProps) {
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       {/* 進度條 */}
       <div className="mb-6">
-        <div className="flex justify-between text-sm text-gray-600 mb-2">
+        <div className="flex justify-between text-sm text-gray-800 font-medium mb-2">
           <span>題目 {currentQuestion + 1}/{questions.length}</span>
           <span>{Math.round(((currentQuestion + 1) / questions.length) * 100)}%</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
-          <div 
+          <div
             className="bg-blue-500 h-2 rounded-full transition-all duration-300"
             style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
           ></div>
@@ -160,7 +160,7 @@ export default function Quiz({ questions, onComplete, week, day }: QuizProps) {
 
       {/* 題目 */}
       <div className="mb-6">
-        <h3 className="text-xl font-bold mb-4">{currentQ.question}</h3>
+        <h3 className="text-xl font-bold mb-4 text-gray-900">{currentQ.question}</h3>
         
         {/* 單選題 */}
         {(currentQ.type === 'single' || !currentQ.type) && (
@@ -187,7 +187,7 @@ export default function Quiz({ questions, onComplete, week, day }: QuizProps) {
                       <div className="w-full h-full rounded-full bg-white scale-50" />
                     )}
                   </div>
-                  <span className="text-gray-800">{option}</span>
+                  <span className="text-gray-900 font-medium">{option}</span>
                 </div>
               </button>
             ))}
@@ -200,15 +200,15 @@ export default function Quiz({ questions, onComplete, week, day }: QuizProps) {
         <button
           onClick={() => setCurrentQuestion(prev => Math.max(0, prev - 1))}
           disabled={currentQuestion === 0}
-          className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          className="px-6 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
         >
           上一題
         </button>
-        
+
         <button
           onClick={handleNext}
           disabled={!isAnswered}
-          className="px-6 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white rounded-lg transition-colors duration-200"
+          className="px-6 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:text-gray-600 text-white font-medium rounded-lg transition-colors duration-200"
         >
           {currentQuestion === questions.length - 1 ? '完成測驗' : '下一題'}
         </button>

@@ -158,10 +158,10 @@ export default function WordImageMatch({ onFinish, week, day }: WordImageMatchPr
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">{passed ? '🎉' : '📚'}</div>
-        <h3 className="text-2xl font-bold mb-4">
+        <h3 className="text-2xl font-bold mb-4 text-gray-900">
           {passed ? '太棒了！' : '繼續加油！'}
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg mb-6 text-gray-900">
           答對 <strong className="text-green-600">{score}</strong> / {totalRounds} 題
           <br />
           正確率：<strong className="text-blue-600">{finalScore}%</strong>
@@ -174,7 +174,7 @@ export default function WordImageMatch({ onFinish, week, day }: WordImageMatchPr
         </p>
 
         <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left">
-          <h4 className="font-semibold mb-3 text-center">詞彙複習：</h4>
+          <h4 className="font-semibold mb-3 text-center text-gray-900">詞彙複習：</h4>
           <div className="grid grid-cols-2 gap-3">
             {familyData.map((item, index) => (
               <div key={index} className="flex items-center gap-2 p-2 bg-white rounded border">
@@ -191,7 +191,7 @@ export default function WordImageMatch({ onFinish, week, day }: WordImageMatchPr
         <div className="flex gap-3 justify-center">
           <button
             onClick={handleRetry}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -211,8 +211,8 @@ export default function WordImageMatch({ onFinish, week, day }: WordImageMatchPr
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">家庭成員詞彙配對</h2>
-        <div className="text-sm text-gray-600 mb-3">
+        <h2 className="text-2xl font-bold mb-2 text-gray-900">家庭成員詞彙配對</h2>
+        <div className="text-sm text-gray-800 font-medium mb-3">
           第 {currentRound + 1} / {totalRounds} 題，得分 {score}
         </div>
         <div className="relative h-2 bg-gray-200 rounded-full">
@@ -224,7 +224,7 @@ export default function WordImageMatch({ onFinish, week, day }: WordImageMatchPr
       </div>
 
       <div className="mb-8">
-        <p className="text-center mb-4 text-gray-700">請選擇正確的圖片配對：</p>
+        <p className="text-center mb-4 text-gray-800 font-medium">請選擇正確的圖片配對：</p>
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg mb-6 text-center">
           <div className="text-3xl font-bold text-blue-600">
             {currentQuestion.correct.tayal}

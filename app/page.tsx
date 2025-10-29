@@ -399,7 +399,7 @@ export default function HomePage() {
                         style={{ width: `${progress}%` }}
                       ></div>
                     </div>
-                    <p className="text-sm text-gray-600">{completedDays}/5 天</p>
+                    <p className="text-sm text-gray-700 font-medium">{completedDays}/5 天</p>
                   </div>
                 );
               })}
@@ -462,7 +462,7 @@ export default function HomePage() {
                     </div>
                     
                     <div className="mb-4">
-                      <div className="flex justify-between text-sm text-gray-600 mb-1">
+                      <div className="flex justify-between text-sm text-gray-800 font-medium mb-1">
                         <span>完成進度</span>
                         <span>{completedDays}/5 天</span>
                       </div>

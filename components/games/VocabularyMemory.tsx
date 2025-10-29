@@ -212,8 +212,8 @@ export default function VocabularyMemory({ onFinish, week, day }: VocabularyMemo
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">🧠</div>
-        <h3 className="text-2xl font-bold mb-4">記憶遊戲完成！</h3>
-        <p className="text-lg mb-6">
+        <h3 className="text-2xl font-bold mb-4 text-gray-900">記憶遊戲完成！</h3>
+        <p className="text-lg mb-6 text-gray-900">
           您成功配對了 <span className="font-bold text-green-600">{matches}</span> 組詞彙
           <br />
           嘗試次數：<span className="font-bold text-blue-600">{attempts}</span> 次
@@ -222,14 +222,14 @@ export default function VocabularyMemory({ onFinish, week, day }: VocabularyMemo
         </p>
 
         <div className="bg-gray-50 rounded-lg p-4 mb-6">
-          <h4 className="font-semibold mb-3">詞彙複習：</h4>
+          <h4 className="font-semibold mb-3 text-gray-900">詞彙複習：</h4>
           <div className="space-y-3">
             {data.vocabulary.map((item, index) => (
               <div key={index} className="flex items-center justify-between p-2 bg-white rounded border">
                 <span className="font-semibold text-blue-600">
                   {item.tayal}
                 </span>
-                <span className="text-gray-700">
+                <span className="text-gray-900 font-medium">
                   {item.meaning}
                 </span>
               </div>
@@ -240,7 +240,7 @@ export default function VocabularyMemory({ onFinish, week, day }: VocabularyMemo
         <div className="flex gap-3 justify-center">
           <button
             onClick={resetGame}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -258,8 +258,8 @@ export default function VocabularyMemory({ onFinish, week, day }: VocabularyMemo
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">{data.title}</h2>
-        <div className="flex justify-center items-center gap-6 text-sm text-gray-600">
+        <h2 className="text-2xl font-bold mb-2 text-gray-900">{data.title}</h2>
+        <div className="flex justify-center items-center gap-6 text-sm text-gray-800 font-medium">
           <span>配對完成：{matches} / {data.vocabulary.length}</span>
           <span>嘗試次數：{attempts}</span>
         </div>
@@ -271,7 +271,7 @@ export default function VocabularyMemory({ onFinish, week, day }: VocabularyMemo
         </div>
       </div>
 
-      <p className="text-center text-gray-600 mb-6">
+      <p className="text-center text-gray-800 font-medium mb-6">
         翻轉卡片找到泰雅語詞彙和中文意思的配對
       </p>
 

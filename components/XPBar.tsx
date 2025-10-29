@@ -58,7 +58,7 @@ export default function XPBar() {
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <TrophyIcon className="w-6 h-6 text-yellow-500" />
-          <span className="font-bold text-lg">等級 {userProgress.level}</span>
+          <span className="font-bold text-lg text-gray-900">等級 {userProgress.level}</span>
         </div>
         <div className="flex items-center gap-1 text-blue-600">
           <StarIcon className="w-5 h-5" />
@@ -68,7 +68,7 @@ export default function XPBar() {
 
       {/* 經驗值進度條 */}
       <div className="mb-2">
-        <div className="flex justify-between text-sm text-gray-600 mb-1">
+        <div className="flex justify-between text-sm text-gray-800 font-medium mb-1">
           <span>{levelProgress.current} / {levelProgress.required} XP</span>
           <span>{levelProgress.percentage}%</span>
         </div>
@@ -81,11 +81,11 @@ export default function XPBar() {
       </div>
 
       {/* 下一等級提示 */}
-      <div className="text-center text-sm text-gray-500">
+      <div className="text-center text-sm text-gray-700">
         {levelProgress.percentage === 100 ? (
           <span className="text-green-600 font-medium">🎉 準備升級到等級 {userProgress.level + 1}！</span>
         ) : (
-          <span>還需要 {levelProgress.required - levelProgress.current} XP 升到等級 {userProgress.level + 1}</span>
+          <span className="font-medium">還需要 {levelProgress.required - levelProgress.current} XP 升到等級 {userProgress.level + 1}</span>
         )}
       </div>
     </div>

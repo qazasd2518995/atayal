@@ -256,10 +256,10 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
         <div className="text-6xl mb-4">
           {success ? '🎉' : '💪'}
         </div>
-        <h3 className="text-2xl font-bold mb-4">
+        <h3 className="text-2xl font-bold mb-4 text-gray-900">
           {success ? '恭喜完成！' : '再接再厲！'}
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg mb-6 text-gray-900">
           您答對了 <span className="font-bold text-green-600">{score}</span> 題，
           共 <span className="font-bold">{gameData.words.length}</span> 題
         </p>
@@ -277,9 +277,9 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
                 ) : (
                   <XMarkIcon className="w-5 h-5 text-red-500" />
                 )}
-                <span className="font-medium">{wordData.word}</span>
-                <span className="text-gray-600">({wordData.meaning})</span>
-                <span className="text-gray-500">→</span>
+                <span className="font-medium text-gray-900">{wordData.word}</span>
+                <span className="text-gray-800">({wordData.meaning})</span>
+                <span className="text-gray-700">→</span>
                 <span className={isCorrect ? 'text-green-600' : 'text-red-600'}>
                   {userAnswer || '未作答'}
                 </span>
@@ -296,7 +296,7 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
         <div className="flex gap-3 justify-center">
           <button
             onClick={resetGame}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -317,18 +317,18 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <h2 className="text-2xl font-bold text-center mb-6">字母配對遊戲</h2>
-      <p className="text-center text-gray-600 mb-4">
+      <h2 className="text-2xl font-bold text-center mb-6 text-gray-900">字母配對遊戲</h2>
+      <p className="text-center text-gray-800 font-medium mb-4">
         將左側的字母拖拽到正確的單字上（第{week}週第{day}天教材內容）
       </p>
-      <p className="text-center text-sm text-blue-600 mb-8">
+      <p className="text-center text-sm text-blue-600 font-medium mb-8">
         💡 提示：用手指按住字母並拖動到單字上
       </p>
 
       <div className="grid md:grid-cols-2 gap-8">
         {/* 字母區域 */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">字母</h3>
+          <h3 className="text-lg font-semibold mb-4 text-gray-900">字母</h3>
           <div className="space-y-3">
             {shuffledLetters.map(letter => (
               <div
@@ -353,7 +353,7 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
 
         {/* 單字區域 */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">單字</h3>
+          <h3 className="text-lg font-semibold mb-4 text-gray-900">單字</h3>
           <div className="space-y-3">
             {shuffledWords.map(wordData => (
               <div
@@ -371,8 +371,8 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
                 }`}
               >
                 <div>
-                  <span className="font-medium">{wordData.word}</span>
-                  <span className="text-sm text-gray-600 ml-2">({wordData.meaning})</span>
+                  <span className="font-medium text-gray-900">{wordData.word}</span>
+                  <span className="text-sm text-gray-700 ml-2">({wordData.meaning})</span>
                 </div>
                 {matches[wordData.word] && (
                   <span className="bg-blue-500 text-white px-3 py-1 rounded font-bold">

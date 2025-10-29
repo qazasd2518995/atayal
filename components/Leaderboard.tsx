@@ -166,7 +166,7 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
                     )}
                   </h3>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-gray-600 mt-1">
+                <div className="flex items-center gap-3 text-xs text-gray-700 font-medium mt-1">
                   <span className="flex items-center gap-1">
                     <StarIcon className="w-3 h-3 text-yellow-500" />
                     等級 {entry.level}
@@ -175,7 +175,7 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
                     <FireIcon className="w-3 h-3 text-orange-500" />
                     {entry.totalXP} XP
                   </span>
-                  <span className="text-gray-400">
+                  <span className="text-gray-600">
                     第 {entry.currentWeek} 週 / 第 {entry.currentDay} 天
                   </span>
                 </div>
@@ -186,7 +186,7 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
                 <div className="text-lg font-bold text-blue-600">
                   {entry.completedCourses}
                 </div>
-                <div className="text-xs text-gray-500">已完成</div>
+                <div className="text-xs text-gray-700 font-medium">已完成</div>
               </div>
             </div>
           );

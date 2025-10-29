@@ -190,13 +190,13 @@ export default function PronunciationPractice({ onFinish, week, day }: Pronuncia
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">🎯</div>
-        <h3 className="text-2xl font-bold mb-4">發音練習完成！</h3>
-        <p className="text-lg mb-6">
+        <h3 className="text-2xl font-bold mb-4 text-gray-900">發音練習完成！</h3>
+        <p className="text-lg mb-6 text-gray-900">
           恭喜您完成了所有 <span className="font-bold text-green-600">{gameData.letters.length}</span> 個字母的發音練習！
         </p>
 
         <div className="bg-gray-50 rounded-lg p-4 mb-6">
-          <h4 className="font-semibold mb-3">練習統計：</h4>
+          <h4 className="font-semibold mb-3 text-gray-900">練習統計：</h4>
           <div className="grid grid-cols-2 gap-2 text-sm">
             {gameData.letters.map((letterData: { letter: string; tips: string }) => (
               <div key={letterData.letter} className="flex items-center justify-between">
@@ -214,7 +214,7 @@ export default function PronunciationPractice({ onFinish, week, day }: Pronuncia
         <div className="flex gap-3 justify-center">
           <button
             onClick={resetGame}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50"
           >
             重新練習
           </button>
@@ -235,8 +235,8 @@ export default function PronunciationPractice({ onFinish, week, day }: Pronuncia
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">{gameData.title}</h2>
-        <div className="flex justify-center items-center gap-4 text-sm text-gray-600">
+        <h2 className="text-2xl font-bold mb-2 text-gray-900">{gameData.title}</h2>
+        <div className="flex justify-center items-center gap-4 text-sm text-gray-800 font-medium">
           <span>字母 {currentIndex + 1} / {gameData.letters.length}</span>
           <span>已完成：{completedLetters.size} / {gameData.letters.length}</span>
         </div>
@@ -268,13 +268,13 @@ export default function PronunciationPractice({ onFinish, week, day }: Pronuncia
             </button>
           </div>
 
-          <div className="text-sm text-gray-600 mb-4">
+          <div className="text-sm text-gray-800 mb-4">
             <p className="font-semibold mb-2">發音要領：</p>
-            <p>{currentLetter?.tips}</p>
+            <p className="font-medium">{currentLetter?.tips}</p>
           </div>
 
           <div className="flex justify-center items-center gap-2">
-            <span className="text-sm">練習進度：</span>
+            <span className="text-sm text-gray-900 font-medium">練習進度：</span>
             <div className="flex gap-1">
               {Array.from({ length: requiredPractices }, (_, i) => (
                 <div
@@ -285,7 +285,7 @@ export default function PronunciationPractice({ onFinish, week, day }: Pronuncia
                 />
               ))}
             </div>
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-gray-800 font-medium">
               ({currentProgress}/{requiredPractices})
             </span>
             {isLetterCompleted && (
@@ -310,14 +310,14 @@ export default function PronunciationPractice({ onFinish, week, day }: Pronuncia
         <button
           onClick={handlePrevious}
           disabled={currentIndex === 0}
-          className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           上一個
         </button>
 
                   <div className="text-center">
-            <div className="text-xs text-gray-500 mb-1">總進度</div>
-            <div className="text-lg font-semibold">
+            <div className="text-xs text-gray-700 mb-1 font-medium">總進度</div>
+            <div className="text-lg font-semibold text-gray-900">
               {Math.round((completedLetters.size / gameData.letters.length) * 100)}%
             </div>
           </div>

@@ -145,10 +145,10 @@ export default function PictureChoice({ onFinish, week, day }: PictureChoiceProp
         <div className="text-6xl mb-4">
           {success ? '🎉' : '💪'}
         </div>
-        <h3 className="text-2xl font-bold mb-4">
+        <h3 className="text-2xl font-bold mb-4 text-gray-900">
           {success ? '恭喜完成！' : '再接再厲！'}
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg mb-6 text-gray-900">
           您答對了 <span className="font-bold text-green-600">{score}</span> 題，
           共 <span className="font-bold">{data.questions.length}</span> 題
         </p>
@@ -169,9 +169,9 @@ export default function PictureChoice({ onFinish, week, day }: PictureChoiceProp
                   )}
                   <span className="text-2xl">{question.emoji}</span>
                   <div className="flex-1">
-                    <p className="font-medium">{question.meaning}</p>
-                    <p className="text-sm text-gray-600">
-                      您的答案：<span className={isCorrect ? 'text-green-600' : 'text-red-600'}>{userAnswer}</span>
+                    <p className="font-medium text-gray-900">{question.meaning}</p>
+                    <p className="text-sm text-gray-800">
+                      您的答案：<span className={isCorrect ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>{userAnswer}</span>
                     </p>
                     {!isCorrect && (
                       <p className="text-sm text-green-600">
@@ -188,7 +188,7 @@ export default function PictureChoice({ onFinish, week, day }: PictureChoiceProp
         <div className="flex gap-3 justify-center">
           <button
             onClick={resetGame}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -205,11 +205,11 @@ export default function PictureChoice({ onFinish, week, day }: PictureChoiceProp
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">看圖選詞遊戲</h2>
-      
+      <h2 className="text-2xl font-bold text-center mb-6 text-gray-900">看圖選詞遊戲</h2>
+
       {/* 進度條 */}
       <div className="mb-6">
-        <div className="flex justify-between text-sm text-gray-600 mb-2">
+        <div className="flex justify-between text-sm text-gray-800 font-medium mb-2">
           <span>題目 {currentQuestion + 1}/{data.questions.length}</span>
           <span>{Math.round(((currentQuestion + 1) / data.questions.length) * 100)}%</span>
         </div>
@@ -224,8 +224,8 @@ export default function PictureChoice({ onFinish, week, day }: PictureChoiceProp
       {/* 題目顯示 */}
       <div className="text-center mb-8">
         <div className="text-8xl mb-4">{currentQ.emoji}</div>
-        <h3 className="text-xl font-semibold mb-2">{currentQ.meaning}</h3>
-        <p className="text-gray-600">選擇正確的泰雅語詞彙</p>
+        <h3 className="text-xl font-semibold mb-2 text-gray-900">{currentQ.meaning}</h3>
+        <p className="text-gray-800 font-medium">選擇正確的泰雅語詞彙</p>
       </div>
 
       {/* 選項 */}
@@ -240,7 +240,7 @@ export default function PictureChoice({ onFinish, week, day }: PictureChoiceProp
               className={`p-4 text-lg font-medium rounded-lg border-2 transition-all duration-200 ${
                 isSelected
                   ? 'border-blue-500 bg-blue-50 text-blue-700'
-                  : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                  : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-900'
               }`}
             >
               {option}
@@ -254,7 +254,7 @@ export default function PictureChoice({ onFinish, week, day }: PictureChoiceProp
         <button
           onClick={() => setCurrentQuestion(prev => Math.max(0, prev - 1))}
           disabled={currentQuestion === 0}
-          className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           上一題
         </button>
