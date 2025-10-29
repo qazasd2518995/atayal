@@ -209,10 +209,10 @@ export default function StorySequence({ onFinish, week, day }: StorySequenceProp
     return (
       <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">{passed ? '🎉' : '📖'}</div>
-        <h3 className="text-2xl font-bold mb-4">
+        <h3 className="text-2xl font-bold text-gray-900 mb-4">
           {passed ? '完美排序！' : '繼續加油！'}
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg text-gray-900 font-medium mb-6">
           {passed ? (
             <>
               太棒了！你正確地排列了故事順序
@@ -229,15 +229,15 @@ export default function StorySequence({ onFinish, week, day }: StorySequenceProp
         </p>
 
         <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left">
-          <h4 className="font-semibold mb-3 text-center">正確的故事順序：</h4>
+          <h4 className="font-semibold text-gray-900 mb-3 text-center">正確的故事順序：</h4>
           <div className="space-y-3">
             {storyParts.map((part, index) => (
               <div key={part.id} className="flex items-center gap-3 p-3 bg-white rounded border-l-4 border-blue-500">
                 <span className="text-2xl font-bold text-blue-500">{index + 1}</span>
                 <span className="text-2xl">{part.emoji}</span>
                 <div className="flex-1">
-                  <div className="font-semibold text-sm">{part.tayal}</div>
-                  <div className="text-gray-600 text-xs">{part.meaning}</div>
+                  <div className="font-semibold text-gray-900 text-sm">{part.tayal}</div>
+                  <div className="text-gray-800 font-medium text-xs">{part.meaning}</div>
                 </div>
               </div>
             ))}
@@ -247,7 +247,7 @@ export default function StorySequence({ onFinish, week, day }: StorySequenceProp
         <div className="flex gap-3 justify-center">
           <button
             onClick={handleRetry}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-900 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -265,11 +265,11 @@ export default function StorySequence({ onFinish, week, day }: StorySequenceProp
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">故事排序遊戲</h2>
-        <p className="text-gray-600 mb-3">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">故事排序遊戲</h2>
+        <p className="text-gray-800 font-medium mb-3">
           將故事片段拖曳或點擊排列成正確的順序
         </p>
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-gray-800 font-medium">
           嘗試次數：{attempts} / {maxAttempts}
         </div>
       </div>
@@ -316,8 +316,8 @@ export default function StorySequence({ onFinish, week, day }: StorySequenceProp
                 <div className="flex items-center gap-2">
                   <span className="text-2xl">{part.emoji}</span>
                   <div className="flex-1">
-                    <div className="font-semibold text-sm">{part.tayal}</div>
-                    <div className="text-gray-600 text-xs">{part.meaning}</div>
+                    <div className="font-semibold text-gray-900 text-sm">{part.tayal}</div>
+                    <div className="text-gray-800 font-medium text-xs">{part.meaning}</div>
                   </div>
                 </div>
               </button>
@@ -347,8 +347,8 @@ export default function StorySequence({ onFinish, week, day }: StorySequenceProp
                     <span className="text-xl font-bold text-green-600">{index + 1}</span>
                     <span className="text-2xl">{part.emoji}</span>
                     <div className="flex-1">
-                      <div className="font-semibold text-sm">{part.tayal}</div>
-                      <div className="text-gray-600 text-xs">{part.meaning}</div>
+                      <div className="font-semibold text-gray-900 text-sm">{part.tayal}</div>
+                      <div className="text-gray-800 font-medium text-xs">{part.meaning}</div>
                     </div>
                   </div>
                 </div>
@@ -366,7 +366,7 @@ export default function StorySequence({ onFinish, week, day }: StorySequenceProp
         >
           提交答案
         </button>
-        <p className="text-sm text-gray-500 mt-2">
+        <p className="text-sm text-gray-800 font-medium mt-2">
           已排序 {userSequence.length} / {storyParts.length} 個片段
         </p>
       </div>

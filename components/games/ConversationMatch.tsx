@@ -228,10 +228,10 @@ export default function ConversationMatch({ onFinish, week, day }: ConversationM
     return (
       <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">{passed ? '🎉' : '💬'}</div>
-        <h3 className="text-2xl font-bold mb-4">
+        <h3 className="text-2xl font-bold text-gray-900 mb-4">
           {passed ? '對話高手！' : '繼續加油！'}
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg text-gray-900 font-medium mb-6">
           成功配對 <strong className="text-green-600">{score}</strong> / {totalPairs} 組對話
           <br />
           使用了 <strong className="text-blue-600">{attempts}</strong> 次嘗試
@@ -246,19 +246,19 @@ export default function ConversationMatch({ onFinish, week, day }: ConversationM
         </p>
 
         <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left max-h-96 overflow-y-auto">
-          <h4 className="font-semibold mb-3 text-center">對話複習：</h4>
+          <h4 className="font-semibold text-gray-900 mb-3 text-center">對話複習：</h4>
           <div className="space-y-3">
             {conversations.map((conv) => (
               <div key={conv.id} className="p-3 bg-white rounded border">
-                <div className="text-xs text-gray-500 mb-2">{conv.category}</div>
+                <div className="text-xs text-gray-800 font-medium mb-2">{conv.category}</div>
                 <div className="grid md:grid-cols-2 gap-3">
                   <div className="bg-blue-50 p-2 rounded">
                     <div className="text-sm font-semibold text-blue-600">{conv.question}</div>
-                    <div className="text-xs text-gray-600">{conv.questionMeaning}</div>
+                    <div className="text-xs text-gray-800 font-medium">{conv.questionMeaning}</div>
                   </div>
                   <div className="bg-green-50 p-2 rounded">
                     <div className="text-sm font-semibold text-green-600">{conv.answer}</div>
-                    <div className="text-xs text-gray-600">{conv.answerMeaning}</div>
+                    <div className="text-xs text-gray-800 font-medium">{conv.answerMeaning}</div>
                   </div>
                 </div>
               </div>
@@ -269,7 +269,7 @@ export default function ConversationMatch({ onFinish, week, day }: ConversationM
         <div className="flex gap-3 justify-center">
           <button
             onClick={handleRetry}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-900 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -287,8 +287,8 @@ export default function ConversationMatch({ onFinish, week, day }: ConversationM
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">對話配對遊戲</h2>
-        <div className="text-sm text-gray-600 mb-3">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">對話配對遊戲</h2>
+        <div className="text-sm text-gray-800 font-medium mb-3">
           已配對：{score} / {totalPairs}，嘗試次數：{attempts} / {maxAttempts}
         </div>
         <div className="relative h-2 bg-gray-200 rounded-full">
@@ -299,7 +299,7 @@ export default function ConversationMatch({ onFinish, week, day }: ConversationM
         </div>
       </div>
 
-      <p className="text-center text-gray-600 mb-6">
+      <p className="text-center text-gray-800 font-medium mb-6">
         點擊左側的問題和右側的回答，配對正確的對話
       </p>
 
@@ -332,7 +332,7 @@ export default function ConversationMatch({ onFinish, week, day }: ConversationM
                 ${showResult ? 'cursor-not-allowed' : 'cursor-pointer'}
               `}
             >
-              <div className="font-semibold text-blue-600 text-center">{conv.question}</div>
+              <div className="font-semibold text-blue-600 text-base text-center">{conv.question}</div>
               {matchedPairs.has(conv.id) && (
                 <div className="flex justify-center mt-2">
                   <CheckIcon className="w-5 h-5 text-green-500" />
@@ -361,7 +361,7 @@ export default function ConversationMatch({ onFinish, week, day }: ConversationM
                 ${showResult ? 'cursor-not-allowed' : 'cursor-pointer'}
               `}
             >
-              <div className="font-semibold text-green-600 text-center">{conv.answer}</div>
+              <div className="font-semibold text-green-600 text-base text-center">{conv.answer}</div>
               {matchedPairs.has(conv.id) && (
                 <div className="flex justify-center mt-2">
                   <CheckIcon className="w-5 h-5 text-green-500" />
@@ -372,7 +372,7 @@ export default function ConversationMatch({ onFinish, week, day }: ConversationM
         </div>
       </div>
 
-      <div className="mt-6 text-center text-sm text-gray-500">
+      <div className="mt-6 text-center text-sm text-gray-800 font-medium">
         <p>先點擊左側的問題，再點擊右側的回答進行配對</p>
       </div>
     </div>

@@ -170,10 +170,10 @@ export default function StoryChoice({ onFinish, week, day }: StoryChoiceProps) {
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">{passed ? '🎉' : '📚'}</div>
-        <h3 className="text-2xl font-bold mb-4">
+        <h3 className="text-2xl font-bold text-gray-900 mb-4">
           {passed ? '理解力超強！' : '繼續加油！'}
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg text-gray-900 font-medium mb-6">
           答對 <strong className="text-green-600">{score}</strong> / {totalQuestions} 題
           <br />
           正確率：<strong className="text-blue-600">{finalScore}%</strong>
@@ -186,22 +186,22 @@ export default function StoryChoice({ onFinish, week, day }: StoryChoiceProps) {
         </p>
 
         <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left max-h-96 overflow-y-auto">
-          <h4 className="font-semibold mb-3 text-center">題目回顧：</h4>
+          <h4 className="font-semibold text-gray-900 mb-3 text-center">題目回顧：</h4>
           <div className="space-y-3">
             {storyQuestions.map((q, index) => (
               <div key={q.id} className="p-3 bg-white rounded border">
                 <div className="flex items-start gap-2 mb-2">
                   <span className="text-sm font-bold text-blue-500">Q{index + 1}</span>
                   <div className="flex-1">
-                    <p className="text-sm font-semibold">{q.question}</p>
-                    <p className="text-xs text-gray-500 italic mt-1">{q.tayal}</p>
+                    <p className="text-sm font-semibold text-gray-900">{q.question}</p>
+                    <p className="text-xs text-gray-700 font-medium italic mt-1">{q.tayal}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 mt-2 pl-6">
                   <CheckIcon className="w-4 h-4 text-green-500" />
                   <span className="text-sm text-green-600 font-semibold">{q.answer}</span>
                 </div>
-                <p className="text-xs text-gray-600 mt-1 pl-6">{q.explanation}</p>
+                <p className="text-xs text-gray-800 font-medium mt-1 pl-6">{q.explanation}</p>
               </div>
             ))}
           </div>
@@ -210,7 +210,7 @@ export default function StoryChoice({ onFinish, week, day }: StoryChoiceProps) {
         <div className="flex gap-3 justify-center">
           <button
             onClick={handleRetry}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-900 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -230,8 +230,8 @@ export default function StoryChoice({ onFinish, week, day }: StoryChoiceProps) {
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">故事理解測驗</h2>
-        <div className="text-sm text-gray-600 mb-3">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">故事理解測驗</h2>
+        <div className="text-sm text-gray-800 font-medium mb-3">
           第 {currentQuestion + 1} / {totalQuestions} 題，得分 {score}
         </div>
         <div className="relative h-2 bg-gray-200 rounded-full">
@@ -306,7 +306,7 @@ export default function StoryChoice({ onFinish, week, day }: StoryChoiceProps) {
                   <div className="w-3 h-3 rounded-full bg-white"></div>
                 )}
               </div>
-              <span className="text-base">{option}</span>
+              <span className="text-base text-gray-900 font-medium">{option}</span>
             </div>
           </button>
         ))}

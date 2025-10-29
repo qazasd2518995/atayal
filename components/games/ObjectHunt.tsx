@@ -187,10 +187,10 @@ export default function ObjectHunt({ onFinish, week, day }: ObjectHuntProps) {
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">{passed ? '🎉' : '🔍'}</div>
-        <h3 className="text-2xl font-bold mb-4">
+        <h3 className="text-2xl font-bold text-gray-900 mb-4">
           {passed ? '尋寶成功！' : '繼續加油！'}
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg text-gray-900 font-medium mb-6">
           找到 <strong className="text-green-600">{score}</strong> / {totalItems} 個物品
           <br />
           使用了 <strong className="text-blue-600">{attempts}</strong> 次嘗試
@@ -205,14 +205,14 @@ export default function ObjectHunt({ onFinish, week, day }: ObjectHuntProps) {
         </p>
 
         <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left">
-          <h4 className="font-semibold mb-3 text-center">物品詞彙複習：</h4>
+          <h4 className="font-semibold text-gray-900 mb-3 text-center">物品詞彙複習：</h4>
           <div className="grid grid-cols-2 gap-3">
             {objects.map((obj, index) => (
               <div key={index} className="flex items-center gap-2 p-2 bg-white rounded border">
                 <span className="text-2xl">{obj.emoji}</span>
                 <div className="flex-1">
                   <div className="font-semibold text-blue-600 text-sm">{obj.tayal}</div>
-                  <div className="text-gray-600 text-xs">{obj.meaning}</div>
+                  <div className="text-gray-800 font-medium text-xs">{obj.meaning}</div>
                 </div>
               </div>
             ))}
@@ -222,7 +222,7 @@ export default function ObjectHunt({ onFinish, week, day }: ObjectHuntProps) {
         <div className="flex gap-3 justify-center">
           <button
             onClick={handleRetry}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-900 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -242,8 +242,8 @@ export default function ObjectHunt({ onFinish, week, day }: ObjectHuntProps) {
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">物品尋寶遊戲</h2>
-        <div className="text-sm text-gray-600 mb-3">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">物品尋寶遊戲</h2>
+        <div className="text-sm text-gray-800 font-medium mb-3">
           已找到：{score} / {totalItems}，嘗試次數：{attempts}
         </div>
         <div className="relative h-2 bg-gray-200 rounded-full">
@@ -256,7 +256,7 @@ export default function ObjectHunt({ onFinish, week, day }: ObjectHuntProps) {
 
       {/* 目標提示 */}
       <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-lg mb-6 text-center">
-        <p className="text-lg text-gray-700 mb-2">請找出：</p>
+        <p className="text-lg text-gray-900 font-medium mb-2">請找出：</p>
         <div className="text-3xl font-bold text-orange-600">
           {targetItem.object.tayal}
         </div>
@@ -310,7 +310,7 @@ export default function ObjectHunt({ onFinish, week, day }: ObjectHuntProps) {
         ))}
       </div>
 
-      <div className="text-center text-sm text-gray-500">
+      <div className="text-center text-sm text-gray-800 font-medium">
         <p>點擊畫面上的物品來完成尋寶任務</p>
       </div>
     </div>

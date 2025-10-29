@@ -196,10 +196,10 @@ export default function AnimalSoundMatch({ onFinish, week, day }: AnimalSoundMat
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">{passed ? '🎉' : '🐾'}</div>
-        <h3 className="text-2xl font-bold mb-4">
+        <h3 className="text-2xl font-bold text-gray-900 mb-4">
           {passed ? '太棒了！' : '繼續加油！'}
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg text-gray-900 font-medium mb-6">
           成功配對 <strong className="text-green-600">{score}</strong> / {totalPairs} 組動物
           <br />
           使用了 <strong className="text-blue-600">{currentRound}</strong> 次嘗試
@@ -214,14 +214,14 @@ export default function AnimalSoundMatch({ onFinish, week, day }: AnimalSoundMat
         </p>
 
         <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left">
-          <h4 className="font-semibold mb-3 text-center">動物詞彙複習：</h4>
+          <h4 className="font-semibold text-gray-900 mb-3 text-center">動物詞彙複習：</h4>
           <div className="grid grid-cols-2 gap-3">
             {animals.map((animal, index) => (
               <div key={index} className="flex items-center gap-2 p-2 bg-white rounded border">
                 <span className="text-2xl">{animal.emoji}</span>
                 <div className="flex-1">
                   <div className="font-semibold text-blue-600 text-sm">{animal.tayal}</div>
-                  <div className="text-gray-600 text-xs">{animal.meaning} ({animal.sound})</div>
+                  <div className="text-gray-800 font-medium text-xs">{animal.meaning} ({animal.sound})</div>
                 </div>
               </div>
             ))}
@@ -231,7 +231,7 @@ export default function AnimalSoundMatch({ onFinish, week, day }: AnimalSoundMat
         <div className="flex gap-3 justify-center">
           <button
             onClick={handleRetry}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-900 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -249,8 +249,8 @@ export default function AnimalSoundMatch({ onFinish, week, day }: AnimalSoundMat
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">動物配對遊戲</h2>
-        <div className="text-sm text-gray-600 mb-3">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">動物配對遊戲</h2>
+        <div className="text-sm text-gray-800 font-medium mb-3">
           已配對：{score} / {totalPairs}，嘗試次數：{currentRound} / {totalAttempts}
         </div>
         <div className="relative h-2 bg-gray-200 rounded-full">
@@ -261,7 +261,7 @@ export default function AnimalSoundMatch({ onFinish, week, day }: AnimalSoundMat
         </div>
       </div>
 
-      <p className="text-center text-gray-600 mb-6">
+      <p className="text-center text-gray-800 font-medium mb-6">
         點擊左側的動物和右側的中文，配對正確的動物名稱
       </p>
 
@@ -296,8 +296,8 @@ export default function AnimalSoundMatch({ onFinish, week, day }: AnimalSoundMat
               `}
             >
               <div className="flex-1 text-center">
-                <div className="font-semibold text-lg">{animal.tayal}</div>
-                <div className="text-sm text-gray-500">{animal.sound}</div>
+                <div className="font-semibold text-gray-900 text-lg">{animal.tayal}</div>
+                <div className="text-sm text-gray-800 font-medium">{animal.sound}</div>
               </div>
               {matchedPairs.has(animal.tayal) && (
                 <CheckIcon className="w-5 h-5 text-green-500" />
@@ -325,7 +325,7 @@ export default function AnimalSoundMatch({ onFinish, week, day }: AnimalSoundMat
                 ${showResult ? 'cursor-not-allowed' : 'cursor-pointer'}
               `}
             >
-              <div className="font-semibold text-lg">{animal.meaning}</div>
+              <div className="font-semibold text-gray-900 text-lg">{animal.meaning}</div>
               {matchedPairs.has(animal.tayal) && (
                 <div className="flex items-center justify-center mt-2">
                   <CheckIcon className="w-5 h-5 text-green-500" />
@@ -336,7 +336,7 @@ export default function AnimalSoundMatch({ onFinish, week, day }: AnimalSoundMat
         </div>
       </div>
 
-      <div className="mt-6 text-center text-sm text-gray-500">
+      <div className="mt-6 text-center text-sm text-gray-800 font-medium">
         <p>先點擊左側的動物，再點擊右側的中文意思進行配對</p>
       </div>
     </div>

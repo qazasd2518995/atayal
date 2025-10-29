@@ -216,10 +216,10 @@ export default function ActionSimon({ onFinish, week, day }: ActionSimonProps) {
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">{passed ? '🎉' : '🎮'}</div>
-        <h3 className="text-2xl font-bold mb-4">
+        <h3 className="text-2xl font-bold mb-4 text-gray-900">
           {passed ? '記憶力超強！' : '繼續加油！'}
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg mb-6 text-gray-900">
           成功記住 <strong className="text-green-600">{score}</strong> / {maxRounds} 輪
           <br />
           正確率：<strong className="text-blue-600">{finalScore}%</strong>
@@ -232,7 +232,7 @@ export default function ActionSimon({ onFinish, week, day }: ActionSimonProps) {
         </p>
 
         <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left">
-          <h4 className="font-semibold mb-3 text-center">動作詞彙複習：</h4>
+          <h4 className="font-semibold mb-3 text-center text-gray-900">動作詞彙複習：</h4>
           <div className="grid grid-cols-2 gap-3">
             {actions.map((action, index) => (
               <div key={index} className="flex items-center gap-2 p-2 bg-white rounded border">
@@ -249,7 +249,7 @@ export default function ActionSimon({ onFinish, week, day }: ActionSimonProps) {
         <div className="flex gap-3 justify-center">
           <button
             onClick={handleRetry}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -268,14 +268,14 @@ export default function ActionSimon({ onFinish, week, day }: ActionSimonProps) {
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">🎮</div>
-        <h2 className="text-2xl font-bold mb-4">動作記憶遊戲</h2>
-        <p className="text-lg text-gray-700 mb-6">
+        <h2 className="text-2xl font-bold mb-4 text-gray-900">動作記憶遊戲</h2>
+        <p className="text-lg text-gray-800 font-medium mb-6">
           記住動作的順序，然後按照正確的順序點擊！
         </p>
 
         <div className="bg-blue-50 p-4 rounded-lg mb-6 text-left">
-          <h3 className="font-semibold mb-2">遊戲規則：</h3>
-          <ul className="list-disc list-inside space-y-1 text-gray-700">
+          <h3 className="font-semibold mb-2 text-gray-900">遊戲規則：</h3>
+          <ul className="list-disc list-inside space-y-1 text-gray-800">
             <li>每輪會顯示 {sequenceLength} 個動作的順序</li>
             <li>記住順序後，依序點擊正確的動作</li>
             <li>共有 {maxRounds} 輪挑戰</li>
@@ -296,8 +296,8 @@ export default function ActionSimon({ onFinish, week, day }: ActionSimonProps) {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">動作記憶遊戲</h2>
-        <div className="text-sm text-gray-600 mb-3">
+        <h2 className="text-2xl font-bold mb-2 text-gray-900">動作記憶遊戲</h2>
+        <div className="text-sm text-gray-800 font-medium mb-3">
           第 {round} / {maxRounds} 輪，得分 {score}
         </div>
         <div className="relative h-2 bg-gray-200 rounded-full">

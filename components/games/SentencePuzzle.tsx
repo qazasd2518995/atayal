@@ -144,10 +144,10 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
         <div className="text-6xl mb-4">
           {success ? '🎉' : '💪'}
         </div>
-        <h3 className="text-2xl font-bold mb-4">
+        <h3 className="text-2xl font-bold mb-4 text-gray-900">
           {success ? '恭喜完成！' : '再接再厲！'}
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg mb-6 text-gray-900">
           您答對了 <span className="font-bold text-green-600">{score}</span> 題，
           共 <span className="font-bold">{data.puzzles.length}</span> 題
         </p>
@@ -167,9 +167,9 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
                     <XMarkIcon className="w-5 h-5 text-red-500 mt-0.5" />
                   )}
                   <div className="flex-1">
-                    <p className="font-medium">{puzzle.meaning}</p>
-                    <p className="text-sm text-gray-600 mt-1">
-                      您的答案：<span className={isCorrect ? 'text-green-600' : 'text-red-600'}>{userAnswer || '未作答'}</span>
+                    <p className="font-medium text-gray-900">{puzzle.meaning}</p>
+                    <p className="text-sm text-gray-800 mt-1">
+                      您的答案：<span className={isCorrect ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>{userAnswer || '未作答'}</span>
                     </p>
                     {!isCorrect && (
                       <p className="text-sm text-green-600 mt-1">
@@ -186,7 +186,7 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
         <div className="flex gap-3 justify-center">
           <button
             onClick={resetGame}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -203,11 +203,11 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">句子拼組遊戲</h2>
-      
+      <h2 className="text-2xl font-bold text-center mb-6 text-gray-900">句子拼組遊戲</h2>
+
       {/* 進度條 */}
       <div className="mb-6">
-        <div className="flex justify-between text-sm text-gray-600 mb-2">
+        <div className="flex justify-between text-sm text-gray-800 font-medium mb-2">
           <span>題目 {currentPuzzle + 1}/{data.puzzles.length}</span>
           <span>{Math.round(((currentPuzzle + 1) / data.puzzles.length) * 100)}%</span>
         </div>
@@ -221,14 +221,14 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
 
       {/* 題目說明 */}
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold mb-2">{currentP.meaning}</h3>
-        <p className="text-gray-600">將下方的詞語拖拽組成正確的泰雅語句子</p>
-        <p className="text-sm text-blue-600 mt-1">💡 {currentP.hint}</p>
+        <h3 className="text-xl font-semibold mb-2 text-gray-900">{currentP.meaning}</h3>
+        <p className="text-gray-800 font-medium">將下方的詞語拖拽組成正確的泰雅語句子</p>
+        <p className="text-sm text-blue-600 font-medium mt-1">💡 {currentP.hint}</p>
       </div>
 
       {/* 用戶組成的句子 */}
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-gray-700 mb-2">您組成的句子：</h4>
+        <h4 className="text-sm font-medium text-gray-900 mb-2">您組成的句子：</h4>
         <div className="min-h-[60px] bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-wrap gap-2">
           {userSentence.length === 0 ? (
             <span className="text-gray-400 italic">請將詞語拖拽到這裡</span>
@@ -256,7 +256,7 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
 
       {/* 可用詞語 */}
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-gray-700 mb-2">可用詞語：</h4>
+        <h4 className="text-sm font-medium text-gray-900 mb-2">可用詞語：</h4>
         <div className="flex flex-wrap gap-2">
           {getAvailableWords().map((word, index) => (
             <button
@@ -275,7 +275,7 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
 
       {/* 參考答案長度提示 */}
       <div className="mb-6 text-center">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-800 font-medium">
           正確句子包含 <span className="font-bold">{currentP.scrambledWords.length}</span> 個詞語
         </p>
       </div>
@@ -285,7 +285,7 @@ export default function SentencePuzzle({ onFinish, week, day }: SentencePuzzlePr
         <button
           onClick={() => setCurrentPuzzle(prev => Math.max(0, prev - 1))}
           disabled={currentPuzzle === 0}
-          className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           上一題
         </button>

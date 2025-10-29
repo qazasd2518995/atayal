@@ -234,10 +234,10 @@ export default function CulturalTrivia({ onFinish, week, day }: CulturalTriviaPr
     return (
       <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg text-center">
         <div className="text-6xl mb-4">{passed ? '🎉' : '📚'}</div>
-        <h3 className="text-2xl font-bold mb-4">
+        <h3 className="text-2xl font-bold mb-4 text-gray-900">
           {passed ? '文化知識達人！' : '繼續學習！'}
         </h3>
-        <p className="text-lg mb-6">
+        <p className="text-lg mb-6 text-gray-900">
           答對 <strong className="text-green-600">{score}</strong> / {totalQuestions} 題
           <br />
           正確率：<strong className="text-blue-600">{finalScore}%</strong>
@@ -250,11 +250,11 @@ export default function CulturalTrivia({ onFinish, week, day }: CulturalTriviaPr
         </p>
 
         <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-6 rounded-lg mb-6">
-          <h4 className="font-semibold mb-3">🎓 恭喜完成三週學習！</h4>
-          <p className="text-gray-700 mb-3">
+          <h4 className="font-semibold mb-3 text-gray-900">🎓 恭喜完成三週學習！</h4>
+          <p className="text-gray-800 font-medium mb-3">
             您已經掌握了泰雅語的基礎：
           </p>
-          <ul className="text-left space-y-2 text-sm text-gray-600">
+          <ul className="text-left space-y-2 text-sm text-gray-800">
             <li>✅ 第一週：字母發音與基礎單字</li>
             <li>✅ 第二週：生活主題詞彙與對話</li>
             <li>✅ 第三週：神話故事與文化理解</li>
@@ -262,20 +262,20 @@ export default function CulturalTrivia({ onFinish, week, day }: CulturalTriviaPr
         </div>
 
         <div className="bg-gray-50 p-4 rounded-lg mb-6 text-left max-h-80 overflow-y-auto">
-          <h4 className="font-semibold mb-3 text-center">題目回顧：</h4>
+          <h4 className="font-semibold mb-3 text-center text-gray-900">題目回顧：</h4>
           <div className="space-y-3">
             {questions.map((q, index) => (
               <div key={q.id} className="p-3 bg-white rounded border">
                 <div className="text-xs text-purple-500 mb-1">{q.category}</div>
                 <div className="flex items-start gap-2 mb-2">
                   <span className="text-sm font-bold text-blue-500">Q{index + 1}</span>
-                  <p className="text-sm font-semibold flex-1">{q.question}</p>
+                  <p className="text-sm font-semibold flex-1 text-gray-900">{q.question}</p>
                 </div>
                 <div className="flex items-center gap-2 pl-6">
                   <CheckIcon className="w-4 h-4 text-green-500" />
                   <span className="text-sm text-green-600 font-semibold">{q.answer}</span>
                 </div>
-                <p className="text-xs text-gray-600 mt-1 pl-6">{q.explanation}</p>
+                <p className="text-xs text-gray-800 mt-1 pl-6">{q.explanation}</p>
               </div>
             ))}
           </div>
@@ -284,7 +284,7 @@ export default function CulturalTrivia({ onFinish, week, day }: CulturalTriviaPr
         <div className="flex gap-3 justify-center">
           <button
             onClick={handleRetry}
-            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-2 border border-gray-300 text-gray-800 font-medium rounded-lg hover:bg-gray-50"
           >
             重新挑戰
           </button>
@@ -304,8 +304,8 @@ export default function CulturalTrivia({ onFinish, week, day }: CulturalTriviaPr
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold mb-2">文化知識問答</h2>
-        <div className="text-sm text-gray-600 mb-3">
+        <h2 className="text-2xl font-bold mb-2 text-gray-900">文化知識問答</h2>
+        <div className="text-sm text-gray-800 font-medium mb-3">
           第 {currentQuestion + 1} / {totalQuestions} 題，得分 {score}
         </div>
         <div className="relative h-2 bg-gray-200 rounded-full">
@@ -378,7 +378,7 @@ export default function CulturalTrivia({ onFinish, week, day }: CulturalTriviaPr
                   <div className="w-3 h-3 rounded-full bg-white"></div>
                 )}
               </div>
-              <span className="text-base">{option}</span>
+              <span className="text-base text-gray-900 font-medium">{option}</span>
             </div>
           </button>
         ))}
