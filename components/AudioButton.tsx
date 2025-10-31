@@ -30,12 +30,28 @@ export default function AudioButton({
         audioRef.current.pause();
         setIsPlaying(false);
       } else {
+        // 重新載入音檔以確保在行動裝置上正確播放
+        audioRef.current.load();
         await audioRef.current.play();
         setIsPlaying(true);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('音檔播放錯誤:', err);
-      alert('音檔播放失敗，請檢查檔案是否存在。');
+
+      // 提供更詳細的錯誤訊息
+      let errorMessage = '音檔播放失敗';
+
+      if (err.name === 'NotAllowedError') {
+        errorMessage = '瀏覽器已阻止自動播放。請先點擊播放按鈕。';
+      } else if (err.name === 'NotSupportedError') {
+        errorMessage = '您的瀏覽器不支援此音檔格式。請嘗試使用其他瀏覽器。';
+      } else if (err.name === 'AbortError') {
+        errorMessage = '音檔載入被中斷。請檢查網路連線。';
+      } else {
+        errorMessage = `音檔播放失敗 (${err.name || '未知錯誤'})。請確認網路連線正常。`;
+      }
+
+      alert(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -85,7 +101,14 @@ export default function AudioButton({
         ref={audioRef}
         src={src}
         onEnded={handleEnded}
-        preload="metadata"
+        preload="auto"
+        onError={(e) => {
+          console.error('音檔載入錯誤:', e);
+          console.error('音檔路徑:', src);
+        }}
+        onLoadedData={() => {
+          console.log('音檔已載入:', src);
+        }}
       />
     </div>
   );
