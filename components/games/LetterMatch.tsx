@@ -78,6 +78,8 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null); // 用於點擊選擇模式
   const [touchDragLetter, setTouchDragLetter] = useState<string | null>(null); // 觸控拖移中的字母
   const [dragPosition, setDragPosition] = useState<{ x: number; y: number } | null>(null); // 拖移位置
+  const [touchStartPos, setTouchStartPos] = useState<{ x: number; y: number } | null>(null); // 觸控開始位置
+  const [pendingDragLetter, setPendingDragLetter] = useState<string | null>(null); // 等待拖曳的字母
   const [gameCompleted, setGameCompleted] = useState(false);
   const [score, setScore] = useState(0);
   const [shuffledLetters, setShuffledLetters] = useState<string[]>([]);
@@ -143,48 +145,73 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
 
   // 觸控開始拖移
   const handleTouchStart = (e: React.TouchEvent, letter: string) => {
-    e.preventDefault();
-    setTouchDragLetter(letter);
     const touch = e.touches[0];
-    setDragPosition({ x: touch.clientX, y: touch.clientY });
+    const startPos = { x: touch.clientX, y: touch.clientY };
+    setTouchStartPos(startPos);
+    setDragPosition(startPos);
+    setPendingDragLetter(letter); // 記錄可能要拖曳的字母
   };
 
   // 觸控拖移中
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!touchDragLetter) return;
-    e.preventDefault();
+    if (!touchStartPos || !pendingDragLetter) return;
+
     const touch = e.touches[0];
-    setDragPosition({ x: touch.clientX, y: touch.clientY });
+    const newPosition = { x: touch.clientX, y: touch.clientY };
+
+    // 計算移動距離
+    const distance = Math.sqrt(
+      Math.pow(newPosition.x - touchStartPos.x, 2) +
+      Math.pow(newPosition.y - touchStartPos.y, 2)
+    );
+
+    // 如果移動距離超過 15px，認為是拖曳操作
+    if (distance > 15) {
+      // 阻止頁面滾動
+      e.preventDefault();
+
+      // 設置拖曳狀態
+      if (!touchDragLetter) {
+        setTouchDragLetter(pendingDragLetter);
+      }
+
+      setDragPosition(newPosition);
+    }
   };
 
   // 觸控結束拖移
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (!touchDragLetter) return;
-    e.preventDefault();
+    // 如果有拖曳操作
+    if (touchDragLetter && dragPosition) {
+      e.preventDefault();
 
-    const touch = e.changedTouches[0];
-    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+      const touch = e.changedTouches[0];
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
 
-    // 尋找最接近的單字元素
-    let wordElement = element;
-    let attempts = 0;
-    while (wordElement && attempts < 5) {
-      if (wordElement.hasAttribute('data-word')) {
-        const targetWord = wordElement.getAttribute('data-word');
-        if (targetWord) {
-          setMatches(prev => ({
-            ...prev,
-            [targetWord]: touchDragLetter
-          }));
+      // 尋找最接近的單字元素
+      let wordElement = element;
+      let attempts = 0;
+      while (wordElement && attempts < 5) {
+        if (wordElement.hasAttribute('data-word')) {
+          const targetWord = wordElement.getAttribute('data-word');
+          if (targetWord) {
+            setMatches(prev => ({
+              ...prev,
+              [targetWord]: touchDragLetter
+            }));
+          }
+          break;
         }
-        break;
+        wordElement = wordElement.parentElement;
+        attempts++;
       }
-      wordElement = wordElement.parentElement;
-      attempts++;
     }
 
+    // 清理所有拖曳狀態
     setTouchDragLetter(null);
     setDragPosition(null);
+    setTouchStartPos(null);
+    setPendingDragLetter(null);
   };
 
   const checkAnswers = () => {
@@ -218,6 +245,8 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
     setSelectedLetter(null);
     setTouchDragLetter(null);
     setDragPosition(null);
+    setTouchStartPos(null);
+    setPendingDragLetter(null);
     setStartTime(Date.now()); // 重置計時器
     // 重新隨機排序
     setShuffledLetters(shuffleArray(gameData.letters));
@@ -318,17 +347,24 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
       onTouchEnd={handleTouchEnd}
     >
       <h2 className="text-2xl font-bold text-center mb-6 text-gray-900">字母配對遊戲</h2>
-      <p className="text-center text-gray-800 font-medium mb-4">
-        將左側的字母拖拽到正確的單字上（第{week}週第{day}天教材內容）
+      <p className="text-center text-gray-800 font-medium mb-2">
+        將左側的字母配對到正確的單字上（第{week}週第{day}天教材內容）
       </p>
-      <p className="text-center text-sm text-blue-600 font-medium mb-8">
-        💡 提示：用手指按住字母並拖動到單字上
-      </p>
+      <div className="text-center mb-8 space-y-1">
+        <p className="text-sm text-blue-600 font-medium">
+          📱 手機用戶：點擊字母後，再點擊要配對的單字
+        </p>
+        <p className="text-sm text-gray-600">
+          💻 電腦用戶：可以拖曳字母到單字上
+        </p>
+      </div>
 
       <div className="grid md:grid-cols-2 gap-8">
         {/* 字母區域 */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">字母</h3>
+          <h3 className="text-lg font-semibold mb-4 text-gray-900">
+            字母 {selectedLetter && <span className="text-blue-600 text-sm">(已選擇: {selectedLetter.toUpperCase()})</span>}
+          </h3>
           <div className="space-y-3">
             {shuffledLetters.map(letter => (
               <div
@@ -341,11 +377,14 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
                   touchDragLetter === letter
                     ? 'opacity-50'
                     : selectedLetter === letter
-                    ? 'bg-blue-500 border-blue-600 text-white scale-105 shadow-lg'
+                    ? 'bg-blue-500 border-blue-600 text-white scale-105 shadow-lg ring-4 ring-blue-200'
                     : 'bg-blue-100 border-blue-300 text-blue-700 hover:bg-blue-200 active:scale-95'
                 }`}
               >
                 {letter.toUpperCase()}
+                {selectedLetter === letter && (
+                  <div className="text-xs mt-1 font-normal">✓ 已選擇</div>
+                )}
               </div>
             ))}
           </div>
@@ -353,7 +392,9 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
 
         {/* 單字區域 */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">單字</h3>
+          <h3 className="text-lg font-semibold mb-4 text-gray-900">
+            單字 {selectedLetter && <span className="text-blue-600 text-sm">(點擊單字進行配對)</span>}
+          </h3>
           <div className="space-y-3">
             {shuffledWords.map(wordData => (
               <div
@@ -364,9 +405,9 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
                 onClick={() => handleWordClick(wordData.word)}
                 className={`border-2 border-dashed rounded-lg p-4 min-h-[60px] flex items-center justify-between transition-all ${
                   matches[wordData.word]
-                    ? 'border-green-300 bg-green-50'
+                    ? 'border-green-500 bg-green-50'
                     : selectedLetter
-                    ? 'border-blue-400 hover:border-blue-500 hover:bg-blue-50 cursor-pointer active:scale-95'
+                    ? 'border-blue-500 bg-blue-50 hover:bg-blue-100 cursor-pointer active:scale-95 shadow-md'
                     : 'border-gray-300 hover:border-gray-400'
                 }`}
               >
@@ -374,11 +415,13 @@ export default function LetterMatch({ onFinish, week, day }: LetterMatchProps) {
                   <span className="font-medium text-gray-900">{wordData.word}</span>
                   <span className="text-sm text-gray-700 ml-2">({wordData.meaning})</span>
                 </div>
-                {matches[wordData.word] && (
-                  <span className="bg-blue-500 text-white px-3 py-1 rounded font-bold">
+                {matches[wordData.word] ? (
+                  <span className="bg-green-500 text-white px-3 py-1 rounded font-bold">
                     {matches[wordData.word].toUpperCase()}
                   </span>
-                )}
+                ) : selectedLetter ? (
+                  <span className="text-blue-500 text-sm">👈 點擊配對</span>
+                ) : null}
               </div>
             ))}
           </div>
