@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { CheckIcon, XMarkIcon, TableCellsIcon } from '@heroicons/react/24/outline';
 import { trackGameResult, ActivityTimer } from '@/lib/analytics';
 
 interface ObjectHuntProps {
@@ -12,17 +12,17 @@ interface ObjectHuntProps {
 
 // 物品數據
 const objects = [
-  { tayal: "biru'", meaning: '書', emoji: '📚' },
-  { tayal: "pila'", meaning: '錢', emoji: '💰' },
-  { tayal: "mari'", meaning: '球', emoji: '⚽' },
-  { tayal: 'hanray', meaning: '桌子', emoji: '🏓' },
-  { tayal: 'kkyalan', meaning: '電話', emoji: '📱' },
-  { tayal: 'enpit', meaning: '筆', emoji: '✏️' },
-  { tayal: 'thekan', meaning: '椅子', emoji: '🪑' },
-  { tayal: "iyu'", meaning: '藥物', emoji: '💊' },
-  { tayal: 'tennaw', meaning: '電腦', emoji: '💻' },
-  { tayal: 'ruku', meaning: '雨傘', emoji: '☂️' },
-  { tayal: "toke'", meaning: '手錶', emoji: '⌚' },
+  { tayal: "biru'", meaning: '書', emoji: '📚', icon: null },
+  { tayal: "pila'", meaning: '錢', emoji: '💰', icon: null },
+  { tayal: "mari'", meaning: '球', emoji: '⚽', icon: null },
+  { tayal: 'hanray', meaning: '桌子', emoji: null, icon: TableCellsIcon },
+  { tayal: 'kkyalan', meaning: '電話', emoji: '📱', icon: null },
+  { tayal: 'enpit', meaning: '筆', emoji: '✏️', icon: null },
+  { tayal: 'thekan', meaning: '椅子', emoji: '🪑', icon: null },
+  { tayal: "iyu'", meaning: '藥物', emoji: '💊', icon: null },
+  { tayal: 'tennaw', meaning: '電腦', emoji: '💻', icon: null },
+  { tayal: 'ruku', meaning: '雨傘', emoji: '☂️', icon: null },
+  { tayal: "toke'", meaning: '手錶', emoji: '⌚', icon: null },
 ];
 
 interface HuntItem {
@@ -209,7 +209,11 @@ export default function ObjectHunt({ onFinish, week, day }: ObjectHuntProps) {
           <div className="grid grid-cols-2 gap-3">
             {objects.map((obj, index) => (
               <div key={index} className="flex items-center gap-2 p-2 bg-white rounded border">
-                <span className="text-2xl">{obj.emoji}</span>
+                {obj.icon ? (
+                  <obj.icon className="w-8 h-8 text-amber-700" />
+                ) : (
+                  <span className="text-2xl">{obj.emoji}</span>
+                )}
                 <div className="flex-1">
                   <div className="font-semibold text-blue-600 text-sm">{obj.tayal}</div>
                   <div className="text-gray-800 font-medium text-xs">{obj.meaning}</div>
@@ -302,10 +306,15 @@ export default function ObjectHunt({ onFinish, week, day }: ObjectHuntProps) {
                 : 'hover:scale-125 cursor-pointer bg-white border-gray-400 hover:border-blue-500 shadow-lg hover:shadow-xl'
               }
               ${showFeedback ? 'cursor-not-allowed' : ''}
-              flex items-center justify-center text-3xl
+              flex items-center justify-center
+              ${item.object.icon ? '' : 'text-3xl'}
             `}
           >
-            {item.object.emoji}
+            {item.object.icon ? (
+              <item.object.icon className="w-10 h-10 text-amber-700" />
+            ) : (
+              item.object.emoji
+            )}
           </button>
         ))}
       </div>
