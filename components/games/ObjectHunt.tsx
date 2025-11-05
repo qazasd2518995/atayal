@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CheckIcon, XMarkIcon, TableCellsIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { trackGameResult, ActivityTimer } from '@/lib/analytics';
+import Image from 'next/image';
 
 interface ObjectHuntProps {
   onFinish: (success: boolean, score?: number) => void;
@@ -12,17 +13,17 @@ interface ObjectHuntProps {
 
 // 物品數據
 const objects = [
-  { tayal: "biru'", meaning: '書', emoji: '📚', icon: null },
-  { tayal: "pila'", meaning: '錢', emoji: '💰', icon: null },
-  { tayal: "mari'", meaning: '球', emoji: '⚽', icon: null },
-  { tayal: 'hanray', meaning: '桌子', emoji: null, icon: TableCellsIcon },
-  { tayal: 'kkyalan', meaning: '電話', emoji: '📱', icon: null },
-  { tayal: 'enpit', meaning: '筆', emoji: '✏️', icon: null },
-  { tayal: 'thekan', meaning: '椅子', emoji: '🪑', icon: null },
-  { tayal: "iyu'", meaning: '藥物', emoji: '💊', icon: null },
-  { tayal: 'tennaw', meaning: '電腦', emoji: '💻', icon: null },
-  { tayal: 'ruku', meaning: '雨傘', emoji: '☂️', icon: null },
-  { tayal: "toke'", meaning: '手錶', emoji: '⌚', icon: null },
+  { tayal: "biru'", meaning: '書', emoji: '📚', image: null },
+  { tayal: "pila'", meaning: '錢', emoji: '💰', image: null },
+  { tayal: "mari'", meaning: '球', emoji: '⚽', image: null },
+  { tayal: 'hanray', meaning: '桌子', emoji: null, image: '/images/table.png' },
+  { tayal: 'kkyalan', meaning: '電話', emoji: '📱', image: null },
+  { tayal: 'enpit', meaning: '筆', emoji: '✏️', image: null },
+  { tayal: 'thekan', meaning: '椅子', emoji: '🪑', image: null },
+  { tayal: "iyu'", meaning: '藥物', emoji: '💊', image: null },
+  { tayal: 'tennaw', meaning: '電腦', emoji: '💻', image: null },
+  { tayal: 'ruku', meaning: '雨傘', emoji: '☂️', image: null },
+  { tayal: "toke'", meaning: '手錶', emoji: '⌚', image: null },
 ];
 
 interface HuntItem {
@@ -209,8 +210,16 @@ export default function ObjectHunt({ onFinish, week, day }: ObjectHuntProps) {
           <div className="grid grid-cols-2 gap-3">
             {objects.map((obj, index) => (
               <div key={index} className="flex items-center gap-2 p-2 bg-white rounded border">
-                {obj.icon ? (
-                  <obj.icon className="w-8 h-8 text-amber-700" />
+                {obj.image ? (
+                  <div className="w-8 h-8 flex items-center justify-center">
+                    <Image
+                      src={obj.image}
+                      alt={obj.meaning}
+                      width={32}
+                      height={32}
+                      className="object-contain"
+                    />
+                  </div>
                 ) : (
                   <span className="text-2xl">{obj.emoji}</span>
                 )}
@@ -307,11 +316,17 @@ export default function ObjectHunt({ onFinish, week, day }: ObjectHuntProps) {
               }
               ${showFeedback ? 'cursor-not-allowed' : ''}
               flex items-center justify-center
-              ${item.object.icon ? '' : 'text-3xl'}
+              ${item.object.image ? 'p-2' : 'text-3xl'}
             `}
           >
-            {item.object.icon ? (
-              <item.object.icon className="w-10 h-10 text-amber-700" />
+            {item.object.image ? (
+              <Image
+                src={item.object.image}
+                alt={item.object.meaning}
+                width={48}
+                height={48}
+                className="object-contain"
+              />
             ) : (
               item.object.emoji
             )}
