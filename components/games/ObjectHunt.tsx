@@ -325,7 +325,9 @@ export default function ObjectHunt({ onFinish, week, day }: ObjectHuntProps) {
                 alt={item.object.meaning}
                 width={48}
                 height={48}
-                className="object-contain"
+                className="object-contain w-full h-full"
+                priority
+                unoptimized
               />
             ) : (
               item.object.emoji
