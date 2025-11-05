@@ -15,7 +15,7 @@ const objects = [
   { tayal: "biru'", meaning: '書', emoji: '📚' },
   { tayal: "pila'", meaning: '錢', emoji: '💰' },
   { tayal: "mari'", meaning: '球', emoji: '⚽' },
-  { tayal: 'hanray', meaning: '桌子', emoji: '🪑' },
+  { tayal: 'hanray', meaning: '桌子', emoji: '🏓' },
   { tayal: 'kkyalan', meaning: '電話', emoji: '📱' },
   { tayal: 'enpit', meaning: '筆', emoji: '✏️' },
   { tayal: 'thekan', meaning: '椅子', emoji: '🪑' },
