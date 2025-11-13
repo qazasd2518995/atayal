@@ -361,7 +361,7 @@ export default function HomePage() {
 
         {/* 經驗值條 */}
         <div className="max-w-2xl mx-auto mb-8">
-          <XPBar />
+          <XPBar userProgress={userProgress} />
         </div>
 
         {/* 學習進度概覽 */}

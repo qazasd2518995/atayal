@@ -1,11 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getUserProgress, getLevelProgress, loadProgressFromCloud } from '@/lib/progress';
+import { getUserProgress, getLevelProgress, UserProgress } from '@/lib/progress';
 import { TrophyIcon, StarIcon } from '@heroicons/react/24/solid';
 
-export default function XPBar() {
-  const [userProgress, setUserProgress] = useState({
+interface XPBarProps {
+  userProgress?: UserProgress;
+}
+
+export default function XPBar({ userProgress: externalProgress }: XPBarProps) {
+  const [userProgress, setUserProgress] = useState<UserProgress>({
     totalXP: 0,
     level: 1,
     currentWeek: 1,
@@ -14,35 +18,22 @@ export default function XPBar() {
   });
 
   const [mounted, setMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
-    loadProgress();
-  }, []);
-
-  const loadProgress = async () => {
-    // 先從 localStorage 讀取（快速顯示）
-    const localProgress = getUserProgress();
-    setUserProgress(localProgress);
-
-    // 然後從雲端載入最新進度
-    const userName = localStorage.getItem('userName');
-    if (userName) {
-      try {
-        const cloudProgress = await loadProgressFromCloud(userName);
-        if (cloudProgress) {
-          // 更新為雲端進度
-          setUserProgress(cloudProgress);
-          // 同步到 localStorage
-          localStorage.setItem('tayal-progress', JSON.stringify(cloudProgress));
-        }
-      } catch (error) {
-        console.error('載入雲端進度失敗:', error);
-      }
+    // 如果沒有外部傳入的進度，從 localStorage 讀取
+    if (!externalProgress) {
+      const progress = getUserProgress();
+      setUserProgress(progress);
     }
-    setIsLoading(false);
-  };
+  }, [externalProgress]);
+
+  // 當外部進度改變時，更新顯示
+  useEffect(() => {
+    if (externalProgress) {
+      setUserProgress(externalProgress);
+    }
+  }, [externalProgress]);
 
   const levelProgress = getLevelProgress(userProgress.totalXP, userProgress.level);
 
