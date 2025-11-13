@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getUserProgress, getLevelProgress } from '@/lib/progress';
+import { getUserProgress, getLevelProgress, loadProgressFromCloud } from '@/lib/progress';
 import { TrophyIcon, StarIcon } from '@heroicons/react/24/solid';
 
 export default function XPBar() {
@@ -12,14 +12,37 @@ export default function XPBar() {
     currentDay: 1,
     completedDays: {}
   });
-  
+
   const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
-    const progress = getUserProgress();
-    setUserProgress(progress);
+    loadProgress();
   }, []);
+
+  const loadProgress = async () => {
+    // 先從 localStorage 讀取（快速顯示）
+    const localProgress = getUserProgress();
+    setUserProgress(localProgress);
+
+    // 然後從雲端載入最新進度
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+      try {
+        const cloudProgress = await loadProgressFromCloud(userName);
+        if (cloudProgress) {
+          // 更新為雲端進度
+          setUserProgress(cloudProgress);
+          // 同步到 localStorage
+          localStorage.setItem('tayal-progress', JSON.stringify(cloudProgress));
+        }
+      } catch (error) {
+        console.error('載入雲端進度失敗:', error);
+      }
+    }
+    setIsLoading(false);
+  };
 
   const levelProgress = getLevelProgress(userProgress.totalXP, userProgress.level);
 

@@ -58,39 +58,22 @@ export default function HomePage() {
         setUserName(savedName);
         setIsLoadingProgress(true);
 
-        // 先清除本地進度，避免顯示舊用戶的進度
-        localStorage.removeItem('tayal-progress');
+        // 先從本地載入（快速顯示）
+        const localProgress = getUserProgress();
+        setUserProgress(localProgress);
 
-        // 嘗試從雲端載入進度
+        // 從雲端載入最新進度
         try {
           const cloudProgress = await loadProgressFromCloud(savedName);
           if (cloudProgress) {
-            // 找到雲端進度，載入它
+            // 找到雲端進度，使用雲端進度（更可靠）
             await saveUserProgress(cloudProgress);
             setUserProgress(cloudProgress);
-          } else {
-            // 雲端沒有進度，使用預設進度
-            const defaultProgress = {
-              currentWeek: 1,
-              currentDay: 1,
-              completedDays: {},
-              totalXP: 0,
-              level: 1,
-            };
-            await saveUserProgress(defaultProgress);
-            setUserProgress(defaultProgress);
           }
+          // 如果雲端沒有進度，保留本地進度（不覆蓋）
         } catch (error) {
           console.error('載入雲端進度失敗:', error);
-          // 出錯時使用預設進度
-          const defaultProgress = {
-            currentWeek: 1,
-            currentDay: 1,
-            completedDays: {},
-            totalXP: 0,
-            level: 1,
-          };
-          setUserProgress(defaultProgress);
+          // 出錯時保留本地進度（不重置）
         } finally {
           setIsLoadingProgress(false);
         }
@@ -124,34 +107,41 @@ export default function HomePage() {
     setUserName(name);
     setIsLoadingProgress(true);
 
-    // 先清除本地進度，避免使用舊用戶的進度
-    localStorage.removeItem('tayal-progress');
-
     try {
       // 首先檢查課前測驗記錄（更可靠的舊用戶判斷方式）
       const assessmentResponse = await fetch(`/api/assessment?userName=${encodeURIComponent(name)}&assessmentType=pre`);
       const assessmentData = await assessmentResponse.json();
 
       if (assessmentData.exists) {
-        // 已完成課前測驗 = 舊用戶，載入雲端進度
+        // 已完成課前測驗 = 舊用戶，從雲端載入進度
         const cloudProgress = await loadProgressFromCloud(name);
 
         if (cloudProgress) {
+          // 找到雲端進度，使用它
           await saveUserProgress(cloudProgress);
           setUserProgress(cloudProgress);
           console.log('歡迎回來！已載入您的進度。');
         } else {
-          // 有課前測驗記錄但沒有進度記錄（異常情況）
-          const defaultProgress = {
-            currentWeek: 1,
-            currentDay: 1,
-            completedDays: {},
-            totalXP: 0,
-            level: 1,
-          };
-          await saveUserProgress(defaultProgress);
-          setUserProgress(defaultProgress);
-          console.log('歡迎回來！');
+          // 有課前測驗但沒有進度（異常情況），檢查本地是否有進度
+          const localProgress = getUserProgress();
+          if (localProgress.totalXP > 0 || Object.keys(localProgress.completedDays).length > 0) {
+            // 本地有進度，使用本地進度並上傳到雲端
+            await saveUserProgress(localProgress);
+            setUserProgress(localProgress);
+            console.log('歡迎回來！已載入您的本地進度。');
+          } else {
+            // 本地也沒有進度，使用預設進度
+            const defaultProgress = {
+              currentWeek: 1,
+              currentDay: 1,
+              completedDays: {},
+              totalXP: 0,
+              level: 1,
+            };
+            await saveUserProgress(defaultProgress);
+            setUserProgress(defaultProgress);
+            console.log('歡迎回來！');
+          }
         }
         setShowNameModal(false);
       } else {
@@ -162,15 +152,9 @@ export default function HomePage() {
       }
     } catch (error) {
       console.error('載入進度時發生錯誤:', error);
-      // 出錯時使用預設進度
-      const defaultProgress = {
-        currentWeek: 1,
-        currentDay: 1,
-        completedDays: {},
-        totalXP: 0,
-        level: 1,
-      };
-      setUserProgress(defaultProgress);
+      // 出錯時檢查本地進度
+      const localProgress = getUserProgress();
+      setUserProgress(localProgress);
       setShowNameModal(false);
     } finally {
       setIsLoadingProgress(false);
