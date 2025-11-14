@@ -221,10 +221,13 @@ export default function DayLessonPage() {
         if (!data.exists) {
           // 尚未完成課後測驗，顯示測驗
           setShowPostAssessment(true);
-          return;
+          return; // 提前結束函數，不執行下面的跳轉
         }
       } catch (error) {
         console.error('檢查課後測驗狀態失敗:', error);
+        // 如果檢查失敗，為了安全起見，也顯示測驗
+        setShowPostAssessment(true);
+        return; // 提前結束函數，不執行下面的跳轉
       }
     }
 
