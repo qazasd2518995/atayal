@@ -166,6 +166,8 @@ export default function DayLessonPage() {
       // 檢查這是否是第一次完成
       const wasAlreadyCompleted = completed;
 
+      console.log('[DEBUG] 遊戲完成:', { week, day, score, wasAlreadyCompleted, userName });
+
       // 遊戲成功且分數 > 50%，標記課程完成並給經驗值
       markCompleted(week, day);
 
@@ -190,7 +192,10 @@ export default function DayLessonPage() {
 
       // 只有第一次完成才顯示問卷
       if (!wasAlreadyCompleted) {
+        console.log('[DEBUG] 顯示問卷');
         setShowSurvey(true);
+      } else {
+        console.log('[DEBUG] 已經完成過，不顯示問卷');
       }
     } else {
       // 遊戲失敗或分數 <= 50%，顯示失敗提示
@@ -211,23 +216,38 @@ export default function DayLessonPage() {
   const handleSurveyComplete = async () => {
     setShowSurvey(false);
 
+    console.log('[DEBUG] 問卷完成 - 檢查後測條件:', { week, day, userName });
+
     // 檢查是否為最後一週最後一天（第3週第5天）
     if (week === 3 && day === 5 && userName) {
+      console.log('[DEBUG] 符合後測條件，檢查是否已完成後測...');
+
       // 檢查是否已完成課後測驗
       try {
         const response = await fetch(`/api/assessment?userName=${encodeURIComponent(userName)}&assessmentType=post`);
         const data = await response.json();
 
+        console.log('[DEBUG] API 回應:', data);
+
         if (!data.exists) {
           // 尚未完成課後測驗，顯示測驗
+          console.log('[DEBUG] 後測不存在，顯示後測模態框');
           setShowPostAssessment(true);
           return; // 提前結束函數，不執行下面的跳轉
+        } else {
+          console.log('[DEBUG] 後測已完成，不顯示');
         }
       } catch (error) {
         console.error('檢查課後測驗狀態失敗:', error);
         // 如果檢查失敗，為了安全起見，也顯示測驗
+        console.log('[DEBUG] API 錯誤，顯示後測模態框');
         setShowPostAssessment(true);
         return; // 提前結束函數，不執行下面的跳轉
+      }
+    } else {
+      console.log('[DEBUG] 不符合後測條件，跳過後測');
+      if (!userName) {
+        console.log('[DEBUG] userName 是空的！');
       }
     }
 
