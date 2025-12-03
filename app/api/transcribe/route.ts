@@ -1,20 +1,19 @@
 import { NextResponse } from 'next/server';
+import Groq from 'groq-sdk';
 
-// Hugging Face Whisper API 配置
-// 移除所有不被支援的 URL 參數，只保留模型的基本路徑
-const API_URL = "https://api-inference.huggingface.co/models/openai/whisper-large-v3";
-const HF_TOKEN = process.env.HF_TOKEN;
+// 使用與 chatbot 相同的 Groq API Key
+const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
 
 /**
- * 處理來自客戶端的 POST 請求，將音檔轉發到 Hugging Face API 進行語音辨識
+ * 處理來自客戶端的 POST 請求，將音檔轉發到 Groq Whisper API 進行語音辨識
  * @param {Request} request - Next.js 請求對象
  * @returns {NextResponse} - Next.js 回應對象
  */
 export async function POST(request: Request) {
   try {
     // 1. 檢查 API 金鑰是否存在
-    if (!HF_TOKEN) {
-      console.error("Hugging Face API 金鑰未設定");
+    if (!GROQ_API_KEY) {
+      console.error("Groq API 金鑰未設定");
       return NextResponse.json(
         { error: "伺服器設定錯誤，請聯繫管理員" },
         { status: 500 }
@@ -27,40 +26,49 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "沒有收到音檔" }, { status: 400 });
     }
 
-    // 3. 呼叫 Hugging Face API (改回使用 fetch)
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${HF_TOKEN}`,
-        "Content-Type": audioBlob.type,
-      },
-      body: audioBlob,
+    // 3. 將 Blob 轉換為 File 物件（Groq SDK 需要 File 格式）
+    const audioFile = new File([audioBlob], "audio.webm", {
+      type: audioBlob.type || "audio/webm"
     });
 
-    // 4. 處理 API 回應
-    const result = await response.json();
+    // 4. 初始化 Groq 客戶端
+    const groq = new Groq({
+      apiKey: GROQ_API_KEY,
+    });
 
-    if (!response.ok) {
-      console.error("Hugging Face API 錯誤:", result);
-      const errorMessage = result.error || "語音辨識服務暫時無法使用";
-      // 如果 Hugging Face 模型正在加載，提供更友善的提示
-      if (typeof errorMessage === 'string' && errorMessage.includes("is currently loading")) {
-          return NextResponse.json(
-            { error: "辨識模型正在啟動中，請稍後再試一次。" },
-            { status: 503 } 
-          );
-      }
-      return NextResponse.json({ error: errorMessage }, { status: response.status });
-    }
-    
-    // 5. 將辨識結果回傳給前端
-    return NextResponse.json(result, { status: 200 });
+    // 5. 呼叫 Groq Whisper API
+    const transcription = await groq.audio.transcriptions.create({
+      file: audioFile,
+      model: "whisper-large-v3-turbo", // Groq 提供的快速 Whisper 模型
+      language: "zh", // 可辨識中文，也能處理泰雅語發音
+      response_format: "json",
+    });
+
+    // 6. 將辨識結果回傳給前端
+    return NextResponse.json({ text: transcription.text }, { status: 200 });
 
   } catch (error) {
     console.error("處理音檔時發生未預期錯誤:", error);
+
+    // 提供更詳細的錯誤訊息
+    if (error instanceof Error) {
+      if (error.message.includes('Invalid API Key')) {
+        return NextResponse.json(
+          { error: "API 金鑰無效，請檢查設定" },
+          { status: 401 }
+        );
+      }
+      if (error.message.includes('Rate limit')) {
+        return NextResponse.json(
+          { error: "API 請求過於頻繁，請稍後再試" },
+          { status: 429 }
+        );
+      }
+    }
+
     return NextResponse.json(
-      { error: "伺服器內部錯誤，無法處理您的請求" },
+      { error: "語音辨識服務暫時無法使用，請稍後再試" },
       { status: 500 }
     );
   }
-} 
+}
