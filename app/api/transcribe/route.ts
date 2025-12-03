@@ -27,9 +27,12 @@ export async function POST(request: Request) {
     }
 
     // 3. 將 Blob 轉換為 File 物件（Groq SDK 需要 File 格式）
-    const audioFile = new File([audioBlob], "audio.webm", {
-      type: audioBlob.type || "audio/webm"
+    // 前端送來的是 WAV 格式
+    const audioFile = new File([audioBlob], "audio.wav", {
+      type: "audio/wav"
     });
+
+    console.log("音檔大小:", audioBlob.size, "bytes, 類型:", audioBlob.type);
 
     // 4. 初始化 Groq 客戶端
     const groq = new Groq({
@@ -37,15 +40,18 @@ export async function POST(request: Request) {
     });
 
     // 5. 呼叫 Groq Whisper API
+    // 不指定 language，讓 Whisper 自動偵測（泰雅語發音可能被辨識為英文或其他語言）
     const transcription = await groq.audio.transcriptions.create({
       file: audioFile,
-      model: "whisper-large-v3-turbo", // Groq 提供的快速 Whisper 模型
-      language: "zh", // 可辨識中文，也能處理泰雅語發音
+      model: "whisper-large-v3-turbo",
       response_format: "json",
     });
 
+    console.log("辨識結果:", transcription.text);
+
     // 6. 將辨識結果回傳給前端
-    return NextResponse.json({ text: transcription.text }, { status: 200 });
+    // 如果辨識結果為空，回傳空字串而非 undefined
+    return NextResponse.json({ text: transcription.text || "" }, { status: 200 });
 
   } catch (error) {
     console.error("處理音檔時發生未預期錯誤:", error);
