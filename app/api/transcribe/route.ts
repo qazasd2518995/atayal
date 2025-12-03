@@ -40,10 +40,11 @@ export async function POST(request: Request) {
     });
 
     // 5. 呼叫 Groq Whisper API
-    // 不指定 language，讓 Whisper 自動偵測（泰雅語發音可能被辨識為英文或其他語言）
+    // 設定為英文，強制輸出拉丁字母（泰雅語使用羅馬拼音）
     const transcription = await groq.audio.transcriptions.create({
       file: audioFile,
       model: "whisper-large-v3-turbo",
+      language: "en",
       response_format: "json",
     });
 
