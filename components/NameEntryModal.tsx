@@ -66,12 +66,12 @@ export default function NameEntryModal({ isOpen, onNameSubmit }: NameEntryModalP
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
                 <div className="text-center mb-6">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 mb-4">
-                    <UserCircleIcon className="h-10 w-10 text-blue-600" />
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-forest-100 mb-4">
+                    <UserCircleIcon className="h-10 w-10 text-forest-600" />
                   </div>
                   <Dialog.Title
                     as="h3"
-                    className="text-2xl font-bold text-gray-900 mb-2"
+                    className="font-serif text-2xl font-bold text-gray-900 mb-2"
                   >
                     歡迎來到泰雅語學習平台
                   </Dialog.Title>
@@ -96,7 +96,7 @@ export default function NameEntryModal({ isOpen, onNameSubmit }: NameEntryModalP
                       className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-colors text-gray-900 placeholder:text-gray-400 ${
                         error
                           ? 'border-red-300 focus:ring-red-500'
-                          : 'border-gray-300 focus:ring-blue-500'
+                          : 'border-gray-300 focus:ring-forest-600'
                       }`}
                       placeholder="請輸入您的名字"
                       autoFocus
@@ -112,7 +112,7 @@ export default function NameEntryModal({ isOpen, onNameSubmit }: NameEntryModalP
                     className={`w-full font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-md ${
                       isLoading
                         ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg'
+                        : 'bg-forest-gradient hover:shadow-lg'
                     } text-white`}
                   >
                     {isLoading ? (

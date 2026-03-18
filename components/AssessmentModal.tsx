@@ -3,6 +3,7 @@
 import { Fragment, useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { AcademicCapIcon, ClockIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon, SparklesIcon, HandThumbUpIcon, BoltIcon, ArrowRightIcon, HomeIcon } from '@heroicons/react/24/outline';
 import { comprehensiveAssessment, AssessmentQuestion, AssessmentResult } from '@/data/assessment';
 
 interface AssessmentModalProps {
@@ -107,9 +108,9 @@ export default function AssessmentModal({
     }).length;
     const score = Math.round((correctAnswers / totalQuestions) * 100);
 
-    if (score >= 80) return { emoji: '🎉', text: '太棒了！', color: 'text-green-600' };
-    if (score >= 60) return { emoji: '👍', text: '做得不錯！', color: 'text-blue-600' };
-    return { emoji: '💪', text: '繼續努力！', color: 'text-orange-600' };
+    if (score >= 80) return { icon: <SparklesIcon className="w-14 h-14 text-forest-500" />, text: '太棒了！', color: 'text-forest-600' };
+    if (score >= 60) return { icon: <HandThumbUpIcon className="w-14 h-14 text-forest-600" />, text: '做得不錯！', color: 'text-forest-600' };
+    return { icon: <BoltIcon className="w-14 h-14 text-orange-600" />, text: '繼續努力！', color: 'text-orange-600' };
   };
 
   const formatTime = (seconds: number) => {
@@ -155,7 +156,7 @@ export default function AssessmentModal({
               >
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
                   <div className="text-center">
-                    <div className="text-6xl mb-4">{resultMsg.emoji}</div>
+                    <div className="flex justify-center mb-4">{resultMsg.icon}</div>
                     <Dialog.Title
                       as="h3"
                       className={`text-3xl font-bold mb-4 ${resultMsg.color}`}
@@ -166,11 +167,11 @@ export default function AssessmentModal({
                     <div className="bg-gray-50 rounded-lg p-6 mb-6">
                       <div className="grid grid-cols-2 gap-4 mb-4">
                         <div className="bg-white rounded-lg p-4">
-                          <div className="text-4xl font-bold text-blue-600">{score}</div>
+                          <div className="text-4xl font-bold text-forest-700">{score}</div>
                           <div className="text-sm text-gray-600">總分</div>
                         </div>
                         <div className="bg-white rounded-lg p-4">
-                          <div className="text-4xl font-bold text-green-600">{correctCount}/{totalQuestions}</div>
+                          <div className="text-4xl font-bold text-forest-600">{correctCount}/{totalQuestions}</div>
                           <div className="text-sm text-gray-600">答對題數</div>
                         </div>
                       </div>
@@ -192,9 +193,9 @@ export default function AssessmentModal({
                         <button
                           onClick={() => window.location.reload()}
                           disabled={isSubmitting}
-                          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:bg-gray-400"
+                          className="w-full bg-forest-600 hover:bg-forest-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:bg-gray-400 inline-flex items-center justify-center gap-2"
                         >
-                          {isSubmitting ? '正在儲存結果...' : '開始學習 🚀'}
+                          {isSubmitting ? '正在儲存結果...' : <><span>開始學習</span><ArrowRightIcon className="w-5 h-5" /></>}
                         </button>
                       </div>
                     ) : (
@@ -208,9 +209,9 @@ export default function AssessmentModal({
                         <button
                           onClick={() => window.location.href = '/'}
                           disabled={isSubmitting}
-                          className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:bg-gray-400"
+                          className="w-full bg-forest-500 hover:bg-forest-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:bg-gray-400 inline-flex items-center justify-center gap-2"
                         >
-                          {isSubmitting ? '正在儲存結果...' : '返回首頁 🏠'}
+                          {isSubmitting ? '正在儲存結果...' : <><span>返回首頁</span><HomeIcon className="w-5 h-5" /></>}
                         </button>
                       </div>
                     )}
@@ -253,14 +254,14 @@ export default function AssessmentModal({
               <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
                 {/* 標題區域 */}
                 <div className="text-center mb-6">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 mb-4">
-                    <AcademicCapIcon className="h-10 w-10 text-blue-600" />
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-forest-100 mb-4">
+                    <AcademicCapIcon className="h-10 w-10 text-forest-700" />
                   </div>
                   <Dialog.Title
                     as="h3"
-                    className="text-2xl font-bold text-gray-900 mb-2"
+                    className="text-2xl font-bold text-gray-900 mb-2 inline-flex items-center gap-2"
                   >
-                    {assessmentType === 'pre' ? '📝 課前測驗' : '🎓 課後測驗'}
+                    {assessmentType === 'pre' ? <><PencilSquareIcon className="w-6 h-6 text-forest-600" /> 課前測驗</> : <><AcademicCapIcon className="w-6 h-6 text-forest-600" /> 課後測驗</>}
                   </Dialog.Title>
                   <p className="text-gray-600">
                     {assessmentType === 'pre'
@@ -282,7 +283,7 @@ export default function AssessmentModal({
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
-                      className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                      className="bg-forest-600 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
@@ -291,7 +292,7 @@ export default function AssessmentModal({
                 {/* 題目 */}
                 <div className="bg-gray-50 rounded-lg p-6 mb-6">
                   <div className="flex items-start gap-3 mb-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">
+                    <div className="flex-shrink-0 w-8 h-8 bg-forest-600 text-white rounded-full flex items-center justify-center font-bold">
                       {currentQuestionIndex + 1}
                     </div>
                     <h4 className="text-lg font-semibold text-gray-900 flex-1">
@@ -307,14 +308,14 @@ export default function AssessmentModal({
                         onClick={() => handleAnswerSelect(option)}
                         className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
                           selectedAnswer === option
-                            ? 'border-blue-500 bg-blue-50'
+                            ? 'border-forest-600 bg-forest-50'
                             : 'border-gray-200 hover:border-gray-300 bg-white'
                         }`}
                       >
                         <div className="flex items-center gap-3">
                           <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                             selectedAnswer === option
-                              ? 'border-blue-500 bg-blue-500'
+                              ? 'border-forest-600 bg-forest-600'
                               : 'border-gray-300'
                           }`}>
                             {selectedAnswer === option && (
@@ -335,11 +336,15 @@ export default function AssessmentModal({
                     disabled={!selectedAnswer}
                     className={`px-8 py-3 rounded-lg font-semibold transition-colors duration-200 ${
                       selectedAnswer
-                        ? 'bg-blue-500 hover:bg-blue-600 text-white'
+                        ? 'bg-forest-600 hover:bg-forest-700 text-white'
                         : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     }`}
                   >
-                    {currentQuestionIndex < totalQuestions - 1 ? '下一題 →' : '完成測驗 ✓'}
+                    {currentQuestionIndex < totalQuestions - 1 ? (
+                      <span className="inline-flex items-center gap-1">下一題 <ArrowRightIcon className="w-4 h-4" /></span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1">完成測驗 <CheckCircleIcon className="w-4 h-4" /></span>
+                    )}
                   </button>
                 </div>
 

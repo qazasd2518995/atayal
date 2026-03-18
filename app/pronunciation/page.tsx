@@ -4,6 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import AudioButton from '@/components/AudioButton';
 import { HomeIcon, SpeakerWaveIcon } from '@heroicons/react/24/solid';
+import {
+  SparklesIcon,
+  ArrowDownTrayIcon,
+  BookOpenIcon,
+  LightBulbIcon,
+  PencilSquareIcon,
+} from '@heroicons/react/24/outline';
 
 // 泰雅語字母數據
 const vowels = [
@@ -46,28 +53,28 @@ export default function PronunciationPage() {
   const [playingAudio, setPlayingAudio] = useState<string | null>(null);
 
   const renderLetterCard = (letterData: any, index: number) => (
-    <div 
-      key={index} 
-      className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200"
+    <div
+      key={index}
+      className="card-natural p-6 hover:shadow-lg transition-shadow duration-200"
     >
       <div className="text-center mb-4">
-        <div className="text-4xl font-bold text-blue-600 mb-2">
+        <div className="text-4xl font-bold text-forest-700 mb-2">
           {letterData.letter.toUpperCase()}
         </div>
-        <div className="text-sm text-gray-500 mb-2">
+        <div className="text-sm text-wood-600 mb-2">
           發音: {letterData.sound}
         </div>
-        <AudioButton 
+        <AudioButton
           src={`/alphabet/${letterData.letter}.wav`}
           showDownload={true}
           className="justify-center"
         />
       </div>
-      
-      <div className="border-t pt-4">
-        <h3 className="font-semibold text-gray-800 mb-2">範例詞彙</h3>
-        <p className="text-gray-700 mb-2">{letterData.example}</p>
-        <p className="text-sm text-gray-600">{letterData.description}</p>
+
+      <div className="border-t border-forest-100 pt-4">
+        <h3 className="font-serif font-semibold text-stone-800 mb-2">範例詞彙</h3>
+        <p className="text-stone-700 mb-2">{letterData.example}</p>
+        <p className="text-sm text-wood-600">{letterData.description}</p>
       </div>
     </div>
   );
@@ -77,8 +84,8 @@ export default function PronunciationPage() {
       case 'vowels':
         return (
           <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">母音 (Vowels)</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-serif font-bold text-stone-800 mb-4">母音 (Vowels)</h2>
+            <p className="text-wood-600 mb-6">
               泰雅語有五個基本母音，是學習發音的基礎。每個母音都有其獨特的發音方式。
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -86,12 +93,12 @@ export default function PronunciationPage() {
             </div>
           </div>
         );
-      
+
       case 'consonants':
         return (
           <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">子音 (Consonants)</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-serif font-bold text-stone-800 mb-4">子音 (Consonants)</h2>
+            <p className="text-wood-600 mb-6">
               泰雅語的子音系統相當豐富，包含多種不同的發音方式。掌握子音發音是說好泰雅語的關鍵。
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -99,12 +106,12 @@ export default function PronunciationPage() {
             </div>
           </div>
         );
-      
+
       case 'special':
         return (
           <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">特殊音素 (Special Sounds)</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-serif font-bold text-stone-800 mb-4">特殊音素 (Special Sounds)</h2>
+            <p className="text-wood-600 mb-6">
               泰雅語中有一些特殊的音素，需要特別注意其發音方式。
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -112,95 +119,113 @@ export default function PronunciationPage() {
             </div>
           </div>
         );
-      
+
       default:
         return null;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-cream bg-nature">
       <div className="container mx-auto px-4 py-8">
         {/* 導航欄 */}
-        <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <div className="card-natural p-4 mb-6">
           <div className="flex items-center gap-4">
-            <Link 
-              href="/" 
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-wood-600 hover:text-forest-700 transition-colors"
             >
               <HomeIcon className="w-5 h-5" />
               返回首頁
             </Link>
-            <span className="text-gray-400">•</span>
-            <span className="font-medium text-gray-800">發音教室</span>
+            <span className="text-wood-400">•</span>
+            <span className="font-serif font-medium text-stone-800">發音教室</span>
           </div>
         </div>
 
         {/* 標題區域 */}
-        <div className="bg-white rounded-lg shadow-md p-8 mb-6">
+        <div className="card-natural p-8 mb-6">
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <SpeakerWaveIcon className="w-8 h-8 text-blue-600" />
-              <h1 className="text-3xl font-bold text-gray-800">泰雅語發音教室</h1>
+              <SpeakerWaveIcon className="w-8 h-8 text-forest-700" />
+              <h1 className="text-3xl font-serif font-bold text-stone-800">泰雅語發音教室</h1>
             </div>
-            <p className="text-lg text-gray-600 mb-4">
+            <p className="text-lg text-wood-600 mb-4">
               學習泰雅語字母的正確發音，建立良好的語音基礎
             </p>
-            <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
-              <span>🎧 點擊播放按鈕聽發音</span>
-              <span>📥 可下載音檔離線練習</span>
-              <span>📚 查看範例詞彙和發音說明</span>
+            <div className="flex flex-wrap justify-center gap-4 text-sm text-wood-600">
+              <span className="inline-flex items-center gap-1.5">
+                <SpeakerWaveIcon className="w-4 h-4 text-forest-600" />
+                點擊播放按鈕聽發音
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <ArrowDownTrayIcon className="w-4 h-4 text-forest-600" />
+                可下載音檔離線練習
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <BookOpenIcon className="w-4 h-4 text-forest-600" />
+                查看範例詞彙和發音說明
+              </span>
             </div>
           </div>
         </div>
 
         {/* 分類標籤 */}
-        <div className="bg-white rounded-lg shadow-md mb-6">
-          <div className="flex border-b">
+        <div className="card-natural mb-6">
+          <div className="flex border-b border-forest-100">
             <button
               onClick={() => setActiveTab('vowels')}
-              className={`flex-1 py-4 px-6 font-medium transition-colors ${
+              className={`flex-1 py-4 px-6 font-serif font-medium transition-colors ${
                 activeTab === 'vowels'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                  : 'text-gray-600 hover:text-gray-800'
+                  ? 'text-forest-700 border-b-2 border-forest-700 bg-forest-50'
+                  : 'text-wood-600 hover:text-stone-800'
               }`}
             >
-              🅰️ 母音 ({vowels.length}個)
+              母音 ({vowels.length}個)
             </button>
             <button
               onClick={() => setActiveTab('consonants')}
-              className={`flex-1 py-4 px-6 font-medium transition-colors ${
+              className={`flex-1 py-4 px-6 font-serif font-medium transition-colors ${
                 activeTab === 'consonants'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                  : 'text-gray-600 hover:text-gray-800'
+                  ? 'text-forest-700 border-b-2 border-forest-700 bg-forest-50'
+                  : 'text-wood-600 hover:text-stone-800'
               }`}
             >
-              🅱️ 子音 ({consonants.length}個)
+              子音 ({consonants.length}個)
             </button>
             <button
               onClick={() => setActiveTab('special')}
-              className={`flex-1 py-4 px-6 font-medium transition-colors ${
+              className={`flex-1 py-4 px-6 font-serif font-medium transition-colors inline-flex items-center justify-center gap-1.5 ${
                 activeTab === 'special'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                  : 'text-gray-600 hover:text-gray-800'
+                  ? 'text-forest-700 border-b-2 border-forest-700 bg-forest-50'
+                  : 'text-wood-600 hover:text-stone-800'
               }`}
             >
-              ✨ 特殊音素 ({specialSounds.length}個)
+              <SparklesIcon className="w-4 h-4" />
+              特殊音素 ({specialSounds.length}個)
             </button>
           </div>
         </div>
 
         {/* 內容區域 */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="card-natural p-6 mb-6">
           {getTabContent()}
         </div>
 
         {/* 學習建議 */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-4">💡 發音學習建議</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+        <div className="bg-gradient-to-r from-forest-50 to-cream-warm rounded-xl border border-forest-200 p-6">
+          <h3 className="text-xl font-serif font-bold text-stone-800 mb-4 inline-flex items-center gap-2">
+            <LightBulbIcon className="w-6 h-6 text-gold-500" />
+            發音學習建議
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-stone-700">
             <div>
-              <h4 className="font-semibold mb-2">🎯 練習方法</h4>
+              <h4 className="font-serif font-semibold mb-2 inline-flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-forest-600">
+                  <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z" clipRule="evenodd" />
+                </svg>
+                練習方法
+              </h4>
               <ul className="space-y-1 text-sm">
                 <li>• 反覆聽取標準發音</li>
                 <li>• 模仿錄音跟讀練習</li>
@@ -209,7 +234,10 @@ export default function PronunciationPage() {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">📝 學習重點</h4>
+              <h4 className="font-serif font-semibold mb-2 inline-flex items-center gap-1.5">
+                <PencilSquareIcon className="w-5 h-5 text-forest-600" />
+                學習重點
+              </h4>
               <ul className="space-y-1 text-sm">
                 <li>• 母音是發音基礎</li>
                 <li>• 注意聲調的變化</li>
@@ -218,11 +246,11 @@ export default function PronunciationPage() {
               </ul>
             </div>
           </div>
-          
+
           <div className="mt-6 text-center">
-            <Link 
+            <Link
               href="/"
-              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-200 inline-flex items-center gap-2"
+              className="bg-forest-600 hover:bg-forest-700 text-white px-6 py-3 rounded-lg transition-colors duration-200 inline-flex items-center gap-2"
             >
               <HomeIcon className="w-5 h-5" />
               開始週課程學習
@@ -232,4 +260,4 @@ export default function PronunciationPage() {
       </div>
     </div>
   );
-} 
+}

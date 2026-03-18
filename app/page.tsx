@@ -14,7 +14,13 @@ import {
   PlayCircleIcon,
   BookOpenIcon,
   SpeakerWaveIcon,
-  ArrowRightOnRectangleIcon
+  ArrowRightOnRectangleIcon,
+  GlobeAsiaAustraliaIcon,
+  AcademicCapIcon,
+  HomeIcon,
+  LightBulbIcon,
+  DevicePhoneMobileIcon,
+  MicrophoneIcon,
 } from '@heroicons/react/24/solid';
 
 const weekTitles = [
@@ -29,7 +35,11 @@ const weekDescriptions = [
   '文化導讀與閱讀任務：洪水與祭神神話故事'
 ];
 
-const weekEmojis = ['🔤', '🏡', '📚'];
+const WeekIcons = [
+  (props: { className?: string }) => <AcademicCapIcon {...props} />,
+  (props: { className?: string }) => <HomeIcon {...props} />,
+  (props: { className?: string }) => <BookOpenIcon {...props} />,
+];
 
 export default function HomePage() {
   const [userProgress, setUserProgress] = useState({
@@ -168,55 +178,57 @@ export default function HomePage() {
   // 在客戶端渲染完成前顯示加載狀態，避免 hydration 錯誤
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen bg-nature">
         <div className="container mx-auto px-4 py-8">
           {/* 標題區域 */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">
-              🏔️ 泰雅語線上學習平台
+            <h1 className="text-4xl font-bold text-stone-800 mb-4 font-serif">
+              <GlobeAsiaAustraliaIcon className="w-9 h-9 inline-block text-forest-600 mr-2 align-middle" />
+              泰雅語線上學習平台
             </h1>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="text-lg text-stone-600 mb-6">
               透過4週系統化課程，輕鬆學會泰雅語基礎
             </p>
             <div className="flex justify-center gap-4 mb-6">
-              <Link 
+              <Link
                 href="/pronunciation"
-                className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+                className="flex items-center gap-2 bg-forest-600 hover:bg-forest-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
               >
                 <SpeakerWaveIcon className="w-5 h-5" />
                 發音教室
               </Link>
-              <Link 
+              <Link
                 href="/voice-training"
-                className="flex items-center gap-2 bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+                className="flex items-center gap-2 bg-wood-700 hover:bg-wood-800 text-white px-6 py-3 rounded-lg transition-colors duration-200"
               >
-                🎙️ 語音訓練中心
+                <MicrophoneIcon className="w-5 h-5" />
+                語音訓練中心
               </Link>
             </div>
           </div>
 
           {/* 加載中狀態 */}
           <div className="max-w-2xl mx-auto mb-8">
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="card-natural p-6">
               <div className="animate-pulse">
-                <div className="h-4 bg-gray-200 rounded mb-4"></div>
-                <div className="h-6 bg-gray-200 rounded"></div>
+                <div className="h-4 bg-forest-100 rounded mb-4"></div>
+                <div className="h-6 bg-forest-100 rounded"></div>
               </div>
             </div>
           </div>
 
           {/* 學習進度概覽 - 骨架屏 */}
           <div className="max-w-4xl mx-auto mb-8">
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="card-natural p-6">
               <div className="animate-pulse">
-                <div className="h-6 bg-gray-200 rounded mb-4"></div>
+                <div className="h-6 bg-forest-100 rounded mb-4"></div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {[1, 2, 3].map(week => (
                     <div key={week} className="text-center">
-                      <div className="w-12 h-12 bg-gray-200 rounded-full mx-auto mb-2"></div>
-                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                      <div className="h-2 bg-gray-200 rounded mb-2"></div>
-                      <div className="h-3 bg-gray-200 rounded"></div>
+                      <div className="w-12 h-12 bg-forest-100 rounded-full mx-auto mb-2"></div>
+                      <div className="h-4 bg-forest-100 rounded mb-2"></div>
+                      <div className="h-2 bg-forest-100 rounded mb-2"></div>
+                      <div className="h-3 bg-forest-100 rounded"></div>
                     </div>
                   ))}
                 </div>
@@ -228,25 +240,25 @@ export default function HomePage() {
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[1, 2, 3].map(week => (
-                <div key={week} className="bg-white rounded-lg shadow-md overflow-hidden">
-                  <div className="h-2 bg-gray-200"></div>
+                <div key={week} className="card-natural overflow-hidden">
+                  <div className="h-2 bg-forest-100"></div>
                   <div className="p-6">
                     <div className="animate-pulse">
                       <div className="flex items-center gap-3 mb-4">
-                        <div className="w-12 h-12 bg-gray-200 rounded"></div>
+                        <div className="w-12 h-12 bg-forest-100 rounded"></div>
                         <div className="flex-1">
-                          <div className="h-5 bg-gray-200 rounded mb-2"></div>
-                          <div className="h-4 bg-gray-200 rounded"></div>
+                          <div className="h-5 bg-forest-100 rounded mb-2"></div>
+                          <div className="h-4 bg-forest-100 rounded"></div>
                         </div>
                       </div>
-                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                      <div className="h-2 bg-gray-200 rounded mb-4"></div>
+                      <div className="h-4 bg-forest-100 rounded mb-2"></div>
+                      <div className="h-2 bg-forest-100 rounded mb-4"></div>
                       <div className="grid grid-cols-5 gap-2 mb-4">
                         {[1, 2, 3, 4, 5].map(day => (
-                          <div key={day} className="w-10 h-10 bg-gray-200 rounded-full"></div>
+                          <div key={day} className="w-10 h-10 bg-forest-100 rounded-full"></div>
                         ))}
                       </div>
-                      <div className="h-10 bg-gray-200 rounded"></div>
+                      <div className="h-10 bg-forest-100 rounded"></div>
                     </div>
                   </div>
                 </div>
@@ -276,7 +288,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-nature">
       <div className="container mx-auto px-4 py-8">
         {/* 標題區域 */}
         <div className="text-center mb-8 relative">
@@ -292,30 +304,32 @@ export default function HomePage() {
             </button>
           )}
 
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            🏔️ 泰雅語線上學習平台
+          <h1 className="text-4xl font-bold text-stone-800 mb-4 font-serif">
+            <GlobeAsiaAustraliaIcon className="w-9 h-9 inline-block text-forest-600 mr-2 align-middle" />
+            泰雅語線上學習平台
           </h1>
           {userName && (
-            <p className="text-xl text-blue-600 font-semibold mb-2">
+            <p className="text-xl text-forest-700 font-semibold mb-2">
               歡迎回來，{userName}！
             </p>
           )}
-          <p className="text-lg text-gray-600 mb-6">
+          <p className="text-lg text-stone-600 mb-6">
             透過3週系統化課程，輕鬆學會泰雅語基礎
           </p>
           <div className="flex justify-center gap-4 mb-6">
             <Link
               href="/pronunciation"
-              className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+              className="flex items-center gap-2 bg-forest-600 hover:bg-forest-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
             >
               <SpeakerWaveIcon className="w-5 h-5" />
               發音教室
             </Link>
             <Link
               href="/voice-training"
-              className="flex items-center gap-2 bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+              className="flex items-center gap-2 bg-wood-700 hover:bg-wood-800 text-white px-6 py-3 rounded-lg transition-colors duration-200"
             >
-              🎙️ 語音訓練中心
+              <MicrophoneIcon className="w-5 h-5" />
+              語音訓練中心
             </Link>
           </div>
         </div>
@@ -327,24 +341,27 @@ export default function HomePage() {
 
         {/* 學習進度概覽 */}
         <div className="max-w-4xl mx-auto mb-8">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">學習進度</h2>
+          <div className="card-natural p-6">
+            <h2 className="text-2xl font-bold text-stone-800 mb-4 font-serif">學習進度</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[1, 2, 3].map(week => {
                 const completedDays = getCompletedDaysInWeek(week);
                 const progress = (completedDays / 5) * 100;
+                const WeekIcon = WeekIcons[week - 1];
 
                 return (
-                  <div key={week} className="text-center">
-                    <div className="text-2xl mb-2">{weekEmojis[week - 1]}</div>
-                    <h3 className="font-semibold text-gray-700 mb-2">第{week}週</h3>
-                    <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                  <div key={week} className="text-center stagger-item" style={{ animationDelay: `${(week - 1) * 100}ms` }}>
+                    <div className="mb-2 flex justify-center">
+                      <WeekIcon className="w-7 h-7 text-forest-600" />
+                    </div>
+                    <h3 className="font-semibold text-stone-700 mb-2 font-serif">第{week}週</h3>
+                    <div className="w-full bg-stone-200 rounded-full h-2 mb-2">
                       <div
-                        className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                        className="progress-forest h-2 rounded-full transition-all duration-300"
                         style={{ width: `${progress}%` }}
                       ></div>
                     </div>
-                    <p className="text-sm text-gray-700 font-medium">{completedDays}/5 天</p>
+                    <p className="text-sm text-stone-700 font-medium">{completedDays}/5 天</p>
                   </div>
                 );
               })}
@@ -364,56 +381,60 @@ export default function HomePage() {
               const status = getWeekStatus(week);
               const completedDays = getCompletedDaysInWeek(week);
               const isAccessible = status !== 'locked';
+              const WeekIcon = WeekIcons[week - 1];
 
               return (
                 <div
                   key={week}
-                  className={`bg-white rounded-lg shadow-md overflow-hidden transition-all duration-200 ${
+                  className={`card-natural overflow-hidden transition-all duration-200 ${
                     isAccessible ? 'hover:shadow-lg' : 'opacity-60'
-                  } ${week === 3 ? 'md:col-span-2' : ''}`}
+                  } ${week === 3 ? 'md:col-span-2' : ''} stagger-item`}
+                  style={{ animationDelay: `${(week - 1) * 120}ms` }}
                 >
                   <div className={`h-2 ${
-                    status === 'completed' ? 'bg-green-500' :
-                    status === 'current' ? 'bg-blue-500' :
-                    status === 'unlocked' ? 'bg-yellow-500' :
-                    'bg-gray-300'
+                    status === 'completed' ? 'bg-forest-500' :
+                    status === 'current' ? 'bg-forest-gradient' :
+                    status === 'unlocked' ? 'bg-gold-500' :
+                    'bg-stone-300'
                   }`} />
-                  
+
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
-                        <span className="text-3xl">{weekEmojis[week - 1]}</span>
+                        <div className="w-11 h-11 rounded-lg bg-forest-50 flex items-center justify-center">
+                          <WeekIcon className="w-7 h-7 text-forest-600" />
+                        </div>
                         <div>
-                          <h3 className="text-xl font-bold text-gray-800">
+                          <h3 className="text-xl font-bold text-stone-800 font-serif">
                             {weekTitles[week - 1]}
                           </h3>
-                          <p className="text-gray-600 text-sm">
+                          <p className="text-stone-600 text-sm">
                             {weekDescriptions[week - 1]}
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="flex flex-col items-center">
                         {status === 'completed' && (
-                          <CheckCircleIcon className="w-8 h-8 text-green-500" />
+                          <CheckCircleIcon className="w-8 h-8 text-forest-500" />
                         )}
                         {status === 'current' && (
-                          <PlayCircleIcon className="w-8 h-8 text-blue-500" />
+                          <PlayCircleIcon className="w-8 h-8 text-forest-600" />
                         )}
                         {status === 'locked' && (
-                          <LockClosedIcon className="w-8 h-8 text-gray-400" />
+                          <LockClosedIcon className="w-8 h-8 text-stone-400" />
                         )}
                       </div>
                     </div>
-                    
+
                     <div className="mb-4">
-                      <div className="flex justify-between text-sm text-gray-800 font-medium mb-1">
+                      <div className="flex justify-between text-sm text-stone-800 font-medium mb-1">
                         <span>完成進度</span>
                         <span>{completedDays}/5 天</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                      <div className="w-full bg-stone-200 rounded-full h-2">
+                        <div
+                          className="progress-forest h-2 rounded-full transition-all duration-300"
                           style={{ width: `${(completedDays / 5) * 100}%` }}
                         ></div>
                       </div>
@@ -428,10 +449,10 @@ export default function HomePage() {
 
                         const dayCircleClasses = `w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium ${
                           dayCompleted
-                            ? 'bg-green-500 text-white'
+                            ? 'bg-forest-500 text-white'
                             : dayUnlocked
-                            ? 'bg-blue-100 text-blue-600 border-2 border-blue-300'
-                            : 'bg-gray-200 text-gray-400'
+                            ? 'bg-forest-50 text-forest-700 border-2 border-forest-300'
+                            : 'bg-stone-200 text-stone-400'
                         } ${isClickable ? 'cursor-pointer hover:scale-110 transition-transform duration-200' : ''}`;
 
                         return isClickable ? (
@@ -457,13 +478,13 @@ export default function HomePage() {
                     {isAccessible ? (
                       <Link
                         href={`/week/${week}/${week === userProgress.currentWeek ? userProgress.currentDay : 1}`}
-                        className="block w-full bg-blue-500 hover:bg-blue-600 text-white text-center py-3 rounded-lg font-medium transition-colors duration-200"
+                        className="block w-full bg-forest-gradient text-white text-center py-3 rounded-lg font-medium transition-all duration-200 hover:opacity-90"
                       >
-                        {status === 'completed' ? '重新學習' : 
+                        {status === 'completed' ? '重新學習' :
                          status === 'current' ? '繼續學習' : '開始學習'}
                       </Link>
                     ) : (
-                      <div className="w-full bg-gray-300 text-gray-500 text-center py-3 rounded-lg font-medium">
+                      <div className="w-full bg-stone-300 text-stone-500 text-center py-3 rounded-lg font-medium">
                         尚未解鎖
                       </div>
                     )}
@@ -475,12 +496,14 @@ export default function HomePage() {
         </div>
 
         {/* 底部資訊 */}
-        <div className="text-center mt-12 text-gray-600">
-          <p className="mb-2">
-            💡 完成每日課程可獲得經驗值，解鎖新課程和遊戲
+        <div className="text-center mt-12 text-stone-600">
+          <p className="mb-2 flex items-center justify-center gap-2">
+            <LightBulbIcon className="w-5 h-5 text-gold-500" />
+            完成每日課程可獲得經驗值，解鎖新課程和遊戲
           </p>
-          <p>
-            📱 右下角有AI助教可以隨時協助您學習
+          <p className="flex items-center justify-center gap-2">
+            <DevicePhoneMobileIcon className="w-5 h-5 text-mist-600" />
+            右下角有AI助教可以隨時協助您學習
           </p>
         </div>
       </div>

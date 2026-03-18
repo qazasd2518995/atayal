@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { getUserProgress, getLevelProgress, UserProgress } from '@/lib/progress';
-import { TrophyIcon, StarIcon } from '@heroicons/react/24/solid';
+import { TrophyIcon, StarIcon, SparklesIcon } from '@heroicons/react/24/solid';
 
 interface XPBarProps {
   userProgress?: UserProgress;
@@ -44,23 +44,23 @@ export default function XPBar({ userProgress: externalProgress }: XPBarProps) {
         <div className="animate-pulse">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-gray-200 rounded"></div>
-              <div className="h-6 bg-gray-200 rounded w-20"></div>
+              <div className="w-6 h-6 bg-stone-200 rounded"></div>
+              <div className="h-6 bg-stone-200 rounded w-20"></div>
             </div>
             <div className="flex items-center gap-1">
-              <div className="w-5 h-5 bg-gray-200 rounded"></div>
-              <div className="h-5 bg-gray-200 rounded w-16"></div>
+              <div className="w-5 h-5 bg-stone-200 rounded"></div>
+              <div className="h-5 bg-stone-200 rounded w-16"></div>
             </div>
           </div>
           <div className="mb-2">
             <div className="flex justify-between mb-1">
-              <div className="h-4 bg-gray-200 rounded w-24"></div>
-              <div className="h-4 bg-gray-200 rounded w-12"></div>
+              <div className="h-4 bg-stone-200 rounded w-24"></div>
+              <div className="h-4 bg-stone-200 rounded w-12"></div>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3"></div>
+            <div className="w-full bg-stone-200 rounded-full h-3"></div>
           </div>
           <div className="text-center">
-            <div className="h-4 bg-gray-200 rounded w-48 mx-auto"></div>
+            <div className="h-4 bg-stone-200 rounded w-48 mx-auto"></div>
           </div>
         </div>
       </div>
@@ -71,10 +71,10 @@ export default function XPBar({ userProgress: externalProgress }: XPBarProps) {
     <div className="bg-white rounded-lg shadow-md p-4 mb-6">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <TrophyIcon className="w-6 h-6 text-yellow-500" />
-          <span className="font-bold text-lg text-gray-900">等級 {userProgress.level}</span>
+          <TrophyIcon className="w-6 h-6 text-gold-500" />
+          <span className="font-serif font-bold text-lg text-gray-900">等級 {userProgress.level}</span>
         </div>
-        <div className="flex items-center gap-1 text-blue-600">
+        <div className="flex items-center gap-1 text-forest-600">
           <StarIcon className="w-5 h-5" />
           <span className="font-medium">{userProgress.totalXP} XP</span>
         </div>
@@ -86,9 +86,9 @@ export default function XPBar({ userProgress: externalProgress }: XPBarProps) {
           <span>{levelProgress.current} / {levelProgress.required} XP</span>
           <span>{levelProgress.percentage}%</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-3">
-          <div 
-            className="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-500 ease-out"
+        <div className="w-full bg-stone-200 rounded-full h-3">
+          <div
+            className="xp-bar-gradient h-3 rounded-full transition-all duration-500 ease-out"
             style={{ width: `${levelProgress.percentage}%` }}
           ></div>
         </div>
@@ -97,11 +97,14 @@ export default function XPBar({ userProgress: externalProgress }: XPBarProps) {
       {/* 下一等級提示 */}
       <div className="text-center text-sm text-gray-700">
         {levelProgress.percentage === 100 ? (
-          <span className="text-green-600 font-medium">🎉 準備升級到等級 {userProgress.level + 1}！</span>
+          <span className="text-forest-700 font-medium inline-flex items-center gap-1">
+            <SparklesIcon className="w-4 h-4 text-forest-600" />
+            準備升級到等級 {userProgress.level + 1}！
+          </span>
         ) : (
           <span className="font-medium">還需要 {levelProgress.required - levelProgress.current} XP 升到等級 {userProgress.level + 1}</span>
         )}
       </div>
     </div>
   );
-} 
+}

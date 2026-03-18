@@ -48,11 +48,11 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
 
   const getMedalIcon = (rank: number) => {
     if (rank === 1) {
-      return <TrophyIcon className="w-6 h-6 text-yellow-400" />;
+      return <TrophyIcon className="w-6 h-6 text-gold-500" />;
     } else if (rank === 2) {
-      return <TrophyIcon className="w-6 h-6 text-gray-400" />;
+      return <TrophyIcon className="w-6 h-6 text-stone-400" />;
     } else if (rank === 3) {
-      return <TrophyIcon className="w-6 h-6 text-orange-400" />;
+      return <TrophyIcon className="w-6 h-6 text-wood-600" />;
     }
     return null;
   };
@@ -60,25 +60,25 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
   const getRankBadge = (rank: number) => {
     if (rank <= 3) {
       const colors = [
-        'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white',
+        'bg-gradient-to-r from-gold-500 to-yellow-600 text-white',
         'bg-gradient-to-r from-gray-300 to-gray-500 text-white',
-        'bg-gradient-to-r from-orange-400 to-orange-600 text-white',
+        'bg-gradient-to-r from-wood-600 to-orange-600 text-white',
       ];
       return colors[rank - 1];
     }
-    return 'bg-blue-100 text-blue-700';
+    return 'bg-forest-100 text-forest-700';
   };
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="card-natural">
         <div className="flex items-center gap-2 mb-4">
-          <TrophyIcon className="w-6 h-6 text-yellow-500" />
-          <h2 className="text-2xl font-bold text-gray-800">等級排行榜</h2>
+          <TrophyIcon className="w-6 h-6 text-gold-500" />
+          <h2 className="font-serif text-2xl font-bold text-gray-800">等級排行榜</h2>
         </div>
         <div className="animate-pulse space-y-3">
           {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="h-16 bg-gray-200 rounded-lg"></div>
+            <div key={i} className="h-16 bg-stone-200 rounded-lg"></div>
           ))}
         </div>
       </div>
@@ -87,10 +87,10 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
 
   if (error) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="card-natural">
         <div className="flex items-center gap-2 mb-4">
-          <TrophyIcon className="w-6 h-6 text-yellow-500" />
-          <h2 className="text-2xl font-bold text-gray-800">等級排行榜</h2>
+          <TrophyIcon className="w-6 h-6 text-gold-500" />
+          <h2 className="font-serif text-2xl font-bold text-gray-800">等級排行榜</h2>
         </div>
         <p className="text-red-500 text-center">{error}</p>
       </div>
@@ -99,10 +99,10 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
 
   if (leaderboard.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="card-natural">
         <div className="flex items-center gap-2 mb-4">
-          <TrophyIcon className="w-6 h-6 text-yellow-500" />
-          <h2 className="text-2xl font-bold text-gray-800">等級排行榜</h2>
+          <TrophyIcon className="w-6 h-6 text-gold-500" />
+          <h2 className="font-serif text-2xl font-bold text-gray-800">等級排行榜</h2>
         </div>
         <p className="text-gray-500 text-center py-8">
           還沒有學生完成課程，快來成為第一名！
@@ -112,10 +112,10 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="card-natural">
       <div className="flex items-center gap-2 mb-4">
-        <TrophyIcon className="w-6 h-6 text-yellow-500" />
-        <h2 className="text-2xl font-bold text-gray-800">等級排行榜</h2>
+        <TrophyIcon className="w-6 h-6 text-gold-500" />
+        <h2 className="font-serif text-2xl font-bold text-gray-800">等級排行榜</h2>
         <span className="ml-auto text-sm text-gray-500">
           共 {leaderboard.length} 位學生
         </span>
@@ -131,7 +131,7 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
               key={`${entry.userName}-${rank}`}
               className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 ${
                 isCurrentUser
-                  ? 'bg-blue-50 border-2 border-blue-400 shadow-md'
+                  ? 'bg-forest-50 border-2 border-forest-400 shadow-md'
                   : rank <= 3
                   ? 'bg-gradient-to-r from-gray-50 to-white border border-gray-200 hover:shadow-md'
                   : 'bg-gray-50 hover:bg-gray-100'
@@ -155,12 +155,12 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
                 <div className="flex items-center gap-2">
                   <h3
                     className={`font-semibold truncate ${
-                      isCurrentUser ? 'text-blue-700' : 'text-gray-800'
+                      isCurrentUser ? 'text-forest-700' : 'text-gray-800'
                     }`}
                   >
                     {entry.userName}
                     {isCurrentUser && (
-                      <span className="ml-2 text-xs bg-blue-500 text-white px-2 py-0.5 rounded-full">
+                      <span className="ml-2 text-xs bg-forest-600 text-white px-2 py-0.5 rounded-full">
                         你
                       </span>
                     )}
@@ -168,7 +168,7 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
                 </div>
                 <div className="flex items-center gap-3 text-xs text-gray-700 font-medium mt-1">
                   <span className="flex items-center gap-1">
-                    <StarIcon className="w-3 h-3 text-yellow-500" />
+                    <StarIcon className="w-3 h-3 text-gold-500" />
                     等級 {entry.level}
                   </span>
                   <span className="flex items-center gap-1">
@@ -183,7 +183,7 @@ export default function Leaderboard({ currentUserName }: LeaderboardProps) {
 
               {/* 完成課程數 */}
               <div className="text-right">
-                <div className="text-lg font-bold text-blue-600">
+                <div className="text-lg font-bold text-forest-600">
                   {entry.completedCourses}
                 </div>
                 <div className="text-xs text-gray-700 font-medium">已完成</div>

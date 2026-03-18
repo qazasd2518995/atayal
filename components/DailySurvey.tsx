@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { CheckIcon } from '@heroicons/react/24/solid';
+import { ClipboardDocumentIcon, CheckCircleIcon, XCircleIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { getCurrentSession } from '@/lib/analytics';
 
 interface DailySurveyProps {
@@ -151,7 +152,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
               onChange={(e) =>
                 setSurveyData({ ...surveyData, q1_interesting: e.target.value })
               }
-              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none min-h-[120px] text-gray-900 placeholder:text-gray-400"
+              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-forest-600 focus:outline-none min-h-[120px] text-gray-900 placeholder:text-gray-400"
               placeholder="請輸入您的想法..."
             />
           </div>
@@ -180,7 +181,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
                     }
                     className={`flex-1 py-4 rounded-lg border-2 transition-all ${
                       surveyData.q2_motivation === option.value
-                        ? 'border-blue-500 bg-blue-50 scale-105'
+                        ? 'border-forest-600 bg-forest-50 scale-105'
                         : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                     }`}
                   >
@@ -215,7 +216,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
                     }
                     className={`flex-1 py-4 rounded-lg border-2 transition-all ${
                       surveyData.q3_effectiveness === option.value
-                        ? 'border-blue-500 bg-blue-50 scale-105'
+                        ? 'border-forest-600 bg-forest-50 scale-105'
                         : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                     }`}
                   >
@@ -250,7 +251,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
                     }
                     className={`flex-1 py-4 rounded-lg border-2 transition-all ${
                       surveyData.q4_difficulty === option.value
-                        ? 'border-blue-500 bg-blue-50 scale-105'
+                        ? 'border-forest-600 bg-forest-50 scale-105'
                         : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                     }`}
                   >
@@ -285,7 +286,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
                     }
                     className={`flex-1 py-4 rounded-lg border-2 transition-all ${
                       surveyData.q5_interface === option.value
-                        ? 'border-blue-500 bg-blue-50 scale-105'
+                        ? 'border-forest-600 bg-forest-50 scale-105'
                         : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                     }`}
                   >
@@ -313,11 +314,13 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
                 }
                 className={`flex-1 py-6 rounded-lg border-2 transition-all ${
                   surveyData.q6_used_chatbot === 'yes'
-                    ? 'border-green-500 bg-green-50'
+                    ? 'border-forest-500 bg-forest-50'
                     : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                 }`}
               >
-                <div className="text-2xl mb-2">✅</div>
+                <div className="flex justify-center mb-2">
+                  <CheckCircleIcon className="w-7 h-7 text-forest-500" />
+                </div>
                 <div className="text-lg font-semibold">有使用</div>
               </button>
               <button
@@ -336,7 +339,9 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
                     : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                 }`}
               >
-                <div className="text-2xl mb-2">❌</div>
+                <div className="flex justify-center mb-2">
+                  <XCircleIcon className="w-7 h-7 text-red-500" />
+                </div>
                 <div className="text-lg font-semibold">沒使用</div>
               </button>
             </div>
@@ -369,7 +374,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
                       }
                       className={`flex-1 py-3 rounded-lg border-2 transition-all ${
                         surveyData.q6_1_useful === option.value
-                          ? 'border-blue-500 bg-blue-50 scale-105'
+                          ? 'border-forest-600 bg-forest-50 scale-105'
                           : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                       }`}
                     >
@@ -399,7 +404,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
                       }
                       className={`flex-1 py-3 rounded-lg border-2 transition-all ${
                         surveyData.q6_2_motivation === option.value
-                          ? 'border-blue-500 bg-blue-50 scale-105'
+                          ? 'border-forest-600 bg-forest-50 scale-105'
                           : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                       }`}
                     >
@@ -429,7 +434,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
                       }
                       className={`flex-1 py-3 rounded-lg border-2 transition-all ${
                         surveyData.q6_3_effectiveness === option.value
-                          ? 'border-blue-500 bg-blue-50 scale-105'
+                          ? 'border-forest-600 bg-forest-50 scale-105'
                           : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                       }`}
                     >
@@ -456,7 +461,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
               onChange={(e) =>
                 setSurveyData({ ...surveyData, q7_suggestion: e.target.value })
               }
-              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none min-h-[120px] text-gray-900 placeholder:text-gray-400"
+              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-forest-600 focus:outline-none min-h-[120px] text-gray-900 placeholder:text-gray-400"
               placeholder="請輸入您的建議..."
             />
           </div>
@@ -476,8 +481,9 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
         <div className="p-6">
           {/* 標題 */}
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">
-              📝 每日學習問卷
+            <h2 className="text-2xl font-bold text-gray-800 mb-2 inline-flex items-center gap-2">
+              <ClipboardDocumentIcon className="w-7 h-7 text-forest-600" />
+              每日學習問卷
             </h2>
             <p className="text-gray-600">
               第 {week} 週 第 {day} 天
@@ -489,7 +495,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
-                  className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                  className="bg-forest-600 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${(displayStep / totalSteps) * 100}%` }}
                 />
               </div>
@@ -514,7 +520,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
               <button
                 onClick={handleNext}
                 disabled={!canProceed() || isSubmitting}
-                className="flex-1 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed font-semibold"
+                className="flex-1 px-6 py-3 bg-forest-600 text-white rounded-lg hover:bg-forest-700 disabled:bg-gray-300 disabled:cursor-not-allowed font-semibold"
               >
                 下一步
               </button>
@@ -522,7 +528,7 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
               <button
                 onClick={handleSubmit}
                 disabled={!canProceed() || isSubmitting}
-                className="flex-1 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
+                className="flex-1 px-6 py-3 bg-forest-500 text-white rounded-lg hover:bg-forest-600 disabled:bg-gray-300 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>
@@ -540,9 +546,10 @@ export default function DailySurvey({ week, day, onComplete }: DailySurveyProps)
           </div>
 
           {/* 提示訊息 */}
-          <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="text-sm text-yellow-800">
-              ⚠️ 完成問卷後才能結束今天的課程
+          <div className="mt-4 p-3 bg-cream-warm border border-wood-200 rounded-lg">
+            <p className="text-sm text-wood-800 inline-flex items-center gap-1">
+              <ExclamationTriangleIcon className="w-4 h-4 text-wood-800 flex-shrink-0" />
+              完成問卷後才能結束今天的課程
             </p>
           </div>
         </div>

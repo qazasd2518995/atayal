@@ -1,26 +1,231 @@
 @import "tailwindcss";
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap');
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Mountain & Forest Palette */
+  --forest-900: #1a2e1a;
+  --forest-800: #2d4a2d;
+  --forest-700: #3d6b3d;
+  --forest-600: #4a7c4a;
+  --forest-500: #5a9a5a;
+  --forest-400: #7ab87a;
+  --forest-300: #a3d4a3;
+  --forest-200: #c8e6c8;
+  --forest-100: #e8f5e8;
+  --forest-50: #f0faf0;
+
+  --wood-900: #3e2723;
+  --wood-800: #5d4037;
+  --wood-700: #6d4c41;
+  --wood-600: #8d6e63;
+  --wood-500: #a1887f;
+  --wood-400: #bcaaa4;
+  --wood-300: #d7ccc8;
+  --wood-200: #efebe9;
+  --wood-100: #faf6f3;
+
+  --mist-700: #37474f;
+  --mist-600: #546e7a;
+  --mist-500: #78909c;
+  --mist-400: #90a4ae;
+  --mist-300: #b0bec5;
+  --mist-200: #cfd8dc;
+  --mist-100: #eceff1;
+
+  --stone-800: #2c2c2c;
+  --stone-700: #3d3d3d;
+  --stone-600: #555555;
+  --stone-500: #717171;
+  --stone-400: #9e9e9e;
+  --stone-300: #c4c4c4;
+  --stone-200: #e0e0e0;
+  --stone-100: #f0f0f0;
+
+  --cream: #faf8f5;
+  --cream-warm: #f5f0e8;
+  --parchment: #f0ebe0;
+
+  --gold-600: #b8860b;
+  --gold-500: #d4a017;
+  --gold-400: #e6b422;
+
+  --background: var(--cream);
+  --foreground: var(--stone-800);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+
+  --color-forest-900: var(--forest-900);
+  --color-forest-800: var(--forest-800);
+  --color-forest-700: var(--forest-700);
+  --color-forest-600: var(--forest-600);
+  --color-forest-500: var(--forest-500);
+  --color-forest-400: var(--forest-400);
+  --color-forest-300: var(--forest-300);
+  --color-forest-200: var(--forest-200);
+  --color-forest-100: var(--forest-100);
+  --color-forest-50: var(--forest-50);
+
+  --color-wood-900: var(--wood-900);
+  --color-wood-800: var(--wood-800);
+  --color-wood-700: var(--wood-700);
+  --color-wood-600: var(--wood-600);
+  --color-wood-500: var(--wood-500);
+  --color-wood-400: var(--wood-400);
+  --color-wood-300: var(--wood-300);
+  --color-wood-200: var(--wood-200);
+  --color-wood-100: var(--wood-100);
+
+  --color-mist-700: var(--mist-700);
+  --color-mist-600: var(--mist-600);
+  --color-mist-500: var(--mist-500);
+  --color-mist-400: var(--mist-400);
+  --color-mist-300: var(--mist-300);
+  --color-mist-200: var(--mist-200);
+  --color-mist-100: var(--mist-100);
+
+  --color-stone-800: var(--stone-800);
+  --color-stone-700: var(--stone-700);
+  --color-stone-600: var(--stone-600);
+  --color-stone-500: var(--stone-500);
+  --color-stone-400: var(--stone-400);
+  --color-stone-300: var(--stone-300);
+  --color-stone-200: var(--stone-200);
+  --color-stone-100: var(--stone-100);
+
+  --color-cream: var(--cream);
+  --color-cream-warm: var(--cream-warm);
+  --color-parchment: var(--parchment);
+
+  --color-gold-600: var(--gold-600);
+  --color-gold-500: var(--gold-500);
+  --color-gold-400: var(--gold-400);
+
+  --font-sans: 'Noto Sans TC', sans-serif;
+  --font-serif: 'Noto Serif TC', serif;
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  background: var(--cream);
+  color: var(--foreground);
+  font-family: 'Noto Sans TC', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Natural texture background */
+.bg-nature {
+  background-color: var(--cream);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(90, 154, 90, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(120, 144, 156, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(184, 134, 11, 0.03) 0%, transparent 50%);
+}
+
+/* Card with natural shadow */
+.card-natural {
+  background: white;
+  border: 1px solid rgba(90, 154, 90, 0.1);
+  border-radius: 12px;
+  box-shadow:
+    0 1px 3px rgba(42, 74, 45, 0.06),
+    0 4px 12px rgba(42, 74, 45, 0.04);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.card-natural:hover {
+  box-shadow:
+    0 2px 6px rgba(42, 74, 45, 0.08),
+    0 8px 24px rgba(42, 74, 45, 0.06);
+}
+
+/* Forest gradient for headers/accents */
+.bg-forest-gradient {
+  background: linear-gradient(135deg, var(--forest-700) 0%, var(--forest-600) 50%, var(--forest-500) 100%);
+}
+
+/* Warm earth gradient */
+.bg-earth-gradient {
+  background: linear-gradient(135deg, var(--wood-700) 0%, var(--wood-600) 50%, var(--forest-700) 100%);
+}
+
+/* XP bar gradient - forest themed */
+.xp-bar-gradient {
+  background: linear-gradient(90deg, var(--forest-600) 0%, var(--forest-400) 50%, var(--gold-500) 100%);
+}
+
+/* Progress bar */
+.progress-forest {
+  background: linear-gradient(90deg, var(--forest-600) 0%, var(--forest-400) 100%);
+}
+
+/* Serif headings */
+h1, h2, h3 {
+  font-family: 'Noto Serif TC', serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--forest-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--forest-400);
+}
+
+/* Smooth page transitions */
+.page-enter {
+  animation: fadeSlideIn 0.4s ease-out;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Stagger animation for lists */
+.stagger-item {
+  animation: fadeSlideIn 0.4s ease-out both;
+}
+
+/* Subtle pulse for active items */
+@keyframes gentlePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(90, 154, 90, 0.2); }
+  50% { box-shadow: 0 0 0 6px rgba(90, 154, 90, 0); }
+}
+
+.pulse-forest {
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+/* Leaf decoration pseudo-element helper */
+.leaf-accent::before {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(ellipse, rgba(90, 154, 90, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  top: -10px;
+  right: -10px;
+  pointer-events: none;
 }

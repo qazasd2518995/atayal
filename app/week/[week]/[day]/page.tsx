@@ -29,7 +29,15 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   CheckCircleIcon,
-  LockClosedIcon
+  LockClosedIcon,
+  BookOpenIcon,
+  StarIcon,
+  PuzzlePieceIcon,
+  PencilIcon,
+  ExclamationCircleIcon,
+  LightBulbIcon,
+  ArrowPathIcon,
+  LockOpenIcon
 } from '@heroicons/react/24/solid';
 
 // 週數據映射
@@ -94,10 +102,10 @@ export default function DayLessonPage() {
   // 檢查參數有效性
   if (!week || !day || week < 1 || week > 3 || day < 1 || day > 5) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-cream flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">頁面不存在</h1>
-          <Link href="/" className="text-blue-500 hover:text-blue-600">
+          <h1 className="text-2xl font-bold font-serif text-stone-800 mb-4">頁面不存在</h1>
+          <Link href="/" className="text-forest-600 hover:text-forest-700">
             返回首頁
           </Link>
         </div>
@@ -106,13 +114,13 @@ export default function DayLessonPage() {
   }
 
   const dayData = weekData[week]?.[day - 1];
-  
+
   if (!dayData) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-cream flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">課程內容不存在</h1>
-          <Link href="/" className="text-blue-500 hover:text-blue-600">
+          <h1 className="text-2xl font-bold font-serif text-stone-800 mb-4">課程內容不存在</h1>
+          <Link href="/" className="text-forest-600 hover:text-forest-700">
             返回首頁
           </Link>
         </div>
@@ -123,10 +131,10 @@ export default function DayLessonPage() {
   // 在客戶端渲染完成前顯示加載狀態，避免 hydration 錯誤
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg shadow-lg p-8 text-center max-w-md">
-          <div className="animate-spin h-10 w-10 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-          <p className="text-gray-600">載入課程中...</p>
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <div className="card-natural p-8 text-center max-w-md">
+          <div className="animate-spin h-10 w-10 border-2 border-forest-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-stone-600">載入課程中...</p>
         </div>
       </div>
     );
@@ -288,17 +296,17 @@ export default function DayLessonPage() {
       case 'text':
         return (
           <div key={index} className="mb-6">
-            <p className="text-gray-700 leading-relaxed text-lg">{content.value}</p>
+            <p className="text-stone-700 leading-relaxed text-lg">{content.value}</p>
           </div>
         );
-      
+
       case 'audio':
         // 只顯示字母的音檔，單字不顯示音檔
         const audioSrc = content.src?.replace('/audio/', '/alphabet/').replace('.webm', '.wav') || '';
         // 檢查是否為字母音檔（單個字母、ng 或 '）
         const fileName = audioSrc.split('/').pop()?.replace('.wav', '') || '';
         const isLetterAudio = /^[a-z]$/.test(fileName) || fileName === 'ng' || fileName === "'";
-        
+
         if (isLetterAudio) {
           return (
             <div key={index} className="mb-6 flex justify-center">
@@ -309,18 +317,18 @@ export default function DayLessonPage() {
           // 如果不是字母音檔，就不顯示
           return null;
         }
-      
+
       case 'image':
         return (
           <div key={index} className="mb-6 flex justify-center">
-            <img 
-              src={content.src} 
-              alt={content.alt || '課程圖片'} 
+            <img
+              src={content.src}
+              alt={content.alt || '課程圖片'}
               className="max-w-full h-auto rounded-lg shadow-md"
             />
           </div>
         );
-      
+
       default:
         return null;
     }
@@ -346,14 +354,14 @@ export default function DayLessonPage() {
 
   if (!unlocked) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg shadow-lg p-8 text-center max-w-md">
-          <LockClosedIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">課程尚未解鎖</h1>
-          <p className="text-gray-600 mb-6">請先完成前面的課程才能解鎖此內容</p>
-          <Link 
-            href="/" 
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+      <div className="min-h-screen bg-cream flex items-center justify-center">
+        <div className="card-natural p-8 text-center max-w-md">
+          <LockClosedIcon className="w-16 h-16 text-stone-400 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold font-serif text-stone-800 mb-2">課程尚未解鎖</h1>
+          <p className="text-stone-600 mb-6">請先完成前面的課程才能解鎖此內容</p>
+          <Link
+            href="/"
+            className="bg-forest-600 hover:bg-forest-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
           >
             返回首頁
           </Link>
@@ -366,30 +374,30 @@ export default function DayLessonPage() {
   const prevDay = getPrevDayInfo();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-nature">
       <div className="container mx-auto px-4 py-8">
         {/* 導航欄 */}
-        <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <div className="card-natural p-4 mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link 
-                href="/" 
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
+              <Link
+                href="/"
+                className="flex items-center gap-2 text-stone-600 hover:text-stone-800 transition-colors"
               >
                 <HomeIcon className="w-5 h-5" />
                 首頁
               </Link>
-              <span className="text-gray-400">•</span>
-              <span className="text-gray-600">第{week}週</span>
-              <span className="text-gray-400">•</span>
-              <span className="font-medium text-gray-800">第{day}天</span>
+              <span className="text-stone-400">&bull;</span>
+              <span className="text-stone-600">第{week}週</span>
+              <span className="text-stone-400">&bull;</span>
+              <span className="font-medium text-stone-800">第{day}天</span>
             </div>
-            
+
             <div className="flex items-center gap-2">
               {completed && (
-                <CheckCircleIcon className="w-6 h-6 text-green-500" />
+                <CheckCircleIcon className="w-6 h-6 text-forest-500" />
               )}
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-stone-600">
                 第{week}週 第{day}天
               </span>
             </div>
@@ -402,82 +410,91 @@ export default function DayLessonPage() {
         </div>
 
         {/* 課程標題 */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">{dayData.title}</h1>
-          <div className="flex items-center gap-4 text-sm text-gray-600">
-            <span>📚 第{week}週 第{day}天</span>
-            <span>⭐ {dayData.xp} XP</span>
-            <span>🎮 {dayData.game}</span>
+        <div className="card-natural p-6 mb-6">
+          <h1 className="text-3xl font-bold font-serif text-stone-800 mb-2">{dayData.title}</h1>
+          <div className="flex items-center gap-4 text-sm text-stone-600">
+            <span className="flex items-center gap-1">
+              <BookOpenIcon className="w-4 h-4 text-forest-600" />
+              第{week}週 第{day}天
+            </span>
+            <span className="flex items-center gap-1">
+              <StarIcon className="w-4 h-4 text-gold-500" />
+              {dayData.xp} XP
+            </span>
+            <span className="flex items-center gap-1">
+              <PuzzlePieceIcon className="w-4 h-4 text-wood-600" />
+              {dayData.game}
+            </span>
           </div>
         </div>
 
         {/* 導航標籤 */}
-        <div className="bg-white rounded-lg shadow-md mb-6">
-          <div className="flex border-b">
+        <div className="card-natural mb-6">
+          <div className="flex border-b border-forest-100">
             <button
               onClick={() => setCurrentSection('content')}
-              className={`flex-1 py-4 px-6 font-medium transition-colors ${
+              className={`flex-1 py-4 px-6 font-medium transition-colors flex items-center justify-center gap-2 ${
                 currentSection === 'content'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                  : 'text-gray-600 hover:text-gray-800'
+                  ? 'text-forest-700 border-b-2 border-forest-700 bg-forest-50'
+                  : 'text-stone-600 hover:text-stone-800'
               }`}
             >
-              📖 學習內容
+              <BookOpenIcon className="w-4 h-4" /> 學習內容
             </button>
             <button
               onClick={() => setCurrentSection('quiz')}
               disabled={currentSection === 'content' && !isDevMode && !completed}
-              className={`flex-1 py-4 px-6 font-medium transition-colors ${
+              className={`flex-1 py-4 px-6 font-medium transition-colors flex items-center justify-center gap-2 ${
                 currentSection === 'quiz'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                  ? 'text-forest-700 border-b-2 border-forest-700 bg-forest-50'
                   : quizCompleted
-                  ? 'text-green-600'
+                  ? 'text-forest-500'
                   : isDevMode || currentSection !== 'content' || completed
-                  ? 'text-gray-600 hover:text-gray-800'
-                  : 'text-gray-400'
-              } ${currentSection === 'content' && !isDevMode && !completed ? 'cursor-not-allowed' : 'hover:text-gray-800'}`}
+                  ? 'text-stone-600 hover:text-stone-800'
+                  : 'text-stone-400'
+              } ${currentSection === 'content' && !isDevMode && !completed ? 'cursor-not-allowed' : 'hover:text-stone-800'}`}
             >
-              ✏️ 課後測驗 {quizCompleted && '✓'} {isDevMode && '🔓'}
+              <PencilIcon className="w-4 h-4" /> 課後測驗 {quizCompleted && <CheckCircleIcon className="w-4 h-4 text-forest-500" />} {isDevMode && <LockOpenIcon className="w-4 h-4 text-wood-600" />}
             </button>
             <button
               onClick={() => setCurrentSection('game')}
               disabled={!quizCompleted && !isDevMode && !completed}
-              className={`flex-1 py-4 px-6 font-medium transition-colors ${
+              className={`flex-1 py-4 px-6 font-medium transition-colors flex items-center justify-center gap-2 ${
                 currentSection === 'game'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                  ? 'text-forest-700 border-b-2 border-forest-700 bg-forest-50'
                   : gameCompleted
-                  ? 'text-green-600'
+                  ? 'text-forest-500'
                   : !quizCompleted && !isDevMode && !completed
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-gray-600 hover:text-gray-800'
+                  ? 'text-stone-400 cursor-not-allowed'
+                  : 'text-stone-600 hover:text-stone-800'
               }`}
             >
-              🎮 遊戲關卡 {gameCompleted && '✓'} {isDevMode && !quizCompleted && '🔓'}
+              <PuzzlePieceIcon className="w-4 h-4" /> 遊戲關卡 {gameCompleted && <CheckCircleIcon className="w-4 h-4 text-forest-500" />} {isDevMode && !quizCompleted && <LockOpenIcon className="w-4 h-4 text-wood-600" />}
             </button>
           </div>
         </div>
 
         {/* 內容區域 */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="card-natural p-6 mb-6">
           {currentSection === 'content' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">學習內容</h2>
+              <h2 className="text-2xl font-bold font-serif text-stone-800 mb-6">學習內容</h2>
               {dayData.content.map((item, index) => renderContent(item, index))}
-              
+
               <div className="text-center mt-8">
                 <div className="flex gap-4 justify-center">
                   <button
                     onClick={() => setCurrentSection('quiz')}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200"
+                    className="bg-forest-600 hover:bg-forest-700 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200"
                   >
                     開始測驗
                   </button>
                   {isDevMode && (
                     <button
                       onClick={() => setCurrentSection('game')}
-                      className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                      className="bg-forest-500 hover:bg-forest-600 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
                     >
-                      🔓 直接進入遊戲
+                      <LockOpenIcon className="w-4 h-4" /> 直接進入遊戲
                     </button>
                   )}
                 </div>
@@ -487,44 +504,45 @@ export default function DayLessonPage() {
 
           {currentSection === 'quiz' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">課後測驗</h2>
-              
+              <h2 className="text-2xl font-bold font-serif text-stone-800 mb-6">課後測驗</h2>
+
               {/* 測驗失敗提示 */}
               {quizFailed && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="text-3xl">😔</div>
+                    <ExclamationCircleIcon className="w-8 h-8 text-red-400 flex-shrink-0" />
                     <div>
-                      <h3 className="text-lg font-bold text-red-800">測驗未通過</h3>
+                      <h3 className="text-lg font-bold font-serif text-red-800">測驗未通過</h3>
                       <p className="text-red-600">
                         您答對了 {failedScore.correct} / {failedScore.total} 題，需要全對才能進入下一關卡
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-                    <p className="text-yellow-800 text-sm">
-                      💡 <strong>建議：</strong>複習課程教材可以幫助您更好地掌握知識點，然後再重新挑戰測驗！
+                    <p className="text-yellow-800 text-sm flex items-start gap-2">
+                      <LightBulbIcon className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                      <span><strong>建議：</strong>複習課程教材可以幫助您更好地掌握知識點，然後再重新挑戰測驗！</span>
                     </p>
                   </div>
-                  
+
                   <div className="flex gap-3 justify-center">
                     <button
                       onClick={handleReturnToContent}
-                      className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                      className="flex items-center gap-2 bg-forest-600 hover:bg-forest-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
                     >
-                      📖 返回課程教材
+                      <BookOpenIcon className="w-5 h-5" /> 返回課程教材
                     </button>
                     <button
                       onClick={handleRetryQuiz}
-                      className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                      className="flex items-center gap-2 bg-wood-600 hover:bg-wood-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
                     >
-                      🔄 重新測驗
+                      <ArrowPathIcon className="w-5 h-5" /> 重新測驗
                     </button>
                   </div>
                 </div>
               )}
-              
+
               {/* 測驗組件 */}
               {!quizFailed && (
                 <Quiz
@@ -540,44 +558,45 @@ export default function DayLessonPage() {
 
           {currentSection === 'game' && (
             <div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">遊戲關卡</h2>
-              
+              <h2 className="text-2xl font-bold font-serif text-stone-800 mb-6">遊戲關卡</h2>
+
               {/* 遊戲失敗提示 */}
               {gameFailed && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="text-3xl">😔</div>
+                    <ExclamationCircleIcon className="w-8 h-8 text-red-400 flex-shrink-0" />
                     <div>
-                      <h3 className="text-lg font-bold text-red-800">遊戲挑戰失敗</h3>
+                      <h3 className="text-lg font-bold font-serif text-red-800">遊戲挑戰失敗</h3>
                       <p className="text-red-600">
                         您需要達到完美成績才能完成課程並進入下一天的學習
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-                    <p className="text-yellow-800 text-sm">
-                      💡 <strong>建議：</strong>重新複習課程教材中的重點內容，熟悉詞彙和發音後再次挑戰遊戲！
+                    <p className="text-yellow-800 text-sm flex items-start gap-2">
+                      <LightBulbIcon className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                      <span><strong>建議：</strong>重新複習課程教材中的重點內容，熟悉詞彙和發音後再次挑戰遊戲！</span>
                     </p>
                   </div>
-                  
+
                   <div className="flex gap-3 justify-center">
                     <button
                       onClick={handleGameReturnToContent}
-                      className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                      className="flex items-center gap-2 bg-forest-600 hover:bg-forest-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
                     >
-                      📖 返回課程教材
+                      <BookOpenIcon className="w-5 h-5" /> 返回課程教材
                     </button>
                     <button
                       onClick={handleRetryGame}
-                      className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                      className="flex items-center gap-2 bg-forest-500 hover:bg-forest-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
                     >
-                      🎮 重新挑戰遊戲
+                      <PuzzlePieceIcon className="w-5 h-5" /> 重新挑戰遊戲
                     </button>
                   </div>
                 </div>
               )}
-              
+
               {/* 遊戲組件 */}
               {!gameFailed && (
                 <GameGate
@@ -598,7 +617,7 @@ export default function DayLessonPage() {
           {prevDay.exists ? (
             <Link
               href={`/week/${prevDay.week}/${prevDay.day}`}
-              className="flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+              className="flex items-center gap-2 bg-wood-600 hover:bg-wood-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
             >
               <ArrowLeftIcon className="w-5 h-5" />
               上一課
@@ -610,7 +629,7 @@ export default function DayLessonPage() {
           {nextDay.exists && completed && (
             <Link
               href={`/week/${nextDay.week}/${nextDay.day}`}
-              className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+              className="flex items-center gap-2 bg-forest-600 hover:bg-forest-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
             >
               下一課
               <ArrowRightIcon className="w-5 h-5" />
@@ -643,4 +662,4 @@ export default function DayLessonPage() {
       <DeveloperMode />
     </div>
   );
-} 
+}

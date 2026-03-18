@@ -111,7 +111,7 @@ export default function ChatWidget() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 right-4 bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-full shadow-lg transition-all duration-200 z-40"
+          className="fixed bottom-4 right-4 bg-forest-600 hover:bg-forest-700 text-white p-4 rounded-full shadow-lg transition-all duration-200 z-40"
           title="開啟學習助教"
         >
           <ChatBubbleLeftRightIcon className="w-6 h-6" />
@@ -122,8 +122,8 @@ export default function ChatWidget() {
       {isOpen && (
         <div className="fixed bottom-4 right-4 w-80 h-96 bg-white rounded-lg shadow-xl border z-50 flex flex-col">
           {/* 標題欄 */}
-          <div className="bg-blue-500 text-white p-3 rounded-t-lg flex justify-between items-center">
-            <h3 className="font-semibold">泰雅語助教</h3>
+          <div className="bg-forest-gradient text-white p-3 rounded-t-lg flex justify-between items-center">
+            <h3 className="font-serif font-semibold">泰雅語助教</h3>
             <button
               onClick={() => setIsOpen(false)}
               className="text-white hover:text-gray-200 transition-colors"
@@ -142,31 +142,31 @@ export default function ChatWidget() {
                 <div
                   className={`max-w-[80%] p-3 rounded-lg ${
                     message.isUser
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-forest-600 text-white'
+                      : 'bg-forest-50 text-gray-800'
                   }`}
                 >
                   <p className="text-sm whitespace-pre-wrap">{message.text}</p>
                   <p className={`text-xs mt-1 ${
-                    message.isUser ? 'text-blue-100' : 'text-gray-500'
+                    message.isUser ? 'text-forest-100' : 'text-gray-500'
                   }`}>
-                    {message.timestamp.toLocaleTimeString('zh-TW', { 
-                      hour: '2-digit', 
-                      minute: '2-digit' 
+                    {message.timestamp.toLocaleTimeString('zh-TW', {
+                      hour: '2-digit',
+                      minute: '2-digit'
                     })}
                   </p>
                 </div>
               </div>
             ))}
-            
+
             {/* 載入指示器 */}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-gray-100 text-gray-800 p-3 rounded-lg">
+                <div className="bg-forest-50 text-gray-800 p-3 rounded-lg">
                   <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-forest-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-forest-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-forest-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   </div>
                 </div>
               </div>
@@ -182,14 +182,14 @@ export default function ChatWidget() {
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="輸入您的問題..."
-                className="flex-1 border rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder:text-gray-400"
+                className="flex-1 border rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-forest-600 text-gray-900 placeholder:text-gray-400"
                 rows={1}
                 disabled={isLoading}
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!inputText.trim() || isLoading}
-                className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white p-2 rounded-lg transition-colors"
+                className="bg-forest-600 hover:bg-forest-700 disabled:bg-gray-300 text-white p-2 rounded-lg transition-colors"
               >
                 <PaperAirplaneIcon className="w-4 h-4" />
               </button>
@@ -199,4 +199,4 @@ export default function ChatWidget() {
       )}
     </>
   );
-} 
+}
